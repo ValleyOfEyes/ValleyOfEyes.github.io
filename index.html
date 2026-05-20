@@ -6854,6 +6854,451 @@
       }
     }
 
+    /* SIMONOMICON: Simon Says memory widget */
+    .simonomicon-popup {
+      background:
+        radial-gradient(circle at 50% 42%, rgba(145,184,193,.16), transparent 22%),
+        radial-gradient(circle at 32% 28%, rgba(165,102,255,.12), transparent 20%),
+        radial-gradient(circle at 68% 26%, rgba(187,255,171,.10), transparent 20%),
+        rgba(4,5,7,.74);
+    }
+
+    .simonomicon-window {
+      width: min(560px, calc(100vw - 28px));
+      overflow: visible;
+    }
+
+    .simonomicon-body {
+      display: grid;
+      justify-items: center;
+      gap: 10px;
+      padding: 16px 14px 20px;
+      background:
+        radial-gradient(circle at 76% 12%, rgba(199,239,245,.10), transparent 18%),
+        radial-gradient(circle at 22% 18%, rgba(201,87,112,.10), transparent 17%),
+        linear-gradient(#05070a 0 20%, #0d1216 21% 33%, #080b0e 34% 100%);
+      border-top: 1px solid rgba(237,242,238,.12);
+      color: #edf2ee;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .simonomicon-body::before {
+      content: "";
+      position: absolute;
+      inset: 28% -10% 0;
+      background:
+        repeating-linear-gradient(180deg, rgba(255,255,255,.05) 0 1px, transparent 1px 18px),
+        radial-gradient(ellipse at 18% 32%, rgba(145,184,193,.14), transparent 24%),
+        radial-gradient(ellipse at 78% 56%, rgba(182,108,255,.11), transparent 26%),
+        linear-gradient(180deg, transparent 0 34%, rgba(6,8,10,.34) 35% 100%);
+      mix-blend-mode: screen;
+      opacity: .78;
+      transform: rotate(-2deg);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .simonomicon-body::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 34px;
+      width: 170px;
+      height: 112px;
+      transform: translateX(-50%);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.14), transparent 42%, rgba(0,0,0,.28)),
+        linear-gradient(#59605e, #2b3031 55%, #15191b);
+      border: 1px solid rgba(237,242,238,.18);
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.10),
+        inset -1px -1px rgba(0,0,0,.42),
+        0 18px 28px rgba(0,0,0,.42);
+      clip-path: polygon(21% 0, 79% 0, 96% 100%, 4% 100%);
+      z-index: 1;
+      opacity: .9;
+      pointer-events: none;
+    }
+
+    .simonomicon-kicker,
+    .simonomicon-device,
+    .simonomicon-status,
+    .simonomicon-counter,
+    .simonomicon-start,
+    .simonomicon-hint {
+      position: relative;
+      z-index: 2;
+    }
+
+    .simonomicon-kicker {
+      max-width: 34ch;
+      color: rgba(247,251,242,.92);
+      font: bold 10px/1.35 "Courier New", monospace;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      text-align: center;
+      text-shadow:
+        0 1px 0 rgba(0,0,0,.82),
+        0 0 10px rgba(145,184,193,.28);
+    }
+
+    .simonomicon-device {
+      --eye-x: 0px;
+      --eye-y: 0px;
+      width: min(330px, 78vw);
+      aspect-ratio: 1;
+      display: block;
+      margin-top: 8px;
+      border-radius: 50%;
+      border: 1px solid #0b0f12;
+      background:
+        radial-gradient(circle at 34% 24%, rgba(255,255,255,.08), transparent 0 18%, rgba(255,255,255,.02) 19%, transparent 29%),
+        radial-gradient(circle at 50% 50%, rgba(0,0,0,.9) 0 26%, transparent 27%),
+        conic-gradient(from -45deg,
+          #13252b 0 25%,
+          #27132d 25% 50%,
+          #2a250e 50% 75%,
+          #102722 75% 100%),
+        radial-gradient(circle at 50% 50%, #161b20 0 64%, #06090c 82%);
+      box-shadow:
+        inset 16px 18px 30px rgba(255,255,255,.04),
+        inset -24px -28px 38px rgba(0,0,0,.76),
+        inset 0 0 0 2px rgba(255,255,255,.05),
+        9px 11px 0 rgba(0,0,0,.32),
+        0 0 22px rgba(145,184,193,.12);
+      overflow: hidden;
+      isolation: isolate;
+      transition: box-shadow .25s ease, filter .25s ease, transform .25s ease;
+      touch-action: manipulation;
+    }
+
+    .simonomicon-device::before {
+      content: "";
+      position: absolute;
+      inset: 8%;
+      border-radius: 50%;
+      border: 1px dotted rgba(237,242,238,.18);
+      background:
+        radial-gradient(circle, transparent 0 39%, rgba(255,255,255,.05) 40% 41%, transparent 42%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, transparent 1px 8px);
+      pointer-events: none;
+      z-index: 3;
+      mix-blend-mode: screen;
+    }
+
+    .simonomicon-device.is-success {
+      filter: brightness(1.08) saturate(1.02);
+      box-shadow:
+        inset 16px 18px 30px rgba(255,255,255,.06),
+        inset -24px -28px 38px rgba(0,0,0,.72),
+        inset 0 0 0 2px rgba(255,255,255,.14),
+        9px 11px 0 rgba(0,0,0,.26),
+        0 0 12px rgba(255,255,255,.72),
+        0 0 34px rgba(247,251,242,.62);
+    }
+
+    .simonomicon-device.is-fail {
+      animation: simonomiconShudder .42s linear 1;
+      filter: brightness(1.14) saturate(1.22);
+      box-shadow:
+        inset 16px 18px 30px rgba(255,255,255,.05),
+        inset -24px -28px 38px rgba(0,0,0,.76),
+        inset 0 0 0 2px rgba(255,255,255,.09),
+        9px 11px 0 rgba(0,0,0,.32),
+        0 0 10px rgba(255,255,255,.34),
+        0 0 28px rgba(201,42,56,.92),
+        0 0 54px rgba(201,42,56,.46);
+    }
+
+    @keyframes simonomiconShudder {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      12% { transform: translate(-5px, 3px) rotate(-1.2deg); }
+      25% { transform: translate(5px, -2px) rotate(1.1deg); }
+      37% { transform: translate(-4px, -4px) rotate(.8deg); }
+      50% { transform: translate(4px, 4px) rotate(-.9deg); }
+      63% { transform: translate(-3px, 2px) rotate(.7deg); }
+      78% { transform: translate(3px, -1px) rotate(-.5deg); }
+    }
+
+    .simonomicon-pad {
+      position: absolute;
+      width: 46%;
+      height: 46%;
+      border: 1px solid rgba(10,14,18,.96);
+      margin: 0;
+      padding: 0;
+      appearance: none;
+      cursor: pointer;
+      overflow: hidden;
+      opacity: .96;
+      filter: grayscale(.08) brightness(.54) saturate(.92);
+      transition: filter .12s ease, opacity .12s ease, box-shadow .12s ease, transform .12s ease;
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.08),
+        inset -8px -8px rgba(0,0,0,.32);
+      z-index: 1;
+    }
+
+    .simonomicon-pad::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 34% 28%, rgba(255,255,255,.12), transparent 18%),
+        repeating-linear-gradient(45deg, rgba(255,255,255,.04) 0 1px, transparent 1px 8px);
+      opacity: .72;
+      pointer-events: none;
+    }
+
+    .simonomicon-pad:hover,
+    .simonomicon-pad:focus-visible {
+      filter: grayscale(0) brightness(.76) saturate(1.06);
+      outline: 1px dotted rgba(247,251,242,.58);
+      outline-offset: -5px;
+    }
+
+    .simonomicon-pad.is-lit {
+      opacity: 1;
+      filter: grayscale(0) brightness(1.36) saturate(1.24);
+      transform: scale(1.015);
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.24),
+        inset -6px -6px rgba(0,0,0,.18),
+        0 0 12px rgba(255,255,255,.24),
+        0 0 30px var(--simon-glow, rgba(255,255,255,.46));
+      z-index: 2;
+    }
+
+    .simonomicon-pad[data-simon-pad="0"] {
+      left: 4%;
+      top: 4%;
+      border-radius: 100% 12px 16px 12px;
+      background:
+        radial-gradient(circle at 32% 28%, rgba(230,255,255,.14), transparent 20%),
+        linear-gradient(135deg, #18323e, #0b1418 72%);
+      --simon-glow: rgba(142,255,239,.9);
+    }
+
+    .simonomicon-pad[data-simon-pad="1"] {
+      right: 4%;
+      top: 4%;
+      border-radius: 12px 100% 12px 16px;
+      background:
+        radial-gradient(circle at 68% 28%, rgba(255,230,255,.14), transparent 20%),
+        linear-gradient(225deg, #311939, #120b17 72%);
+      --simon-glow: rgba(201,108,255,.92);
+    }
+
+    .simonomicon-pad[data-simon-pad="2"] {
+      right: 4%;
+      bottom: 4%;
+      border-radius: 16px 12px 100% 12px;
+      background:
+        radial-gradient(circle at 68% 72%, rgba(255,247,220,.14), transparent 20%),
+        linear-gradient(315deg, #3c330f, #17130a 72%);
+      --simon-glow: rgba(239,224,112,.9);
+    }
+
+    .simonomicon-pad[data-simon-pad="3"] {
+      left: 4%;
+      bottom: 4%;
+      border-radius: 12px 16px 12px 100%;
+      background:
+        radial-gradient(circle at 32% 72%, rgba(230,255,241,.14), transparent 20%),
+        linear-gradient(45deg, #143328, #091612 72%);
+      --simon-glow: rgba(172,255,134,.88);
+    }
+
+    .simonomicon-eye {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 34%;
+      height: 20%;
+      display: grid;
+      place-items: center;
+      transform: translate(-50%, -50%);
+      clip-path: polygon(0 50%, 16% 18%, 50% 0, 84% 18%, 100% 50%, 84% 82%, 50% 100%, 16% 82%);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.86), rgba(175,207,214,.84) 36%, rgba(20,27,31,.96) 37%, rgba(9,12,15,.98));
+      border: 1px solid rgba(16,23,25,.94);
+      box-shadow:
+        0 0 0 10px rgba(5,8,10,.94),
+        0 0 18px rgba(145,184,193,.18);
+      z-index: 5;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    .simonomicon-eye::before {
+      content: "◈";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: rgba(247,251,242,.3);
+      font: 700 36px/1 Georgia, "Times New Roman", serif;
+      text-shadow: 0 0 10px rgba(145,184,193,.18);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .simonomicon-device.is-fail .simonomicon-eye::before {
+      color: rgba(255,198,198,.28);
+    }
+
+    .simonomicon-pupil {
+      position: relative;
+      z-index: 2;
+      width: auto;
+      height: auto;
+      background: none;
+      box-shadow: none;
+      transform: translate(var(--eye-x), var(--eye-y));
+      transition: transform .08s linear;
+      pointer-events: none;
+    }
+
+    .simonomicon-pupil::before {
+      content: "✦";
+      display: block;
+      color: #ffffff;
+      font: 700 28px/1 Georgia, "Times New Roman", serif;
+      text-shadow:
+        0 0 4px rgba(255,255,255,.95),
+        0 0 12px rgba(201,87,112,.28),
+        0 0 18px rgba(145,184,193,.24);
+    }
+
+    .simonomicon-device.is-fail .simonomicon-pupil::before {
+      content: "✶";
+      color: #ffd9d9;
+      text-shadow:
+        0 0 4px rgba(255,255,255,.85),
+        0 0 12px rgba(201,42,56,.56);
+    }
+
+    .simonomicon-start {
+      min-width: 124px;
+      min-height: 29px;
+      padding: 6px 12px;
+      background: linear-gradient(#d7ddd8, #7f8a89);
+      border: 1px solid #101719;
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.58),
+        inset -1px -1px rgba(0,0,0,.34),
+        4px 5px 0 rgba(0,0,0,.22);
+      color: #101719;
+      cursor: pointer;
+      font: bold 10px/1 Arial, sans-serif;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .simonomicon-start:hover,
+    .simonomicon-start:focus-visible {
+      background: linear-gradient(#f0f3ee, #94a2a0);
+      outline: 1px dotted rgba(247,251,242,.76);
+      outline-offset: 2px;
+    }
+
+    .simonomicon-status {
+      min-width: 112px;
+      padding: 6px 10px;
+      border: 1px solid rgba(237,242,238,.22);
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.42), rgba(16,22,24,.72));
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.08),
+        0 0 10px rgba(145,184,193,.06);
+      color: #f7fbf2;
+      text-align: center;
+      font: bold 11px/1 "Courier New", monospace;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      text-shadow:
+        0 1px 0 rgba(0,0,0,.84),
+        0 0 10px rgba(145,184,193,.24);
+    }
+
+    .simonomicon-counter {
+      color: rgba(237,242,238,.84);
+      font: 11px/1.2 "Courier New", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 0 rgba(0,0,0,.82);
+    }
+
+    .simonomicon-counter span {
+      color: #fff;
+      text-shadow:
+        0 0 4px rgba(255,255,255,.62),
+        0 0 10px rgba(145,184,193,.24);
+    }
+
+    .simonomicon-hint {
+      max-width: 28ch;
+      margin: 0;
+      color: rgba(237,242,238,.8);
+      font: 10px/1.35 "Courier New", monospace;
+      letter-spacing: .06em;
+      text-align: center;
+      text-shadow: 0 1px 0 rgba(0,0,0,.76);
+    }
+
+    body.theme-night .simonomicon-body,
+    body.theme-current .simonomicon-body {
+      color: #f5fbf7;
+      filter: none;
+    }
+
+    body.theme-night .simonomicon-window,
+    body.theme-current .simonomicon-window {
+      background: var(--panel);
+    }
+
+    @media (max-width: 560px) {
+      .simonomicon-window {
+        width: min(420px, calc(100vw - 18px));
+      }
+
+      .simonomicon-body {
+        padding: 14px 10px 18px;
+      }
+
+      .simonomicon-body::after {
+        width: 142px;
+        height: 94px;
+        bottom: 30px;
+      }
+
+      .simonomicon-device {
+        width: min(286px, 82vw);
+      }
+
+      .simonomicon-status {
+        min-width: 116px;
+        font-size: 11px;
+      }
+    }
+
+
+      .simonomicon-body {
+        padding: 12px 10px;
+      }
+
+      .simonomicon-device {
+        width: min(286px, 82vw);
+      }
+
+      .simonomicon-status {
+        min-width: 116px;
+        font-size: 11px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -7210,6 +7655,7 @@
           <a class="button88" href="#heads-tails" id="heads-tails-button" data-widget-button>HEADS/TAILS</a>
           <a class="button88" href="#dark-lancer" id="dark-lancer-button" data-widget-button>DARK LANCER</a>
           <a class="button88" href="#go-fish" id="go-fish-button" data-widget-button>GO FISH</a>
+          <a class="button88" href="#simonomicon" id="simonomicon-button" data-widget-button>SIMONOMICON</a>
           <a class="button88" href="#check-this" id="check-this-button" data-widget-button>CHECK THIS</a>
           <a class="button88" href="#cursor-closet" id="cursor-closet-button" data-widget-button>CURSOR CLOSET</a>
         </div>
@@ -7428,6 +7874,30 @@
       </div>
     </div>
   </aside>
+
+  <aside id="simonomicon" class="popup simonomicon-popup" aria-label="SIMONOMICON memory game popup">
+    <div class="popup-window simonomicon-window">
+      <div class="popup-title">SIMONOMICON <a href="#">x</a></div>
+      <div class="popup-body simonomicon-body">
+        <div class="simonomicon-kicker">Listen to the device. Answer in kind.</div>
+        <div class="simonomicon-device" id="simonomicon-device" role="application" aria-label="Simon-inspired memory game with four glowing sections">
+          <button class="simonomicon-pad" type="button" data-simon-pad="0" aria-label="sea-green section"></button>
+          <button class="simonomicon-pad" type="button" data-simon-pad="1" aria-label="violet section"></button>
+          <button class="simonomicon-pad" type="button" data-simon-pad="2" aria-label="sulfur section"></button>
+          <button class="simonomicon-pad" type="button" data-simon-pad="3" aria-label="verdant section"></button>
+          <div class="simonomicon-eye" aria-hidden="true">
+            <span class="simonomicon-pupil" id="simonomicon-pupil"></span>
+          </div>
+        </div>
+        <div class="simonomicon-status" id="simonomicon-status" aria-live="polite">READY</div>
+        <div class="simonomicon-counter">wins: <span id="simonomicon-count">0</span></div>
+        <button class="simonomicon-start" type="button" id="simonomicon-start">start</button>
+        <p class="simonomicon-hint">Repeat every glow in order.</p>
+      </div>
+    </div>
+  </aside>
+
+
 
   <aside id="cursor-closet" class="popup" aria-label="Cursor Closet popup">
     <div class="popup-window cursor-closet-window">
@@ -14462,6 +14932,252 @@
       resetGame();
     }
 
+    function setupSimonomicon() {
+      const device = document.getElementById("simonomicon-device");
+      const status = document.getElementById("simonomicon-status");
+      const count = document.getElementById("simonomicon-count");
+      const start = document.getElementById("simonomicon-start");
+      const pads = Array.from(document.querySelectorAll(".simonomicon-pad"));
+      if (!device || !status || !count || !start || pads.length !== 4) return;
+
+      const tones = [277.18, 369.99, 466.16, 207.65];
+      const keyMap = new Map([
+        ["1", 0], ["ArrowUp", 0], ["w", 0], ["W", 0],
+        ["2", 1], ["ArrowRight", 1], ["d", 1], ["D", 1],
+        ["3", 2], ["ArrowDown", 2], ["s", 2], ["S", 2],
+        ["4", 3], ["ArrowLeft", 3], ["a", 3], ["A", 3]
+      ]);
+
+      let audioContext = null;
+      let timers = [];
+      let pattern = [];
+      let inputIndex = 0;
+      let acceptingInput = false;
+      let running = false;
+      let wins = 0;
+
+      function setStatus(text) {
+        status.textContent = text;
+      }
+
+      function setWins(value) {
+        wins = value;
+        count.textContent = String(wins);
+      }
+
+      function clearTimers() {
+        timers.forEach((timer) => window.clearTimeout(timer));
+        timers = [];
+      }
+
+      function queue(callback, delay) {
+        const timer = window.setTimeout(callback, delay);
+        timers.push(timer);
+        return timer;
+      }
+
+      function getAudioContext() {
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioClass) return null;
+        if (!audioContext) audioContext = new AudioClass();
+        if (audioContext.state === "suspended") audioContext.resume();
+        return audioContext;
+      }
+
+      function playTone(index, duration = 0.2) {
+        const context = getAudioContext();
+        if (!context) return;
+
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        const now = context.currentTime;
+        oscillator.type = "triangle";
+        oscillator.frequency.setValueAtTime(tones[index], now);
+        oscillator.frequency.exponentialRampToValueAtTime(tones[index] * 0.996, now + duration * 0.55);
+        oscillator.frequency.exponentialRampToValueAtTime(tones[index] * 1.015, now + duration);
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.055, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start(now);
+        oscillator.stop(now + duration + 0.03);
+      }
+
+      function playSuccessTone() {
+        playTone(0, 0.08);
+        queue(() => playTone(1, 0.08), 80);
+      }
+
+      function playFailTone() {
+        const context = getAudioContext();
+        if (!context) return;
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        const now = context.currentTime;
+        oscillator.type = "sawtooth";
+        oscillator.frequency.setValueAtTime(196, now);
+        oscillator.frequency.exponentialRampToValueAtTime(116, now + 0.24);
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.045, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.26);
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start(now);
+        oscillator.stop(now + 0.29);
+      }
+
+      function lightPad(index, duration = 360, withTone = true) {
+        const pad = pads[index];
+        if (!pad) return;
+        pad.classList.add("is-lit");
+        if (withTone) playTone(index, Math.max(0.1, duration / 1000 * 0.55));
+        queue(() => pad.classList.remove("is-lit"), duration);
+      }
+
+      function randomPad() {
+        return Math.floor(Math.random() * pads.length);
+      }
+
+      function resetSurface() {
+        pads.forEach((pad) => pad.classList.remove("is-lit"));
+        device.classList.remove("is-success", "is-fail");
+      }
+
+      function getPlaybackTiming() {
+        const level = Math.max(wins, pattern.length - 2);
+        return {
+          lead: 420,
+          flash: Math.max(150, 340 - (level * 18)),
+          gap: Math.max(220, 545 - (level * 26))
+        };
+      }
+
+      function growPattern() {
+        const growth = wins < 1 ? 2 : wins < 3 ? 1 + (wins % 2 === 1 ? 1 : 0) : 1;
+        for (let i = 0; i < growth; i += 1) pattern.push(randomPad());
+      }
+
+      function showSequence() {
+        clearTimers();
+        resetSurface();
+        acceptingInput = false;
+        inputIndex = 0;
+        running = true;
+        setStatus("LISTEN");
+        start.disabled = true;
+        start.textContent = "listening";
+
+        const timing = getPlaybackTiming();
+        pattern.forEach((padIndex, order) => {
+          queue(() => lightPad(padIndex, timing.flash, true), timing.lead + (order * timing.gap));
+        });
+
+        queue(() => {
+          acceptingInput = true;
+          setStatus("PLAY");
+          start.disabled = false;
+          start.textContent = "restart";
+        }, timing.lead + (pattern.length * timing.gap) + 40);
+      }
+
+      function beginGame() {
+        clearTimers();
+        resetSurface();
+        pattern = [randomPad(), randomPad()];
+        inputIndex = 0;
+        acceptingInput = false;
+        running = true;
+        setWins(0);
+        showSequence();
+      }
+
+      function advanceGame() {
+        acceptingInput = false;
+        setWins(wins + 1);
+        playSuccessTone();
+        device.classList.add("is-success");
+        queue(() => {
+          device.classList.remove("is-success");
+          growPattern();
+          showSequence();
+        }, 720);
+      }
+
+      function failGame() {
+        acceptingInput = false;
+        running = false;
+        pattern = [];
+        inputIndex = 0;
+        setWins(0);
+        playFailTone();
+        device.classList.add("is-fail");
+        setStatus("READY");
+        start.disabled = false;
+        start.textContent = "restart";
+        queue(() => device.classList.remove("is-fail"), 620);
+      }
+
+      function choosePad(index) {
+        if (!running) {
+          beginGame();
+          return;
+        }
+        if (!acceptingInput) return;
+
+        lightPad(index, 190, true);
+        if (index !== pattern[inputIndex]) {
+          failGame();
+          return;
+        }
+
+        inputIndex += 1;
+        if (inputIndex >= pattern.length) advanceGame();
+      }
+
+      device.addEventListener("pointermove", (event) => {
+        const rect = device.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) - 0.5;
+        const y = ((event.clientY - rect.top) / rect.height) - 0.5;
+        const dx = Math.max(-1, Math.min(1, x * 2)) * 11;
+        const dy = Math.max(-1, Math.min(1, y * 2)) * 7;
+        device.style.setProperty("--eye-x", `${dx}px`);
+        device.style.setProperty("--eye-y", `${dy}px`);
+      });
+
+      device.addEventListener("pointerleave", () => {
+        device.style.setProperty("--eye-x", "0px");
+        device.style.setProperty("--eye-y", "0px");
+      });
+
+      pads.forEach((pad, index) => {
+        pad.addEventListener("click", () => choosePad(index));
+      });
+
+      start.addEventListener("click", beginGame);
+
+      window.addEventListener("keydown", (event) => {
+        if (window.location.hash !== "#simonomicon") return;
+        if (!keyMap.has(event.key)) return;
+        event.preventDefault();
+        choosePad(keyMap.get(event.key));
+      });
+
+      window.addEventListener("hashchange", () => {
+        if (window.location.hash === "#simonomicon") return;
+        clearTimers();
+        acceptingInput = false;
+        running = false;
+        pattern = [];
+        inputIndex = 0;
+        start.disabled = false;
+        start.textContent = "start";
+        setStatus("READY");
+        resetSurface();
+      });
+    }
+
+
     const ariesHotspot = document.getElementById("aries-hotspot");
     if (ariesHotspot) ariesHotspot.addEventListener("click", triggerAriesOmen);
     const ariesOmen = document.getElementById("aries-omen");
@@ -14477,6 +15193,7 @@
     setupHeadsTails();
     setupDarkLancer();
     setupGoFish();
+    setupSimonomicon();
     setupCheckThisFavorite();
     setupCursorCloset();
     renderSiteLinks();
