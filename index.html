@@ -6860,7 +6860,7 @@
 
 
     .dark-lancer-window {
-      width: min(760px, 94vw);
+      width: min(1120px, 96vw);
       background:
         radial-gradient(circle at 50% 0%, rgba(255, 255, 255, .12), transparent 36%),
         linear-gradient(145deg, #080b10, #15121d 46%, #06070b);
@@ -6894,6 +6894,19 @@
         #090c12;
       color: #f5fbf7;
       font: 12px/1.2 "Courier New", monospace;
+    }
+
+    .dark-lancer-playfield {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .dark-lancer-main {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
     }
 
     .dark-lancer-scoreboard {
@@ -7027,6 +7040,124 @@
         0 0 4px rgba(255, 255, 255, .72),
         0 0 8px rgba(199, 239, 245, .42),
         0 0 12px rgba(255, 125, 157, .2);
+    }
+
+    .dark-lancer-shop {
+      min-height: 100%;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 8px;
+      padding: 9px;
+      border: 1px solid rgba(199, 239, 245, .58);
+      background:
+        linear-gradient(135deg, rgba(199, 239, 245, .08), rgba(255, 125, 157, .08)),
+        rgba(2, 4, 8, .7);
+      box-shadow:
+        inset 1px 1px rgba(255, 255, 255, .1),
+        inset -1px -1px rgba(0, 0, 0, .48),
+        0 0 16px rgba(199, 239, 245, .12);
+    }
+
+    .dark-lancer-shop-head {
+      display: grid;
+      gap: 4px;
+      padding-bottom: 7px;
+      border-bottom: 1px dotted rgba(199, 239, 245, .35);
+    }
+
+    .dark-lancer-shop-title {
+      color: #ffabc0;
+      font: bold 13px/1 Georgia, "Times New Roman", serif;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(255, 125, 157, .72);
+    }
+
+    .dark-lancer-shop-credit {
+      color: #c7eff5;
+      font: bold 10px/1.2 "Courier New", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .dark-lancer-shop-note {
+      color: rgba(245, 251, 247, .68);
+      font-size: 10px;
+      line-height: 1.3;
+    }
+
+    .dark-lancer-shop-list {
+      display: grid;
+      gap: 6px;
+      align-content: start;
+      max-height: 506px;
+      overflow: auto;
+      padding-right: 3px;
+    }
+
+    .dark-lancer-shop-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 7px;
+      align-items: center;
+      padding: 7px;
+      border: 1px solid rgba(255, 125, 157, .32);
+      background: rgba(8, 10, 16, .78);
+      box-shadow: inset 1px 1px rgba(255, 255, 255, .08);
+    }
+
+    .dark-lancer-shop-item.is-unlocked {
+      border-color: rgba(199, 239, 245, .58);
+      background:
+        linear-gradient(135deg, rgba(199, 239, 245, .08), rgba(255, 255, 255, .025)),
+        rgba(8, 10, 16, .78);
+    }
+
+    .dark-lancer-shop-item.is-active {
+      border-color: rgba(88, 255, 151, .76);
+      box-shadow:
+        inset 1px 1px rgba(255, 255, 255, .1),
+        0 0 13px rgba(88, 255, 151, .22);
+    }
+
+    .dark-lancer-shop-name {
+      color: #f8fbf5;
+      font: bold 10px/1.15 Arial, sans-serif;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .dark-lancer-shop-cost {
+      margin-top: 3px;
+      color: rgba(199, 239, 245, .84);
+      font-size: 10px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .dark-lancer-shop-button {
+      min-width: 76px;
+      min-height: 28px;
+      color: #f8fbf5;
+      background: linear-gradient(#342044, #111720);
+      border: 1px solid rgba(199, 239, 245, .7);
+      box-shadow: inset 1px 1px rgba(255, 255, 255, .16);
+      cursor: pointer;
+      font: bold 9px/1 Arial, sans-serif;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .dark-lancer-shop-button:hover,
+    .dark-lancer-shop-button:focus-visible {
+      background: linear-gradient(#5a2b64, #162332);
+      outline: 1px dotted #ffabc0;
+    }
+
+    .dark-lancer-shop-button:disabled {
+      opacity: .42;
+      cursor: default;
+      filter: grayscale(.7);
     }
 
     .dark-lancer-table {
@@ -7184,6 +7315,47 @@
       text-shadow: 0 0 8px rgba(255, 125, 157, .22);
     }
 
+    .dark-lancer-card.is-chrome-card {
+      background:
+        linear-gradient(110deg, #f8fbf5 0 10%, #75818a 18%, #ffffff 31%, #8a98a1 44%, #eff7f8 58%, #4d5862 72%, #ffffff 86%),
+        #c7d1d7;
+    }
+
+    .dark-lancer-card.is-rainbow-card {
+      background:
+        linear-gradient(135deg, #ff8aa5, #ffe66b 24%, #7cffb2 48%, #8ed8ff 72%, #cda3ff),
+        #fff;
+    }
+
+    .dark-lancer-card.is-flaming-card {
+      background:
+        radial-gradient(circle at 50% 100%, rgba(255, 225, 94, .95), transparent 34%),
+        linear-gradient(160deg, #2a0503, #ff3e16 48%, #ffd36f);
+      color: #fff8d9;
+      text-shadow: 0 0 6px #ffefb4, 0 0 14px #ff3e16;
+      animation: darkLancerDeal .46s cubic-bezier(.17, .86, .28, 1.2) both, darkLancerFlame 1.1s ease-in-out infinite alternate;
+    }
+
+    .dark-lancer-card.is-noir-card {
+      color: #ffffff;
+      background:
+        linear-gradient(145deg, #020203, #151515 54%, #050505),
+        #050505;
+      border-color: #eeeeee;
+      text-shadow: 0 0 7px rgba(255, 255, 255, .72);
+      filter: grayscale(1) contrast(1.2);
+    }
+
+    .dark-lancer-card.is-destroyed-card {
+      color: #ffcfbd;
+      background:
+        radial-gradient(circle at 50% 55%, rgba(255, 73, 24, .56), transparent 42%),
+        linear-gradient(160deg, #090202, #4e0b07 58%, #120202);
+      border-color: rgba(255, 91, 40, .9);
+      transform: rotate(-4deg) translateY(8px);
+      filter: brightness(.72) saturate(1.4);
+    }
+
     .dark-lancer-rank,
     .dark-lancer-suit,
     .dark-lancer-corner {
@@ -7204,6 +7376,35 @@
       text-shadow:
         0 0 5px rgba(255, 255, 255, .84),
         0 0 13px rgba(199, 239, 245, .38);
+    }
+
+    .dark-lancer-card.is-chrome-suit .dark-lancer-suit,
+    .dark-lancer-card.is-chrome-suit .dark-lancer-corner-suit {
+      color: #f8fbf5;
+      text-shadow: 1px 1px 0 #6b7880, 0 0 10px rgba(199, 239, 245, .9), 0 0 18px #ffffff;
+    }
+
+    .dark-lancer-card.is-rainbow-suit .dark-lancer-suit,
+    .dark-lancer-card.is-rainbow-suit .dark-lancer-corner-suit,
+    .dark-lancer-card.is-rainbow-suit .dark-lancer-rank {
+      color: transparent;
+      background: linear-gradient(90deg, #ff4d82, #ffd447, #55f68e, #5fc7ff, #d38cff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      text-shadow: none;
+    }
+
+    .dark-lancer-card.is-encrypted-card .dark-lancer-rank,
+    .dark-lancer-card.is-encrypted-card .dark-lancer-corner,
+    .dark-lancer-card.is-glyphic-card .dark-lancer-rank,
+    .dark-lancer-card.is-glyphic-card .dark-lancer-corner {
+      font-family: "Courier New", monospace;
+      letter-spacing: .08em;
+    }
+
+    .dark-lancer-card.is-ram-card {
+      color: #8f0606;
+      text-shadow: 0 0 6px rgba(255, 44, 24, .7), 0 0 15px rgba(255, 120, 40, .5);
     }
 
     .dark-lancer-corner {
@@ -7270,6 +7471,11 @@
       to { transform: rotate(360deg); }
     }
 
+    @keyframes darkLancerFlame {
+      from { box-shadow: inset 1px 1px rgba(255, 255, 255, .4), 0 8px 0 rgba(0, 0, 0, .28), 0 0 14px rgba(255, 76, 20, .48); }
+      to { box-shadow: inset 1px 1px rgba(255, 255, 255, .5), 0 8px 0 rgba(0, 0, 0, .28), 0 0 24px rgba(255, 176, 52, .75); }
+    }
+
     @keyframes darkLancerPulse {
       0%, 100% { transform: scale(1); text-shadow: 0 0 5px #fff, 0 0 14px rgba(255, 125, 157, .72); }
       50% { transform: scale(1.04); text-shadow: 0 0 8px #fff, 0 0 24px rgba(255, 125, 157, .92), 0 0 38px rgba(199, 239, 245, .62); }
@@ -7298,7 +7504,8 @@
     @media (max-width: 680px) {
       .dark-lancer-scoreboard,
       .dark-lancer-table,
-      .dark-lancer-controls {
+      .dark-lancer-controls,
+      .dark-lancer-playfield {
         grid-template-columns: 1fr;
       }
 
@@ -8563,29 +8770,41 @@
     <div class="popup-window dark-lancer-window">
       <div class="popup-title">DARK LANCER <a href="#">x</a></div>
       <div class="popup-body dark-lancer-body" id="dark-lancer-game">
-        <div class="dark-lancer-scoreboard">
-          <div class="dark-lancer-score" id="dark-lancer-player-panel"><span>PLAYER</span><strong id="dark-lancer-player-score">0</strong></div>
-          <div class="dark-lancer-result" id="dark-lancer-result" aria-live="polite">DEAL</div>
-          <div class="dark-lancer-score" id="dark-lancer-dealer-panel"><span>DEALER</span><strong id="dark-lancer-dealer-score">0</strong></div>
-        </div>
-        <div class="dark-lancer-table">
-          <section class="dark-lancer-hand" id="dark-lancer-player-hand" aria-label="Player hand">
-            <div class="dark-lancer-hand-label">PLAYER</div>
-            <div class="dark-lancer-cards" id="dark-lancer-player-cards"></div>
-          </section>
-          <section class="dark-lancer-hand" id="dark-lancer-dealer-hand" aria-label="Dealer hand">
-            <div class="dark-lancer-hand-label">DEALER</div>
-            <div class="dark-lancer-cards" id="dark-lancer-dealer-cards"></div>
-          </section>
-        </div>
-        <div class="dark-lancer-controls">
-          <button class="dark-lancer-button" type="button" id="dark-lancer-deal">DEAL</button>
-          <button class="dark-lancer-button" type="button" id="dark-lancer-hit" disabled>HIT</button>
-          <button class="dark-lancer-button" type="button" id="dark-lancer-stand" disabled>STAND</button>
-        </div>
-        <div class="dark-lancer-tally" aria-label="Dark Lancer win tally">
-          <div class="dark-lancer-tally-item player"><span>PLAYER WINS</span><div class="dark-lancer-tally-marks" id="dark-lancer-player-wins" aria-label="Player wins tally"></div></div>
-          <div class="dark-lancer-tally-item dealer"><span>DEALER WINS</span><div class="dark-lancer-tally-marks" id="dark-lancer-dealer-wins" aria-label="Dealer wins tally"></div></div>
+        <div class="dark-lancer-playfield">
+          <div class="dark-lancer-main">
+            <div class="dark-lancer-scoreboard">
+              <div class="dark-lancer-score" id="dark-lancer-player-panel"><span>PLAYER</span><strong id="dark-lancer-player-score">0</strong></div>
+              <div class="dark-lancer-result" id="dark-lancer-result" aria-live="polite">DEAL</div>
+              <div class="dark-lancer-score" id="dark-lancer-dealer-panel"><span>DEALER</span><strong id="dark-lancer-dealer-score">0</strong></div>
+            </div>
+            <div class="dark-lancer-table">
+              <section class="dark-lancer-hand" id="dark-lancer-player-hand" aria-label="Player hand">
+                <div class="dark-lancer-hand-label">PLAYER</div>
+                <div class="dark-lancer-cards" id="dark-lancer-player-cards"></div>
+              </section>
+              <section class="dark-lancer-hand" id="dark-lancer-dealer-hand" aria-label="Dealer hand">
+                <div class="dark-lancer-hand-label">DEALER</div>
+                <div class="dark-lancer-cards" id="dark-lancer-dealer-cards"></div>
+              </section>
+            </div>
+            <div class="dark-lancer-controls">
+              <button class="dark-lancer-button" type="button" id="dark-lancer-deal">DEAL</button>
+              <button class="dark-lancer-button" type="button" id="dark-lancer-hit" disabled>HIT</button>
+              <button class="dark-lancer-button" type="button" id="dark-lancer-stand" disabled>STAND</button>
+            </div>
+            <div class="dark-lancer-tally" aria-label="Dark Lancer win tally">
+              <div class="dark-lancer-tally-item player"><span>PLAYER WINS</span><div class="dark-lancer-tally-marks" id="dark-lancer-player-wins" aria-label="Player wins tally"></div></div>
+              <div class="dark-lancer-tally-item dealer"><span>DEALER WINS</span><div class="dark-lancer-tally-marks" id="dark-lancer-dealer-wins" aria-label="Dealer wins tally"></div></div>
+            </div>
+          </div>
+          <aside class="dark-lancer-shop" aria-label="Dark Lancer shop">
+            <div class="dark-lancer-shop-head">
+              <div class="dark-lancer-shop-title">LANCER SHOP</div>
+              <div class="dark-lancer-shop-credit">CREDIT <span id="dark-lancer-shop-credit">0</span></div>
+              <div class="dark-lancer-shop-note">spend player win marks. unlocked effects stack.</div>
+            </div>
+            <div class="dark-lancer-shop-list" id="dark-lancer-shop-list"></div>
+          </aside>
         </div>
       </div>
     </div>
@@ -15740,7 +15959,9 @@
       const dealButton = document.getElementById("dark-lancer-deal");
       const hitButton = document.getElementById("dark-lancer-hit");
       const standButton = document.getElementById("dark-lancer-stand");
-      if (!playerCardsEl || !dealerCardsEl || !playerScoreEl || !dealerScoreEl || !playerPanelEl || !dealerPanelEl || !playerHandEl || !dealerHandEl || !playerWinsEl || !dealerWinsEl || !resultEl || !dealButton || !hitButton || !standButton) return;
+      const shopListEl = document.getElementById("dark-lancer-shop-list");
+      const shopCreditEl = document.getElementById("dark-lancer-shop-credit");
+      if (!playerCardsEl || !dealerCardsEl || !playerScoreEl || !dealerScoreEl || !playerPanelEl || !dealerPanelEl || !playerHandEl || !dealerHandEl || !playerWinsEl || !dealerWinsEl || !resultEl || !dealButton || !hitButton || !standButton || !shopListEl || !shopCreditEl) return;
 
       const suits = [
         { mark: "♠", color: "black" },
@@ -15755,6 +15976,20 @@
       let dealerHand = [];
       let active = false;
       let tally = { player: 0, dealer: 0 };
+      const shopItems = [
+        { id: "chrome-suits", name: "CHROME SUITS", cost: 1 },
+        { id: "chrome-cards", name: "CHROME CARDS", cost: 2 },
+        { id: "mysterious-stranger", name: "MYSTERIOUS STRANGER", cost: 3 },
+        { id: "rainbow-suits", name: "RAINBOW SUITS", cost: 4 },
+        { id: "rainbow-cards", name: "RAINBOW CARDS", cost: 5 },
+        { id: "flaming-cards", name: "FLAMING CARDS", cost: 7 },
+        { id: "encrypted-cards", name: "ENCRYPTED CARDS", cost: 9 },
+        { id: "glyphic-cards", name: "GLYPHIC CARDS", cost: 11 },
+        { id: "fanged-ram-rising", name: "FANGED RAM RISING", cost: 13 },
+        { id: "destroy-the-dealer", name: "DESTROY THE DEALER", cost: 21 }
+      ];
+      const unlockedEffects = new Set();
+      const activeEffects = new Set();
 
       function createTallyMark(index, side) {
         const mark = document.createElement("span");
@@ -15769,11 +16004,93 @@
         dealerWinsEl.replaceChildren();
         for (let i = 0; i < tally.player; i += 1) playerWinsEl.appendChild(createTallyMark(i, "player"));
         for (let i = 0; i < tally.dealer; i += 1) dealerWinsEl.appendChild(createTallyMark(i, "dealer"));
+        shopCreditEl.textContent = String(tally.player);
+        renderShop();
+      }
+
+      function isEffectActive(id) {
+        return activeEffects.has(id);
+      }
+
+      function renderShop() {
+        shopListEl.replaceChildren();
+        shopItems.forEach((item) => {
+          const unlocked = unlockedEffects.has(item.id);
+          const activeItem = activeEffects.has(item.id);
+          const row = document.createElement("div");
+          row.className = `dark-lancer-shop-item${unlocked ? " is-unlocked" : ""}${activeItem ? " is-active" : ""}`;
+
+          const copy = document.createElement("div");
+          const name = document.createElement("div");
+          name.className = "dark-lancer-shop-name";
+          name.textContent = item.name;
+          const cost = document.createElement("div");
+          cost.className = "dark-lancer-shop-cost";
+          cost.textContent = unlocked ? "unlocked" : `${item.cost} wins`;
+          copy.append(name, cost);
+
+          const button = document.createElement("button");
+          button.className = "dark-lancer-shop-button";
+          button.type = "button";
+          button.dataset.effect = item.id;
+          button.textContent = unlocked ? (activeItem ? "ON" : "OFF") : "BUY";
+          button.disabled = !unlocked && tally.player < item.cost;
+
+          row.append(copy, button);
+          shopListEl.appendChild(row);
+        });
+      }
+
+      function resetShop() {
+        unlockedEffects.clear();
+        activeEffects.clear();
+        root.dataset.darkLancerEffects = "";
+        renderShop();
+      }
+
+      function updateDealerDestruction() {
+        if (isEffectActive("destroy-the-dealer")) {
+          active = false;
+          dealButton.disabled = true;
+          hitButton.disabled = true;
+          standButton.disabled = true;
+          dealerHandEl.classList.add("dark-lancer-side-loss");
+          setResult("DEALER DESTROYED");
+          render();
+          return true;
+        }
+        dealerHandEl.classList.remove("dark-lancer-side-loss");
+        return false;
+      }
+
+      function applyEffectState() {
+        root.dataset.darkLancerEffects = Array.from(activeEffects).join(" ");
+        render();
+        if (!updateDealerDestruction()) setActive(active);
+        renderShop();
+      }
+
+      function buyOrToggleEffect(effectId) {
+        const item = shopItems.find((entry) => entry.id === effectId);
+        if (!item) return;
+        if (!unlockedEffects.has(effectId)) {
+          if (tally.player < item.cost) return;
+          tally.player -= item.cost;
+          unlockedEffects.add(effectId);
+          activeEffects.add(effectId);
+          renderTally();
+          applyEffectState();
+          return;
+        }
+        if (activeEffects.has(effectId)) activeEffects.delete(effectId);
+        else activeEffects.add(effectId);
+        applyEffectState();
       }
 
       function resetTally() {
         tally = { player: 0, dealer: 0 };
         renderTally();
+        resetShop();
       }
 
       function recordWin(side) {
@@ -15848,35 +16165,76 @@
         dealerHandEl.classList.add(playerWon ? "dark-lancer-side-loss" : "dark-lancer-side-win");
       }
 
-      function renderCard(card, index) {
+      function encodedText(card, index, type) {
+        const seed = `${card.rank}${card.suit}${index}`;
+        if (type === "glyph") {
+          const glyphs = ["IX", "VI", "XI", "IV", "XII", "III", "VII", "II", "X", "V"];
+          return glyphs[(seed.charCodeAt(0) + seed.length) % glyphs.length];
+        }
+        return seed.split("").map((char) => char.charCodeAt(0).toString(16).toUpperCase()).join("");
+      }
+
+      function getCardFace(card, index, side) {
+        const face = { rank: card.rank, suit: card.suit, corner: `${card.rank}${card.suit}` };
+        if (side !== "player") return face;
+        if (isEffectActive("fanged-ram-rising")) {
+          face.suit = "\u2648";
+          face.corner = `${face.rank}\u2648`;
+        }
+        if (isEffectActive("encrypted-cards")) {
+          face.rank = encodedText(card, index, "encrypt");
+          face.corner = encodedText(card, index + 3, "encrypt");
+        }
+        if (isEffectActive("glyphic-cards")) {
+          face.rank = encodedText(card, index, "glyph");
+          face.corner = `${face.rank}${face.suit}`;
+        }
+        return face;
+      }
+
+      function renderCard(card, index, side) {
         const cardEl = document.createElement("div");
-        cardEl.className = `dark-lancer-card${card.color === "red" ? " is-red" : ""}`;
+        const cardClasses = ["dark-lancer-card"];
+        if (card.color === "red") cardClasses.push("is-red");
+        if (side === "player" && isEffectActive("chrome-suits")) cardClasses.push("is-chrome-suit");
+        if (side === "player" && isEffectActive("chrome-cards")) cardClasses.push("is-chrome-card");
+        if (side === "player" && isEffectActive("mysterious-stranger")) cardClasses.push("is-noir-card");
+        if (side === "player" && isEffectActive("rainbow-suits")) cardClasses.push("is-rainbow-suit");
+        if (side === "player" && isEffectActive("rainbow-cards")) cardClasses.push("is-rainbow-card");
+        if (side === "player" && isEffectActive("flaming-cards")) cardClasses.push("is-flaming-card");
+        if (side === "player" && isEffectActive("encrypted-cards")) cardClasses.push("is-encrypted-card");
+        if (side === "player" && isEffectActive("glyphic-cards")) cardClasses.push("is-glyphic-card");
+        if (side === "player" && isEffectActive("fanged-ram-rising")) cardClasses.push("is-ram-card");
+        if (side === "dealer" && isEffectActive("destroy-the-dealer")) cardClasses.push("is-destroyed-card");
+        cardEl.className = cardClasses.join(" ");
         cardEl.style.animationDelay = `${Math.min(index * 70, 420)}ms`;
+        const face = getCardFace(card, index, side);
         cardEl.innerHTML = `
-          <span class="dark-lancer-rank">${card.rank}</span>
-          <span class="dark-lancer-suit">${card.suit}</span>
-          <span class="dark-lancer-corner">${card.rank}${card.suit}</span>
+          <span class="dark-lancer-rank">${face.rank}</span>
+          <span class="dark-lancer-suit">${face.suit}</span>
+          <span class="dark-lancer-corner"><span class="dark-lancer-corner-rank">${face.rank}</span><span class="dark-lancer-corner-suit">${face.suit}</span></span>
         `;
         return cardEl;
       }
 
-      function renderHand(target, hand) {
+      function renderHand(target, hand, side) {
         target.replaceChildren();
-        hand.forEach((card, index) => target.appendChild(renderCard(card, index)));
+        hand.forEach((card, index) => target.appendChild(renderCard(card, index, side)));
       }
 
       function render() {
-        renderHand(playerCardsEl, playerHand);
-        renderHand(dealerCardsEl, dealerHand);
+        renderHand(playerCardsEl, playerHand, "player");
+        renderHand(dealerCardsEl, dealerHand, "dealer");
         playerScoreEl.textContent = String(scoreHand(playerHand));
         dealerScoreEl.textContent = String(scoreHand(dealerHand));
       }
 
       function setActive(isActive) {
         active = isActive;
-        dealButton.disabled = active;
-        hitButton.disabled = !active;
-        standButton.disabled = !active;
+        const dealerDestroyed = isEffectActive("destroy-the-dealer");
+        dealButton.disabled = dealerDestroyed || active;
+        hitButton.disabled = dealerDestroyed || !active;
+        standButton.disabled = dealerDestroyed || !active;
       }
 
       function dealerPlay() {
@@ -15923,6 +16281,7 @@
       }
 
       function finishRound() {
+        if (isEffectActive("destroy-the-dealer")) return;
         if (scoreHand(playerHand) > 21) {
           resolveScores();
           return;
@@ -15932,6 +16291,10 @@
       }
 
       function dealRound() {
+        if (isEffectActive("destroy-the-dealer")) {
+          updateDealerDestruction();
+          return;
+        }
         clearOutcomeGlow();
         deck = buildDeck();
         playerHand = [drawCard(), drawCard()];
@@ -15945,7 +16308,7 @@
       }
 
       function hit() {
-        if (!active) return;
+        if (!active || isEffectActive("destroy-the-dealer")) return;
         playerHand.push(drawCard());
         render();
         const playerScore = scoreHand(playerHand);
@@ -15956,6 +16319,7 @@
         deck = [];
         playerHand = [];
         dealerHand = [];
+        resetShop();
         setActive(false);
         clearOutcomeGlow();
         setResult("DEAL");
@@ -15966,6 +16330,11 @@
       dealButton.addEventListener("click", dealRound);
       hitButton.addEventListener("click", hit);
       standButton.addEventListener("click", finishRound);
+      shopListEl.addEventListener("click", (event) => {
+        const button = event.target.closest(".dark-lancer-shop-button");
+        if (!button) return;
+        buyOrToggleEffect(button.dataset.effect);
+      });
       window.addEventListener("hashchange", () => {
         if (window.location.hash !== "#dark-lancer") resetGame();
       });
