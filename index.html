@@ -3555,6 +3555,510 @@
       to { opacity: 1; transform: translateY(0) rotate(var(--tally-tilt, -6deg)); }
     }
 
+
+
+    .check-this-popup {
+      background:
+        radial-gradient(circle at 50% 46%, rgba(145,184,193,.14), transparent 34%),
+        radial-gradient(circle at 72% 36%, rgba(201,87,112,.08), transparent 26%),
+        rgba(7,10,12,.56);
+    }
+
+    .check-this-window {
+      width: min(640px, calc(100vw - 28px));
+      overflow: hidden;
+    }
+
+    .check-this-body {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      background:
+        radial-gradient(circle at 16% 16%, rgba(145,184,193,.18), transparent 30%),
+        linear-gradient(145deg, rgba(216,221,214,.96), rgba(148,158,156,.92));
+      color: #1f2628;
+      font: 12px/1.35 "Courier New", monospace;
+    }
+
+    .check-this-kicker {
+      padding: 7px 9px;
+      background: rgba(31,38,40,.84);
+      border: 1px solid rgba(237,242,238,.28);
+      color: #f7fbf2;
+      font: bold 10px/1.2 Georgia, "Times New Roman", serif;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      text-shadow:
+        0 1px 0 rgba(0,0,0,.82),
+        0 0 8px rgba(145,184,193,.48),
+        0 0 14px rgba(201,87,112,.28);
+      box-shadow: inset 0 0 12px rgba(0,0,0,.28);
+    }
+
+    .check-this-stage {
+      position: relative;
+      min-height: 360px;
+      width: 100%;
+      overflow: hidden;
+      padding: 0;
+      border: 1px solid #1f2628;
+      cursor: crosshair;
+      background:
+        radial-gradient(circle at 52% 58%, rgba(145,184,193,.18), transparent 20%),
+        radial-gradient(ellipse at 50% 74%, rgba(28,60,63,.92), rgba(14,24,27,.96) 42%, rgba(5,7,8,.98) 76%),
+        linear-gradient(#050709 0 19%, #111b1d 20% 33%, #1d2927 34% 50%, #0b1011 51% 100%);
+      box-shadow:
+        inset 0 0 0 2px rgba(255,255,255,.08),
+        inset 0 -44px 58px rgba(0,0,0,.62),
+        5px 6px 0 rgba(31,38,40,.18);
+      color: inherit;
+      image-rendering: pixelated;
+      isolation: isolate;
+    }
+
+    .check-this-stage:focus-visible {
+      outline: 1px dashed var(--signal-pink);
+      outline-offset: 3px;
+    }
+
+    .check-this-stage::before {
+      content: "click the primitive";
+      position: absolute;
+      left: 50%;
+      top: 13px;
+      z-index: 8;
+      transform: translateX(-50%);
+      color: rgba(237,242,238,.7);
+      font: bold 10px/1 "Courier New", monospace;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 0 rgba(0,0,0,.82), 0 0 12px rgba(145,184,193,.58);
+      opacity: .92;
+      transition: opacity .22s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .check-this-stage.is-open::before { opacity: 0; }
+
+    .check-this-moon {
+      position: absolute;
+      right: 12%;
+      top: 11%;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 38%, #f7fbf2, #9fc8d3 48%, rgba(159,200,211,.12) 72%, transparent 74%);
+      box-shadow: 0 0 24px rgba(199,239,245,.42);
+      opacity: .62;
+      z-index: 5;
+    }
+
+    .check-this-fog,
+    .check-this-treeline,
+    .check-this-bank,
+    .check-this-pedestal,
+    .check-this-cube-wrap,
+    .check-this-eye {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .check-this-fog {
+      inset: 28% -12% 0;
+      z-index: 3;
+      background:
+        repeating-linear-gradient(179deg, rgba(237,242,238,.07) 0 1px, transparent 1px 18px),
+        radial-gradient(ellipse at 18% 38%, rgba(145,184,193,.18), transparent 25%),
+        radial-gradient(ellipse at 78% 56%, rgba(201,87,112,.11), transparent 30%);
+      transform: rotate(-2deg);
+      mix-blend-mode: screen;
+      opacity: .72;
+      animation: checkThisFog 18s ease-in-out infinite alternate;
+    }
+
+    .check-this-treeline {
+      left: -6%;
+      right: -6%;
+      bottom: 31%;
+      height: 46%;
+      z-index: 2;
+      background:
+        linear-gradient(88deg, transparent 0 6%, #111716 7% 8%, transparent 9% 14%, #070a0b 15% 16%, transparent 17% 25%, #16201e 26% 27%, transparent 28% 34%, #070a0b 35% 36%, transparent 37% 43%, #101817 44% 45%, transparent 46% 55%, #070a0b 56% 57%, transparent 58% 64%, #14201d 65% 66%, transparent 67% 74%, #070a0b 75% 76%, transparent 77% 85%, #101817 86% 87%, transparent 88%),
+        radial-gradient(ellipse at 22% 70%, rgba(13,25,22,.96), transparent 24%),
+        radial-gradient(ellipse at 52% 64%, rgba(8,15,14,.98), transparent 28%),
+        radial-gradient(ellipse at 82% 70%, rgba(12,23,20,.97), transparent 26%);
+      clip-path: polygon(0 100%, 0 34%, 8% 48%, 15% 20%, 21% 44%, 27% 16%, 35% 52%, 42% 18%, 48% 45%, 55% 10%, 62% 44%, 68% 18%, 74% 49%, 82% 14%, 90% 42%, 100% 24%, 100% 100%);
+      filter: drop-shadow(0 8px 10px rgba(0,0,0,.48));
+    }
+
+    .check-this-bank {
+      left: -8%;
+      right: -8%;
+      bottom: -14px;
+      height: 118px;
+      z-index: 4;
+      background:
+        radial-gradient(ellipse at 28% 10%, rgba(237,242,238,.15), transparent 26%),
+        repeating-linear-gradient(174deg, rgba(255,255,255,.06) 0 1px, transparent 1px 9px),
+        linear-gradient(#394841, #161d1d 72%);
+      clip-path: polygon(0 31%, 13% 20%, 24% 33%, 38% 16%, 52% 30%, 67% 12%, 82% 27%, 100% 18%, 100% 100%, 0 100%);
+    }
+
+    .check-this-pedestal {
+      left: 50%;
+      bottom: 70px;
+      width: 128px;
+      height: 82px;
+      z-index: 5;
+      transform: translateX(-50%);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.18), transparent 46%, rgba(0,0,0,.22)),
+        linear-gradient(#6d7772, #353b3a 54%, #171c1d);
+      border: 1px solid rgba(237,242,238,.28);
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.22),
+        inset -1px -1px rgba(0,0,0,.34),
+        8px 10px 0 rgba(0,0,0,.28);
+      clip-path: polygon(23% 0, 77% 0, 96% 100%, 4% 100%);
+    }
+
+    .check-this-pedestal::before {
+      content: "";
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      top: 9px;
+      height: 1px;
+      background: rgba(237,242,238,.24);
+      box-shadow: 0 22px 0 rgba(237,242,238,.11), 0 44px 0 rgba(0,0,0,.24);
+    }
+
+    .check-this-cube-wrap {
+      left: 50%;
+      bottom: 137px;
+      width: 142px;
+      height: 142px;
+      z-index: 7;
+      transform: translateX(-50%);
+      filter: drop-shadow(12px 16px 0 rgba(0,0,0,.28));
+    }
+
+    .check-this-cube {
+      position: absolute;
+      inset: 0;
+      transform-origin: 50% 58%;
+      transition: transform .55s cubic-bezier(.2,.8,.2,1), filter .55s ease;
+    }
+
+    .check-this-stage:hover .check-this-cube,
+    .check-this-stage:focus-visible .check-this-cube {
+      transform: translateY(-4px);
+      filter: brightness(1.08);
+    }
+
+    .check-this-cube-piece {
+      position: absolute;
+      inset: 5px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.34), rgba(0,0,0,.16)),
+        #8e9897;
+      border: 1px solid rgba(31,38,40,.82);
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.5),
+        inset -1px -1px rgba(0,0,0,.28);
+      transition:
+        transform .82s cubic-bezier(.2,.8,.2,1),
+        opacity .62s ease,
+        filter .62s ease;
+      will-change: transform, opacity;
+    }
+
+    .check-this-cube-top {
+      clip-path: polygon(0 22%, 50% 0, 100% 22%, 50% 43%);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.48), rgba(38,42,42,.18)),
+        #a8b0ae;
+      z-index: 4;
+    }
+
+    .check-this-cube-left {
+      clip-path: polygon(0 22%, 50% 43%, 50% 100%, 0 78%);
+      background:
+        linear-gradient(90deg, rgba(36,42,43,.34), rgba(255,255,255,.1)),
+        #828d8c;
+      z-index: 3;
+    }
+
+    .check-this-cube-right {
+      clip-path: polygon(50% 43%, 100% 22%, 100% 78%, 50% 100%);
+      background:
+        linear-gradient(270deg, rgba(255,255,255,.24), rgba(36,42,43,.12)),
+        #9ca4a2;
+      z-index: 3;
+    }
+
+    .check-this-cube-front {
+      clip-path: polygon(0 22%, 50% 43%, 100% 22%, 100% 78%, 50% 100%, 0 78%);
+      background: transparent;
+      border-color: rgba(31,38,40,.92);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.14);
+      z-index: 5;
+      mix-blend-mode: multiply;
+      opacity: .38;
+    }
+
+    .check-this-cube-glow {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 2;
+      width: 76px;
+      height: 76px;
+      transform: translate(-50%, -50%) scale(.38);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.98), var(--favorite-orb-core, rgba(199,239,245,.86)) 32%, var(--favorite-orb-color-soft, rgba(201,87,112,.48)) 54%, transparent 74%);
+      box-shadow:
+        0 0 18px rgba(255,255,255,.92),
+        0 0 34px var(--favorite-orb-color-soft, rgba(145,184,193,.74)),
+        0 0 54px var(--favorite-orb-color-mid, rgba(201,87,112,.42));
+      opacity: 0;
+      transition: opacity .42s ease, transform .72s cubic-bezier(.2,.8,.2,1);
+      pointer-events: none;
+    }
+
+    .check-this-stage.is-open {
+      background:
+        radial-gradient(circle at 50% 47%, var(--favorite-orb-color-faint, rgba(145,184,193,.26)), transparent 28%),
+        radial-gradient(circle at 52% 58%, var(--favorite-orb-color-soft, rgba(145,184,193,.18)), transparent 20%),
+        radial-gradient(ellipse at 50% 74%, rgba(28,60,63,.92), rgba(14,24,27,.96) 42%, rgba(5,7,8,.98) 76%),
+        linear-gradient(#050709 0 19%, #111b1d 20% 33%, #1d2927 34% 50%, #0b1011 51% 100%);
+    }
+
+    .check-this-stage.is-opening .check-this-cube {
+      animation: checkCubeWake .58s steps(4, end) both;
+    }
+
+    .check-this-stage.is-open .check-this-cube-top {
+      transform: translateY(-54px) rotate(-9deg) scale(.96);
+      opacity: .68;
+      filter: brightness(1.12);
+    }
+
+    .check-this-stage.is-open .check-this-cube-left {
+      transform: translate(-38px, 27px) rotate(-13deg);
+      opacity: .74;
+    }
+
+    .check-this-stage.is-open .check-this-cube-right {
+      transform: translate(38px, 27px) rotate(13deg);
+      opacity: .74;
+    }
+
+    .check-this-stage.is-open .check-this-cube-front {
+      transform: translateY(45px) scaleY(.72);
+      opacity: .16;
+    }
+
+    .check-this-stage.is-open .check-this-cube-glow {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.38);
+      animation: checkFavoriteRadiate 1.9s ease-in-out infinite alternate;
+    }
+
+    .check-this-symbol {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 9;
+      width: 112px;
+      max-height: 58px;
+      display: grid;
+      place-items: center;
+      transform: translate(-50%, -50%) translateY(8px) scale(.68);
+      color: #fff7fb;
+      font: bold 13px/1.08 Georgia, "Times New Roman", serif;
+      letter-spacing: .07em;
+      text-align: center;
+      text-transform: uppercase;
+      overflow: hidden;
+      opacity: 0;
+      -webkit-text-stroke: 1px rgba(0,0,0,.9);
+      paint-order: stroke fill;
+      text-shadow:
+        -1px -1px 0 rgba(0,0,0,.92),
+        1px -1px 0 rgba(0,0,0,.92),
+        -1px 1px 0 rgba(0,0,0,.92),
+        1px 1px 0 rgba(0,0,0,.92),
+        0 0 4px #fff,
+        0 0 10px rgba(255,255,255,.92),
+        0 0 20px rgba(145,184,193,.78),
+        0 0 34px rgba(201,87,112,.58);
+      transition: opacity .38s ease .34s, transform .68s cubic-bezier(.2,.8,.2,1) .22s;
+    }
+
+    .check-this-stage.is-open .check-this-symbol {
+      opacity: 1;
+      transform: translate(-50%, -50%) translateY(2px) scale(1);
+    }
+
+    .check-this-eye {
+      left: var(--eye-x);
+      top: var(--eye-y);
+      z-index: 1;
+      width: var(--eye-w, 26px);
+      height: calc(var(--eye-w, 26px) * .48);
+      transform: translate(-50%, -50%) rotate(var(--eye-r, 0deg));
+      opacity: var(--eye-o, .82);
+      animation: checkEyeBlink var(--blink-speed, 7s) ease-in-out infinite;
+      animation-delay: var(--blink-delay, 0s);
+    }
+
+    .check-this-eye::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 50%, #f7fbf2 0 38%, rgba(199,239,245,.82) 42%, transparent 72%);
+      box-shadow:
+        0 0 5px rgba(255,255,255,.92),
+        0 0 12px rgba(145,184,193,.62),
+        0 0 20px rgba(201,87,112,.28);
+    }
+
+    .check-this-eye span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #15191a;
+      box-shadow: 0 0 4px rgba(0,0,0,.92);
+      transform: translate(-50%, -50%) translate(var(--eye-dx, 0px), var(--eye-dy, 0px));
+      transition: transform .08s linear;
+    }
+
+    .check-this-reveal {
+      display: grid;
+      gap: 5px;
+      padding: 10px 11px;
+      background: rgba(31,38,40,.88);
+      border: 1px solid rgba(237,242,238,.34);
+      color: #edf2ee;
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.12),
+        5px 6px 0 rgba(31,38,40,.18),
+        0 0 18px rgba(145,184,193,.14);
+      animation: checkRevealIn .42s steps(4, end) both;
+    }
+
+    .check-this-reveal-label {
+      color: #c7eff5;
+      font: 10px/1 Georgia, "Times New Roman", serif;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      text-shadow: 0 0 8px rgba(145,184,193,.55);
+    }
+
+    .check-this-reveal-title {
+      color: #fff7fb;
+      font: bold 17px/1.12 Georgia, "Times New Roman", serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-shadow:
+        0 0 4px rgba(255,255,255,.75),
+        0 0 12px rgba(201,87,112,.42);
+    }
+
+    .check-this-reveal a {
+      width: fit-content;
+      color: #c7eff5;
+      text-decoration: none;
+      border-bottom: 1px dotted currentColor;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .check-this-reveal a:hover,
+    .check-this-reveal a:focus-visible {
+      color: #ffffff;
+      border-bottom-style: solid;
+      outline: none;
+      text-shadow: 0 0 8px rgba(255,255,255,.72);
+    }
+
+    .check-this-reveal-actions {
+      display: grid;
+      gap: 8px;
+      align-items: start;
+      justify-items: start;
+      margin-top: 3px;
+    }
+
+    .check-this-draw-another {
+      min-width: 140px;
+      min-height: 28px;
+      padding: 6px 10px;
+      background: linear-gradient(#eef0e7, #8f999a);
+      border: 1px solid #1e2527;
+      box-shadow: inset 1px 1px rgba(255,255,255,.8), inset -1px -1px rgba(0,0,0,.25);
+      color: #1d2426;
+      cursor: pointer;
+      font: bold 10px/1 Arial, sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .check-this-draw-another:hover,
+    .check-this-draw-another:focus-visible {
+      color: #8d2442;
+      background: linear-gradient(#f6f8ef, #9aa5a7);
+      outline: none;
+    }
+
+    @keyframes checkThisFog {
+      from { transform: translate3d(-12px, 0, 0) rotate(-2deg); }
+      to { transform: translate3d(14px, -5px, 0) rotate(1deg); }
+    }
+
+    @keyframes checkFavoriteRadiate {
+      from {
+        filter: saturate(1) brightness(1);
+        box-shadow:
+          0 0 18px rgba(255,255,255,.92),
+          0 0 34px var(--favorite-orb-color-soft, rgba(145,184,193,.74)),
+          0 0 54px var(--favorite-orb-color-mid, rgba(201,87,112,.42));
+      }
+      to {
+        filter: saturate(1.45) brightness(1.18);
+        box-shadow:
+          0 0 22px rgba(255,255,255,.96),
+          0 0 48px var(--favorite-orb-color-soft, rgba(145,184,193,.82)),
+          0 0 82px var(--favorite-orb-color-mid, rgba(201,87,112,.56));
+      }
+    }
+
+    @keyframes checkCubeWake {
+      0% { transform: translateY(0) rotate(0deg); }
+      28% { transform: translateY(-8px) rotate(-2deg); }
+      58% { transform: translateY(3px) rotate(2deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    @keyframes checkEyeBlink {
+      0%, 44%, 52%, 100% { transform: translate(-50%, -50%) rotate(var(--eye-r, 0deg)) scaleY(1); }
+      48% { transform: translate(-50%, -50%) rotate(var(--eye-r, 0deg)) scaleY(.08); }
+      56% { transform: translate(-50%, -50%) rotate(var(--eye-r, 0deg)) scaleY(.18); }
+      60% { transform: translate(-50%, -50%) rotate(var(--eye-r, 0deg)) scaleY(1); }
+    }
+
+    @keyframes checkRevealIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .go-fish-window {
       width: min(1120px, 98vw);
       max-height: 94vh;
@@ -6246,6 +6750,7 @@
           <a class="button88" href="#hollow-oracle" id="hollow-oracle-button" data-widget-button>HOLLOW ORACLE</a>
           <a class="button88" href="#heads-tails" id="heads-tails-button" data-widget-button>HEADS/TAILS</a>
           <a class="button88" href="#go-fish" id="go-fish-button" data-widget-button>GO FISH</a>
+          <a class="button88" href="#check-this" id="check-this-button" data-widget-button>CHECK THIS</a>
           <a class="button88" href="#cursor-closet" id="cursor-closet-button" data-widget-button>CURSOR CLOSET</a>
         </div>
         <div class="widget-cycle-controls" aria-label="Cycle widget buttons">
@@ -6255,6 +6760,46 @@
       </div>
     </footer>
   </main>
+
+  <aside id="check-this" class="popup check-this-popup" aria-label="CHECK THIS - One of my favorites, for you">
+    <div class="popup-window check-this-window">
+      <div class="popup-title">CHECK THIS <a href="#">x</a></div>
+      <div class="check-this-body">
+        <div class="check-this-kicker">One of my favorites, for you.</div>
+        <button class="check-this-stage" type="button" id="check-this-stage" aria-label="Open the gray cube and reveal a favorite">
+          <span class="check-this-moon" aria-hidden="true"></span>
+          <span class="check-this-treeline" aria-hidden="true"></span>
+          <span class="check-this-fog" aria-hidden="true"></span>
+          <span class="check-this-eye" style="--eye-x: 11%; --eye-y: 42%; --eye-w: 23px; --eye-r: -6deg; --blink-delay: -1.2s;"><span></span></span>
+          <span class="check-this-eye" style="--eye-x: 19%; --eye-y: 34%; --eye-w: 18px; --eye-r: 8deg; --blink-delay: -4.6s; --eye-o: .66;"><span></span></span>
+          <span class="check-this-eye" style="--eye-x: 31%; --eye-y: 43%; --eye-w: 28px; --eye-r: 3deg; --blink-delay: -2.7s;"><span></span></span>
+          <span class="check-this-eye" style="--eye-x: 68%; --eye-y: 39%; --eye-w: 21px; --eye-r: 5deg; --blink-delay: -3.8s; --eye-o: .75;"><span></span></span>
+          <span class="check-this-eye" style="--eye-x: 82%; --eye-y: 45%; --eye-w: 27px; --eye-r: -8deg; --blink-delay: -5.3s;"><span></span></span>
+          <span class="check-this-eye" style="--eye-x: 91%; --eye-y: 34%; --eye-w: 17px; --eye-r: 9deg; --blink-delay: -6.7s; --eye-o: .62;"><span></span></span>
+          <span class="check-this-bank" aria-hidden="true"></span>
+          <span class="check-this-pedestal" aria-hidden="true"></span>
+          <span class="check-this-cube-wrap" aria-hidden="true">
+            <span class="check-this-cube-glow"></span>
+            <span class="check-this-cube">
+              <span class="check-this-cube-piece check-this-cube-left"></span>
+              <span class="check-this-cube-piece check-this-cube-right"></span>
+              <span class="check-this-cube-piece check-this-cube-top"></span>
+              <span class="check-this-cube-piece check-this-cube-front"></span>
+            </span>
+            <span class="check-this-symbol">awaiting unboxing</span>
+          </span>
+        </button>
+        <article class="check-this-reveal" id="check-this-reveal" aria-live="polite" hidden>
+          <div class="check-this-reveal-label" id="check-this-category">Favorite Chosen</div>
+          <div class="check-this-reveal-title" id="check-this-title">awaiting unboxing</div>
+          <div class="check-this-reveal-actions">
+            <a id="check-this-link" href="https://en.wikipedia.org/wiki/Special:Search?search=favorite" target="_blank" rel="noopener noreferrer">open wiki</a>
+            <button class="check-this-draw-another" id="check-this-reset" type="button">draw again</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </aside>
 
   <aside id="sim-board-popup" class="popup sim-board-popup" aria-label="SIM Board, Spirit in the Machine">
     <div class="sim-board-window" id="sim-board-widget">
@@ -12755,6 +13300,144 @@
       resetFishing({ resetScore: true });
     }
 
+
+
+    function setupCheckThisFavorite() {
+      const stage = document.getElementById("check-this-stage");
+      const reveal = document.getElementById("check-this-reveal");
+      const category = document.getElementById("check-this-category");
+      const title = document.getElementById("check-this-title");
+      const link = document.getElementById("check-this-link");
+      const resetButton = document.getElementById("check-this-reset");
+      if (!stage || !reveal || !category || !title || !link || !resetButton) return;
+
+      const wikiFavorites = Array.from(document.querySelectorAll(".favorites-grid .favorite-tile a"))
+        .filter((favoriteLink) => /wikipedia\.org/i.test(favoriteLink.href));
+      const fallbackFavorites = [{
+        title: "Mothman",
+        category: "Cryptids",
+        href: "https://en.wikipedia.org/wiki/Mothman"
+      }];
+      const eyes = Array.from(stage.querySelectorAll(".check-this-eye"));
+      const cubeName = stage.querySelector(".check-this-symbol");
+      let lastFavorite = "";
+      let isLocked = false;
+
+      function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function applyFavoriteRadiance() {
+        const hue = randomInt(0, 359);
+        const saturation = randomInt(68, 94);
+        const lightness = randomInt(58, 74);
+        const warmerHue = (hue + randomInt(12, 34)) % 360;
+        stage.style.setProperty("--favorite-orb-core", `hsl(${hue} ${saturation}% ${Math.min(lightness + 12, 86)}% / .9)`);
+        stage.style.setProperty("--favorite-orb-color-soft", `hsl(${hue} ${saturation}% ${lightness}% / .74)`);
+        stage.style.setProperty("--favorite-orb-color-mid", `hsl(${warmerHue} ${Math.min(saturation + 4, 98)}% ${Math.max(lightness - 8, 46)}% / .54)`);
+        stage.style.setProperty("--favorite-orb-color-faint", `hsl(${hue} ${saturation}% ${lightness}% / .3)`);
+      }
+
+      function resetFavoriteRadiance() {
+        [
+          "--favorite-orb-core",
+          "--favorite-orb-color-soft",
+          "--favorite-orb-color-mid",
+          "--favorite-orb-color-faint"
+        ].forEach((property) => stage.style.removeProperty(property));
+      }
+
+      function pickFavorite() {
+        if (!wikiFavorites.length) return randomItem(fallbackFavorites);
+        let favoriteLink = randomItem(wikiFavorites);
+        if (wikiFavorites.length > 1) {
+          let safety = 0;
+          while (favoriteLink.textContent.trim() === lastFavorite && safety < 8) {
+            favoriteLink = randomItem(wikiFavorites);
+            safety += 1;
+          }
+        }
+        const tile = favoriteLink.closest(".favorite-tile");
+        const tileTitle = tile?.querySelector("h4")?.textContent.trim() || "Favorite";
+        return {
+          title: favoriteLink.textContent.trim(),
+          category: tileTitle,
+          href: favoriteLink.href
+        };
+      }
+
+      function resetScene() {
+        isLocked = false;
+        stage.classList.remove("is-open", "is-opening");
+        stage.disabled = false;
+        reveal.hidden = true;
+        category.textContent = "Favorite Chosen";
+        title.textContent = "awaiting unboxing";
+        link.href = "https://en.wikipedia.org/wiki/Special:Search?search=favorite";
+        link.textContent = "open wiki";
+        stage.setAttribute("aria-label", "Open the gray cube and reveal a favorite");
+        if (cubeName) cubeName.textContent = "awaiting unboxing";
+        resetFavoriteRadiance();
+        resetEyes();
+      }
+
+      function revealFavorite() {
+        if (isLocked) return;
+        isLocked = true;
+        const favorite = pickFavorite();
+        lastFavorite = favorite.title;
+        category.textContent = `Favorite ${favorite.category} Chosen`;
+        title.textContent = favorite.title;
+        if (cubeName) cubeName.textContent = favorite.title;
+        link.href = favorite.href;
+        link.textContent = `open ${favorite.title} wiki`;
+        stage.setAttribute("aria-label", `Favorite revealed: ${favorite.title}. Use draw again to reset the scene.`);
+        applyFavoriteRadiance();
+        reveal.hidden = true;
+        stage.disabled = true;
+        stage.classList.remove("is-open", "is-opening");
+        void stage.offsetWidth;
+        stage.classList.add("is-opening");
+        window.setTimeout(() => {
+          stage.classList.remove("is-opening");
+          stage.classList.add("is-open");
+        }, 280);
+        window.setTimeout(() => {
+          reveal.hidden = false;
+        }, 920);
+      }
+
+      function moveEyes(event) {
+        eyes.forEach((eye) => {
+          const rect = eye.getBoundingClientRect();
+          const dx = event.clientX - (rect.left + rect.width / 2);
+          const dy = event.clientY - (rect.top + rect.height / 2);
+          const length = Math.hypot(dx, dy) || 1;
+          const max = Math.min(5, rect.width * .22);
+          eye.style.setProperty("--eye-dx", `${(dx / length * max).toFixed(2)}px`);
+          eye.style.setProperty("--eye-dy", `${(dy / length * max).toFixed(2)}px`);
+        });
+      }
+
+      function resetEyes() {
+        eyes.forEach((eye) => {
+          eye.style.setProperty("--eye-dx", "0px");
+          eye.style.setProperty("--eye-dy", "0px");
+        });
+      }
+
+      stage.addEventListener("click", revealFavorite);
+      resetButton.addEventListener("click", resetScene);
+      stage.addEventListener("pointermove", moveEyes);
+      stage.addEventListener("pointerleave", resetEyes);
+      window.addEventListener("hashchange", () => {
+        if (window.location.hash !== "#check-this") {
+          resetScene();
+        }
+      });
+      resetScene();
+    }
+
     function setupCursorCloset() {
       const STORAGE_KEY = "voe.cursorCloset.active";
       const choices = Array.from(document.querySelectorAll("[data-cursor-mode]"));
@@ -13047,6 +13730,7 @@
     setupHollowOracle();
     setupHeadsTails();
     setupGoFish();
+    setupCheckThisFavorite();
     setupCursorCloset();
     renderSiteLinks();
   </script>
