@@ -6395,6 +6395,385 @@
       }
     }
 
+
+
+    .dark-lancer-window {
+      width: min(760px, 94vw);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, .12), transparent 36%),
+        linear-gradient(145deg, #080b10, #15121d 46%, #06070b);
+      border-color: #c7eff5;
+      color: #f5fbf7;
+      box-shadow:
+        inset 1px 1px rgba(255, 255, 255, .18),
+        inset -1px -1px rgba(0, 0, 0, .52),
+        10px 11px 0 rgba(0, 0, 0, .48),
+        0 0 28px rgba(90, 55, 135, .24);
+    }
+
+    .dark-lancer-window .popup-title {
+      background: linear-gradient(90deg, #07090f, #2b1334 58%, #0b1017);
+      color: #f8fbf5;
+      border-bottom-color: #c7eff5;
+      text-shadow:
+        0 0 5px rgba(255, 255, 255, .7),
+        0 0 13px rgba(255, 125, 157, .72),
+        0 0 22px rgba(199, 239, 245, .42);
+    }
+
+    .dark-lancer-body {
+      display: grid;
+      gap: 12px;
+      padding: 12px;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255, 125, 157, .18), transparent 28%),
+        radial-gradient(circle at 82% 88%, rgba(199, 239, 245, .12), transparent 30%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, .035) 0 1px, transparent 1px 7px),
+        #090c12;
+      color: #f5fbf7;
+      font: 12px/1.2 "Courier New", monospace;
+    }
+
+    .dark-lancer-scoreboard {
+      display: grid;
+      grid-template-columns: 1fr minmax(150px, 1.2fr) 1fr;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .dark-lancer-score,
+    .dark-lancer-result {
+      min-height: 52px;
+      display: grid;
+      place-items: center;
+      padding: 8px;
+      border: 1px solid rgba(199, 239, 245, .72);
+      background:
+        linear-gradient(135deg, rgba(247, 251, 242, .08), rgba(255, 125, 157, .05)),
+        rgba(3, 5, 9, .78);
+      box-shadow:
+        inset 1px 1px rgba(255, 255, 255, .12),
+        inset -1px -1px rgba(0, 0, 0, .5),
+        0 0 12px rgba(199, 239, 245, .12);
+      text-align: center;
+    }
+
+    .dark-lancer-score span {
+      color: #c7eff5;
+      font: 10px/1 Georgia, "Times New Roman", serif;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .dark-lancer-score strong {
+      margin-top: 4px;
+      color: #ffffff;
+      font: bold 30px/1 Georgia, "Times New Roman", serif;
+      letter-spacing: .04em;
+      text-shadow:
+        0 0 5px rgba(255, 255, 255, .74),
+        0 0 14px rgba(199, 239, 245, .5);
+    }
+
+    .dark-lancer-result {
+      color: #ffabc0;
+      font-weight: bold;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-shadow:
+        0 0 5px rgba(255, 255, 255, .68),
+        0 0 14px rgba(255, 125, 157, .72);
+    }
+
+    .dark-lancer-result.is-true {
+      color: #fff;
+      animation: darkLancerPulse .72s ease-in-out 2;
+    }
+
+    .dark-lancer-result.is-clash {
+      color: #c7eff5;
+      animation: darkLancerClash .82s steps(2, end) 3;
+    }
+
+    .dark-lancer-tally {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .dark-lancer-tally-item {
+      min-height: 42px;
+      display: grid;
+      grid-template-columns: minmax(86px, auto) 1fr;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 9px;
+      border: 1px solid rgba(255, 125, 157, .44);
+      background:
+        linear-gradient(135deg, rgba(199, 239, 245, .06), rgba(255, 125, 157, .06)),
+        rgba(2, 4, 8, .62);
+      box-shadow:
+        inset 1px 1px rgba(255, 255, 255, .09),
+        inset -1px -1px rgba(0, 0, 0, .48),
+        0 0 10px rgba(255, 125, 157, .1);
+    }
+
+    .dark-lancer-tally-item span {
+      color: #c7eff5;
+      font: 9px/1 Georgia, "Times New Roman", serif;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .dark-lancer-tally-marks {
+      min-height: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 3px;
+      padding: 4px 6px;
+      background: rgba(237, 242, 238, .08);
+      border: 1px dotted rgba(199, 239, 245, .35);
+      box-shadow: inset 1px 1px rgba(255, 255, 255, .08);
+    }
+
+    .dark-lancer-tally-item.player .dark-lancer-tally-marks {
+      justify-content: flex-end;
+    }
+
+    .dark-lancer-tally-item.dealer .dark-lancer-tally-marks {
+      justify-content: flex-start;
+    }
+
+    .dark-lancer-tally-mark {
+      width: 4px;
+      height: 18px;
+      display: inline-block;
+      background: #ff7d9d;
+      box-shadow:
+        0 0 4px rgba(255, 255, 255, .72),
+        0 0 8px rgba(255, 125, 157, .44),
+        0 0 12px rgba(199, 239, 245, .22);
+      transform: rotate(var(--tally-tilt, -6deg));
+      animation: tallyIn .28s steps(3, end);
+    }
+
+    .dark-lancer-tally-item.dealer .dark-lancer-tally-mark {
+      background: #c7eff5;
+      box-shadow:
+        0 0 4px rgba(255, 255, 255, .72),
+        0 0 8px rgba(199, 239, 245, .42),
+        0 0 12px rgba(255, 125, 157, .2);
+    }
+
+    .dark-lancer-table {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .dark-lancer-hand {
+      min-height: 220px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 8px;
+      padding: 9px;
+      border: 1px solid rgba(255, 255, 255, .22);
+      background:
+        radial-gradient(circle at 50% 18%, rgba(93, 59, 126, .42), transparent 44%),
+        linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, .015)),
+        rgba(0, 0, 0, .32);
+      box-shadow: inset 0 0 18px rgba(0, 0, 0, .36);
+      overflow: hidden;
+    }
+
+    .dark-lancer-hand-label {
+      color: #c7eff5;
+      font: 10px/1 Georgia, "Times New Roman", serif;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .dark-lancer-cards {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      align-content: center;
+      gap: 9px;
+      min-height: 166px;
+    }
+
+    .dark-lancer-card {
+      position: relative;
+      width: 74px;
+      height: 106px;
+      flex: 0 0 auto;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 7px;
+      overflow: hidden;
+      color: #101219;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(255, 255, 255, .95), transparent 20%),
+        linear-gradient(150deg, #fffaf7, #d7f4f7 52%, #ffe0ea);
+      border: 1px solid #f8fbf5;
+      border-radius: 7px;
+      box-shadow:
+        inset 1px 1px rgba(255, 255, 255, .92),
+        inset -1px -1px rgba(0, 0, 0, .26),
+        0 8px 0 rgba(0, 0, 0, .28),
+        0 0 13px rgba(199, 239, 245, .32);
+      transform-origin: 50% 105%;
+      animation: darkLancerDeal .46s cubic-bezier(.17, .86, .28, 1.2) both;
+    }
+
+    .dark-lancer-card::before,
+    .dark-lancer-card::after {
+      content: "";
+      position: absolute;
+      inset: -35%;
+      pointer-events: none;
+    }
+
+    .dark-lancer-card::before {
+      background:
+        conic-gradient(from 120deg, transparent, rgba(255, 125, 157, .26), transparent 26%, rgba(199, 239, 245, .28), transparent 52%);
+      mix-blend-mode: screen;
+      animation: darkLancerSheen 2.8s linear infinite;
+    }
+
+    .dark-lancer-card::after {
+      inset: 4px;
+      border: 1px dotted rgba(16, 18, 25, .36);
+      border-radius: 4px;
+      background:
+        linear-gradient(135deg, transparent 0 46%, rgba(16, 18, 25, .08) 47% 53%, transparent 54%),
+        repeating-linear-gradient(0deg, rgba(16, 18, 25, .05) 0 1px, transparent 1px 7px);
+    }
+
+    .dark-lancer-card.is-red {
+      color: #8d1238;
+      text-shadow: 0 0 8px rgba(255, 125, 157, .22);
+    }
+
+    .dark-lancer-rank,
+    .dark-lancer-suit,
+    .dark-lancer-corner {
+      position: relative;
+      z-index: 1;
+      font-weight: bold;
+    }
+
+    .dark-lancer-rank {
+      font: bold 18px/1 Georgia, "Times New Roman", serif;
+      letter-spacing: .02em;
+    }
+
+    .dark-lancer-suit {
+      display: grid;
+      place-items: center;
+      font: 38px/1 Georgia, "Times New Roman", serif;
+      text-shadow:
+        0 0 5px rgba(255, 255, 255, .84),
+        0 0 13px rgba(199, 239, 245, .38);
+    }
+
+    .dark-lancer-corner {
+      justify-self: end;
+      font: bold 13px/1 Georgia, "Times New Roman", serif;
+    }
+
+    .dark-lancer-controls {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .dark-lancer-button {
+      min-height: 31px;
+      color: #f8fbf5;
+      background:
+        linear-gradient(#342044, #111720),
+        #111720;
+      border: 1px solid rgba(199, 239, 245, .78);
+      box-shadow:
+        inset 1px 1px rgba(255, 255, 255, .2),
+        inset -1px -1px rgba(0, 0, 0, .46),
+        0 0 12px rgba(255, 125, 157, .16);
+      cursor: pointer;
+      font: bold 10px/1 Arial, sans-serif;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .dark-lancer-button:hover,
+    .dark-lancer-button:focus-visible {
+      color: #ffffff;
+      background: linear-gradient(#5a2b64, #162332);
+      outline: 1px dotted #ffabc0;
+    }
+
+    .dark-lancer-button:disabled {
+      opacity: .42;
+      cursor: default;
+      filter: grayscale(.6);
+    }
+
+    @keyframes darkLancerDeal {
+      0% {
+        opacity: 0;
+        transform: translate3d(84px, -36px, 0) rotate(18deg) scale(.68);
+        filter: blur(5px) brightness(1.7);
+      }
+      62% {
+        opacity: 1;
+        transform: translate3d(-4px, 3px, 0) rotate(-4deg) scale(1.04);
+        filter: blur(0) brightness(1.12);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) rotate(0) scale(1);
+        filter: blur(0) brightness(1);
+      }
+    }
+
+    @keyframes darkLancerSheen {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes darkLancerPulse {
+      0%, 100% { transform: scale(1); text-shadow: 0 0 5px #fff, 0 0 14px rgba(255, 125, 157, .72); }
+      50% { transform: scale(1.04); text-shadow: 0 0 8px #fff, 0 0 24px rgba(255, 125, 157, .92), 0 0 38px rgba(199, 239, 245, .62); }
+    }
+
+    @keyframes darkLancerClash {
+      0%, 100% { transform: skewX(0deg); text-shadow: 0 0 5px #fff, 0 0 16px rgba(199, 239, 245, .82); }
+      50% { transform: skewX(-7deg); text-shadow: 3px 0 0 rgba(255, 125, 157, .82), -3px 0 0 rgba(199, 239, 245, .82), 0 0 24px #fff; }
+    }
+
+    @media (max-width: 680px) {
+      .dark-lancer-scoreboard,
+      .dark-lancer-table,
+      .dark-lancer-controls {
+        grid-template-columns: 1fr;
+      }
+
+      .dark-lancer-hand {
+        min-height: 180px;
+      }
+
+      .dark-lancer-card {
+        width: 62px;
+        height: 90px;
+      }
+
+      .dark-lancer-suit {
+        font-size: 30px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -6749,6 +7128,7 @@
           <a class="button88" href="#sim-board-popup" id="sim-board-button" data-widget-button>SIM BOARD</a>
           <a class="button88" href="#hollow-oracle" id="hollow-oracle-button" data-widget-button>HOLLOW ORACLE</a>
           <a class="button88" href="#heads-tails" id="heads-tails-button" data-widget-button>HEADS/TAILS</a>
+          <a class="button88" href="#dark-lancer" id="dark-lancer-button" data-widget-button>DARK LANCER</a>
           <a class="button88" href="#go-fish" id="go-fish-button" data-widget-button>GO FISH</a>
           <a class="button88" href="#check-this" id="check-this-button" data-widget-button>CHECK THIS</a>
           <a class="button88" href="#cursor-closet" id="cursor-closet-button" data-widget-button>CURSOR CLOSET</a>
@@ -6896,6 +7276,40 @@
           <div class="coin-tally tails" id="tails-tally" aria-label="Tails tally"></div>
         </div>
         <div class="coin-caption" id="coin-caption">waiting on the coin</div>
+      </div>
+    </div>
+  </aside>
+
+
+
+  <aside id="dark-lancer" class="popup" aria-label="Dark Lancer blackjack popup">
+    <div class="popup-window dark-lancer-window">
+      <div class="popup-title">DARK LANCER <a href="#">x</a></div>
+      <div class="popup-body dark-lancer-body" id="dark-lancer-game">
+        <div class="dark-lancer-scoreboard">
+          <div class="dark-lancer-score"><span>PLAYER</span><strong id="dark-lancer-player-score">0</strong></div>
+          <div class="dark-lancer-result" id="dark-lancer-result" aria-live="polite">DEAL</div>
+          <div class="dark-lancer-score"><span>DEALER</span><strong id="dark-lancer-dealer-score">0</strong></div>
+        </div>
+        <div class="dark-lancer-table">
+          <section class="dark-lancer-hand" aria-label="Player hand">
+            <div class="dark-lancer-hand-label">PLAYER</div>
+            <div class="dark-lancer-cards" id="dark-lancer-player-cards"></div>
+          </section>
+          <section class="dark-lancer-hand" aria-label="Dealer hand">
+            <div class="dark-lancer-hand-label">DEALER</div>
+            <div class="dark-lancer-cards" id="dark-lancer-dealer-cards"></div>
+          </section>
+        </div>
+        <div class="dark-lancer-controls">
+          <button class="dark-lancer-button" type="button" id="dark-lancer-deal">DEAL</button>
+          <button class="dark-lancer-button" type="button" id="dark-lancer-hit" disabled>HIT</button>
+          <button class="dark-lancer-button" type="button" id="dark-lancer-stand" disabled>STAND</button>
+        </div>
+        <div class="dark-lancer-tally" aria-label="Dark Lancer win tally">
+          <div class="dark-lancer-tally-item player"><span>PLAYER WINS</span><div class="dark-lancer-tally-marks" id="dark-lancer-player-wins" aria-label="Player wins tally"></div></div>
+          <div class="dark-lancer-tally-item dealer"><span>DEALER WINS</span><div class="dark-lancer-tally-marks" id="dark-lancer-dealer-wins" aria-label="Dealer wins tally"></div></div>
+        </div>
       </div>
     </div>
   </aside>
@@ -13716,6 +14130,225 @@
       updateCursorClosetUi();
     }
 
+
+
+    function setupDarkLancer() {
+      const root = document.getElementById("dark-lancer-game");
+      if (!root) return;
+
+      const playerCardsEl = document.getElementById("dark-lancer-player-cards");
+      const dealerCardsEl = document.getElementById("dark-lancer-dealer-cards");
+      const playerScoreEl = document.getElementById("dark-lancer-player-score");
+      const dealerScoreEl = document.getElementById("dark-lancer-dealer-score");
+      const playerWinsEl = document.getElementById("dark-lancer-player-wins");
+      const dealerWinsEl = document.getElementById("dark-lancer-dealer-wins");
+      const resultEl = document.getElementById("dark-lancer-result");
+      const dealButton = document.getElementById("dark-lancer-deal");
+      const hitButton = document.getElementById("dark-lancer-hit");
+      const standButton = document.getElementById("dark-lancer-stand");
+      if (!playerCardsEl || !dealerCardsEl || !playerScoreEl || !dealerScoreEl || !playerWinsEl || !dealerWinsEl || !resultEl || !dealButton || !hitButton || !standButton) return;
+
+      const suits = [
+        { mark: "♠", color: "black" },
+        { mark: "♥", color: "red" },
+        { mark: "♦", color: "red" },
+        { mark: "♣", color: "black" }
+      ];
+      const ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+      const values = { A: 11, J: 10, Q: 10, K: 10 };
+      let deck = [];
+      let playerHand = [];
+      let dealerHand = [];
+      let active = false;
+      let tally = { player: 0, dealer: 0 };
+
+      function createTallyMark(index, side) {
+        const mark = document.createElement("span");
+        mark.className = "dark-lancer-tally-mark";
+        const seed = side === "player" ? index * 7 : index * 11;
+        mark.style.setProperty("--tally-tilt", `${(seed % 13) - 6}deg`);
+        return mark;
+      }
+
+      function renderTally() {
+        playerWinsEl.replaceChildren();
+        dealerWinsEl.replaceChildren();
+        for (let i = 0; i < tally.player; i += 1) playerWinsEl.appendChild(createTallyMark(i, "player"));
+        for (let i = 0; i < tally.dealer; i += 1) dealerWinsEl.appendChild(createTallyMark(i, "dealer"));
+      }
+
+      function resetTally() {
+        tally = { player: 0, dealer: 0 };
+        renderTally();
+      }
+
+      function recordWin(side) {
+        if (side !== "player" && side !== "dealer") return;
+        tally[side] += 1;
+        renderTally();
+      }
+
+      function randomIndex(max) {
+        if (window.crypto && window.crypto.getRandomValues && max > 0) {
+          const limit = Math.floor(0x100000000 / max) * max;
+          const buffer = new Uint32Array(1);
+          do {
+            window.crypto.getRandomValues(buffer);
+          } while (buffer[0] >= limit);
+          return buffer[0] % max;
+        }
+        return Math.floor(Math.random() * max);
+      }
+
+      function buildDeck() {
+        const nextDeck = [];
+        suits.forEach((suit) => {
+          ranks.forEach((rank) => {
+            nextDeck.push({ rank, suit: suit.mark, color: suit.color, value: values[rank] || Number(rank) });
+          });
+        });
+        for (let i = nextDeck.length - 1; i > 0; i -= 1) {
+          const j = randomIndex(i + 1);
+          [nextDeck[i], nextDeck[j]] = [nextDeck[j], nextDeck[i]];
+        }
+        return nextDeck;
+      }
+
+      function scoreHand(hand) {
+        let total = hand.reduce((sum, card) => sum + card.value, 0);
+        let aces = hand.filter((card) => card.rank === "A").length;
+        while (total > 21 && aces > 0) {
+          total -= 10;
+          aces -= 1;
+        }
+        return total;
+      }
+
+      function drawCard() {
+        if (!deck.length) deck = buildDeck();
+        return deck.pop();
+      }
+
+      function setResult(text, mode = "") {
+        resultEl.textContent = text;
+        resultEl.classList.toggle("is-true", mode === "true");
+        resultEl.classList.toggle("is-clash", mode === "clash");
+      }
+
+      function renderCard(card, index) {
+        const cardEl = document.createElement("div");
+        cardEl.className = `dark-lancer-card${card.color === "red" ? " is-red" : ""}`;
+        cardEl.style.animationDelay = `${Math.min(index * 70, 420)}ms`;
+        cardEl.innerHTML = `
+          <span class="dark-lancer-rank">${card.rank}</span>
+          <span class="dark-lancer-suit">${card.suit}</span>
+          <span class="dark-lancer-corner">${card.rank}${card.suit}</span>
+        `;
+        return cardEl;
+      }
+
+      function renderHand(target, hand) {
+        target.replaceChildren();
+        hand.forEach((card, index) => target.appendChild(renderCard(card, index)));
+      }
+
+      function render() {
+        renderHand(playerCardsEl, playerHand);
+        renderHand(dealerCardsEl, dealerHand);
+        playerScoreEl.textContent = String(scoreHand(playerHand));
+        dealerScoreEl.textContent = String(scoreHand(dealerHand));
+      }
+
+      function setActive(isActive) {
+        active = isActive;
+        dealButton.disabled = active;
+        hitButton.disabled = !active;
+        standButton.disabled = !active;
+      }
+
+      function dealerPlay() {
+        while (scoreHand(dealerHand) < 17) dealerHand.push(drawCard());
+      }
+
+      function resolveScores() {
+        const playerScore = scoreHand(playerHand);
+        const dealerScore = scoreHand(dealerHand);
+        setActive(false);
+        render();
+
+        if (playerScore === 21 && dealerScore === 21) {
+          setResult("CLASH OF KNAVES!", "clash");
+        } else if (playerScore === 21) {
+          recordWin("player");
+          setResult("TRUE LANCER!", "true");
+        } else if (playerScore > 21) {
+          recordWin("dealer");
+          setResult("PLAYER BUST");
+        } else if (dealerScore > 21) {
+          recordWin("player");
+          setResult("DEALER BUST");
+        } else if (dealerScore === 21) {
+          recordWin("dealer");
+          setResult("DEALER 21");
+        } else if (playerScore > dealerScore) {
+          recordWin("player");
+          setResult("PLAYER WINS");
+        } else if (dealerScore > playerScore) {
+          recordWin("dealer");
+          setResult("DEALER WINS");
+        } else {
+          setResult("PUSH");
+        }
+      }
+
+      function finishRound() {
+        if (scoreHand(playerHand) > 21) {
+          resolveScores();
+          return;
+        }
+        dealerPlay();
+        resolveScores();
+      }
+
+      function dealRound() {
+        deck = buildDeck();
+        playerHand = [drawCard(), drawCard()];
+        dealerHand = [drawCard(), drawCard()];
+        setActive(true);
+        setResult("LIVE");
+        render();
+        const playerScore = scoreHand(playerHand);
+        const dealerScore = scoreHand(dealerHand);
+        if (playerScore === 21 || dealerScore === 21) resolveScores();
+      }
+
+      function hit() {
+        if (!active) return;
+        playerHand.push(drawCard());
+        render();
+        const playerScore = scoreHand(playerHand);
+        if (playerScore >= 21) finishRound();
+      }
+
+      function resetGame() {
+        deck = [];
+        playerHand = [];
+        dealerHand = [];
+        setActive(false);
+        setResult("DEAL");
+        resetTally();
+        render();
+      }
+
+      dealButton.addEventListener("click", dealRound);
+      hitButton.addEventListener("click", hit);
+      standButton.addEventListener("click", finishRound);
+      window.addEventListener("hashchange", () => {
+        if (window.location.hash !== "#dark-lancer") resetGame();
+      });
+      resetGame();
+    }
+
     const ariesHotspot = document.getElementById("aries-hotspot");
     if (ariesHotspot) ariesHotspot.addEventListener("click", triggerAriesOmen);
     const ariesOmen = document.getElementById("aries-omen");
@@ -13729,6 +14362,7 @@
     setupWidgetButtonCarousel();
     setupHollowOracle();
     setupHeadsTails();
+    setupDarkLancer();
     setupGoFish();
     setupCheckThisFavorite();
     setupCursorCloset();
