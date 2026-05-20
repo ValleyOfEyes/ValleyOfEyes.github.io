@@ -262,13 +262,21 @@
         0 0 12px rgba(201,87,112,.48);
     }
 
-    .alignment #waxing-word {
+    .alignment #waxing-word,
+    .alignment #waning-word {
       color: var(--dead-blue-light);
       text-shadow: 0 0 8px rgba(145,184,193,.45);
     }
 
+    .alignment #waning-word {
+      color: var(--signal-pink);
+      text-shadow: 0 0 8px rgba(201,87,112,.35);
+    }
+
     .alignment #waxing-word:hover,
-    .alignment #waxing-word:focus-visible {
+    .alignment #waxing-word:focus-visible,
+    .alignment #waning-word:hover,
+    .alignment #waning-word:focus-visible {
       color: #f6fbf7;
       text-shadow:
         0 0 5px rgba(255,255,255,.9),
@@ -874,6 +882,123 @@
       --theme-readable-accent: var(--time-readable-accent, #7a1635);
       --theme-readable-card: var(--time-readable-card, rgba(245, 248, 242, .9));
       --theme-readable-card-strong: var(--time-readable-card-strong, rgba(235, 241, 236, .96));
+    }
+
+    /* Current Time visibility: moon words and weather widget. */
+    body.theme-current .alignment {
+      width: fit-content;
+      max-width: 100%;
+      padding: 4px 6px;
+      background: var(--theme-readable-card-strong);
+      border: 1px solid color-mix(in srgb, var(--line) 70%, var(--theme-readable-tag) 30%);
+      color: var(--theme-readable-ink);
+      box-shadow:
+        inset 1px 1px rgba(255, 255, 255, .18),
+        inset -1px -1px rgba(0, 0, 0, .18),
+        0 0 11px color-mix(in srgb, var(--theme-readable-tag) 18%, transparent);
+      text-shadow: none;
+    }
+
+    body.theme-current .alignment-row {
+      color: var(--theme-readable-ink);
+      text-shadow: none;
+    }
+
+    body.theme-current .alignment a,
+    body.theme-current .alignment #waxing-word,
+    body.theme-current .alignment #waning-word {
+      display: inline-flex;
+      align-items: center;
+      min-height: 16px;
+      padding: 1px 4px;
+      background: var(--theme-readable-card);
+      border: 1px solid color-mix(in srgb, var(--theme-readable-tag) 52%, var(--line) 48%);
+      color: var(--theme-readable-title);
+      text-shadow:
+        0 1px 0 rgba(255, 255, 255, .24),
+        0 0 6px color-mix(in srgb, var(--theme-readable-accent) 28%, transparent);
+    }
+
+    body.theme-current .alignment #waxing-word {
+      color: var(--theme-readable-tag);
+    }
+
+    body.theme-current .alignment #waning-word {
+      color: var(--theme-readable-accent);
+    }
+
+    body.theme-current .alignment a:hover,
+    body.theme-current .alignment a:focus-visible {
+      color: #ffffff;
+      background: color-mix(in srgb, var(--theme-readable-accent) 74%, #101719 26%);
+      border-color: #ffffff;
+      text-shadow:
+        0 0 5px rgba(255, 255, 255, .9),
+        0 0 12px color-mix(in srgb, var(--theme-readable-accent) 58%, transparent);
+    }
+
+    body.theme-current #weather .popup-window {
+      background: var(--theme-readable-card-strong);
+      border-color: color-mix(in srgb, var(--line) 66%, var(--theme-readable-tag) 34%);
+      color: var(--theme-readable-ink);
+      box-shadow:
+        8px 8px 0 rgba(0, 0, 0, .32),
+        0 0 16px color-mix(in srgb, var(--theme-readable-tag) 20%, transparent);
+    }
+
+    body.theme-current #weather .popup-title {
+      background:
+        linear-gradient(90deg,
+          color-mix(in srgb, var(--theme-readable-card-strong) 82%, var(--theme-readable-tag) 18%),
+          color-mix(in srgb, var(--theme-readable-card-strong) 78%, var(--theme-readable-accent) 22%));
+      border-bottom-color: color-mix(in srgb, var(--line) 72%, var(--theme-readable-tag) 28%);
+      color: var(--theme-readable-title);
+      text-shadow: none;
+    }
+
+    body.theme-current #weather .popup-title a {
+      background: var(--theme-readable-card);
+      border-color: color-mix(in srgb, var(--theme-readable-tag) 56%, var(--line) 44%);
+      color: var(--theme-readable-accent);
+      text-shadow: none;
+    }
+
+    body.theme-current #weather .popup-body.weather-readout {
+      background:
+        radial-gradient(circle at 88% 8%, color-mix(in srgb, var(--theme-readable-accent) 16%, transparent), transparent 42%),
+        var(--theme-readable-card-strong);
+      color: var(--theme-readable-ink);
+    }
+
+    body.theme-current #weather .weather-place {
+      display: inline-flex;
+      width: fit-content;
+      max-width: 100%;
+      padding: 2px 5px;
+      background: var(--theme-readable-card);
+      border: 1px solid color-mix(in srgb, var(--theme-readable-tag) 48%, var(--line) 52%);
+      color: var(--theme-readable-title);
+      text-shadow: none;
+    }
+
+    body.theme-current #weather .weather-period {
+      color: var(--theme-readable-accent);
+      text-shadow: 0 0 7px color-mix(in srgb, var(--theme-readable-accent) 28%, transparent);
+    }
+
+    body.theme-current #weather .weather-detail {
+      padding: 7px 8px;
+      background: var(--theme-readable-card);
+      border-left: 3px solid color-mix(in srgb, var(--theme-readable-accent) 62%, var(--line) 38%);
+      color: var(--theme-readable-ink);
+      text-shadow: none;
+    }
+
+    body.theme-current #weather .weather-meta {
+      padding-top: 6px;
+      border-top: 1px dotted color-mix(in srgb, var(--theme-readable-tag) 58%, var(--line) 42%);
+      color: var(--theme-readable-tag);
+      text-shadow: none;
     }
 
     /* Keep the main-page Ohio clock and Last.fm status readable in Current Time mode. */
@@ -7694,7 +7819,7 @@
           <a class="button88" href="#dream" id="random-dream-button" data-widget-button>RANDOM DREAM</a>
           <a class="button88" href="#tarot" id="tarot-button" data-widget-button>TAROT SPREAD</a>
           <a class="button88" href="#diviners-primitive" id="divprim-button" data-widget-button>DIV-PRIM</a>
-          <a class="button88" href="#sim-board-popup" id="sim-board-button" data-widget-button>SIM BOARD</a>
+          <a class="button88" href="#sim-board-popup" id="sim-board-button" data-widget-button>SPIRIT BOARD</a>
           <a class="button88" href="#hollow-oracle" id="hollow-oracle-button" data-widget-button>HOLLOW ORACLE</a>
           <a class="button88" href="#heads-tails" id="heads-tails-button" data-widget-button>HEADS/TAILS</a>
           <a class="button88" href="#dark-lancer" id="dark-lancer-button" data-widget-button>DARK LANCER</a>
@@ -7751,19 +7876,15 @@
     </div>
   </aside>
 
-  <aside id="sim-board-popup" class="popup sim-board-popup" aria-label="SIM Board, Spirit in the Machine">
+  <aside id="sim-board-popup" class="popup sim-board-popup" aria-label="Spirit Board">
     <div class="sim-board-window" id="sim-board-widget">
-      <div class="popup-title">SIM BOARD <a href="#">x</a></div>
-      <div class="sim-board-title">
-        <span>Spirit in the Machine</span>
-        <span class="sim-board-subtitle">word sentence channel</span>
-      </div>
+      <div class="popup-title">SPIRIT BOARD <a href="#">x</a></div>
       <div class="sim-readout" id="sim-readout" aria-live="polite">
         <span class="sim-readout-placeholder">awaiting signal</span>
       </div>
       <div class="sim-board" id="sim-board">
         <div class="sim-board-row">
-          <button class="sim-spirit-button" type="button" id="sim-hello">hello</button>
+          <button class="sim-spirit-button" type="button" id="sim-hello">Hello to Begin</button>
         </div>
         <div class="sim-board-row sim-answer-row">
           <button class="sim-answer" type="button" data-sim-word="YES">yes</button>
@@ -13313,31 +13434,31 @@
       const letters = Array.from(widget.querySelectorAll("[data-sim-letter]"));
       const answers = Array.from(widget.querySelectorAll("[data-sim-word]"));
       const SIM_WORD_DICTIONARY = {
-        A: ["ashen", "astral", "awakened", "ancient", "absent", "automatic"],
-        B: ["buried", "bright", "broken", "between", "breathing", "blackened"],
-        C: ["cold", "circuit", "crooked", "calling", "crimson", "chiming"],
-        D: ["distant", "dreaming", "dead", "divided", "deep", "drawn"],
-        E: ["electric", "empty", "eager", "endless", "elder", "echoing"],
-        F: ["faint", "fanged", "fallen", "future", "feral", "flickering"],
-        G: ["green", "glass", "ghostly", "gathered", "golden", "grieving"],
-        H: ["hidden", "hollow", "hungry", "holy", "half-lit", "haunted"],
-        I: ["inner", "iron", "invisible", "icy", "impossible", "indigo"],
+        A: ["ashen", "astral", "awakened", "ancient", "absent", "automatic", "attic", "away", "alive", "angry", "afraid", "attack"],
+        B: ["buried", "bright", "broken", "between", "breathing", "blackened", "behind", "basement", "boy", "blood"],
+        C: ["cold", "circuit", "crooked", "calling", "crimson", "chiming", "close", "child", "confused", "calm", "come", "cemetery"],
+        D: ["distant", "dreaming", "dead", "divided", "deep", "drawn", "downstairs", "door", "daughter", "danger", "dark", "demon", "death"],
+        E: ["electric", "empty", "eager", "endless", "elder", "echoing", "evil"],
+        F: ["faint", "fanged", "fallen", "future", "feral", "flickering", "far", "father", "friend", "family", "follow", "fire"],
+        G: ["green", "glass", "ghostly", "gathered", "golden", "grieving", "girl", "go", "ghost", "grave"],
+        H: ["hidden", "hollow", "hungry", "holy", "half-lit", "haunted", "here", "hallway", "he", "hurt", "happy", "help", "hate"],
+        I: ["inner", "iron", "invisible", "icy", "impossible", "indigo", "inside", "i"],
         J: ["jagged", "jeweled", "joyless", "joined", "jittering", "jubilant"],
-        K: ["kindred", "knotted", "known", "kinetic", "keyless", "keening"],
-        L: ["last", "lunar", "living", "lost", "low", "listening"],
-        M: ["machine", "murmuring", "mirrored", "midnight", "missing", "metallic"],
-        N: ["nameless", "near", "nightly", "nervous", "new", "narrow"],
-        O: ["open", "old", "orbital", "other", "orange", "ominous"],
-        P: ["pale", "pink", "patient", "private", "prophetic", "plastic"],
+        K: ["kindred", "knotted", "known", "kinetic", "keyless", "keening", "knock", "kill"],
+        L: ["last", "lunar", "living", "lost", "low", "listening", "lonely", "love", "leave", "listen", "look", "later"],
+        M: ["machine", "murmuring", "mirrored", "midnight", "missing", "metallic", "me", "man", "mother", "move", "morning"],
+        N: ["nameless", "near", "nightly", "nervous", "new", "narrow", "no", "name", "now"],
+        O: ["open", "old", "orbital", "other", "orange", "ominous", "outside"],
+        P: ["pale", "pink", "patient", "private", "prophetic", "plastic", "pain", "pray"],
         Q: ["quiet", "quivering", "quartz", "questioning", "quick", "quenched"],
-        R: ["river", "red", "restless", "remote", "ritual", "rusted"],
-        S: ["signal", "soft", "secret", "silver", "sleeping", "static"],
-        T: ["thin", "trembling", "true", "tangled", "terminal", "thunderous"],
-        U: ["unknown", "under", "unlit", "upward", "urgent", "unseen"],
+        R: ["river", "red", "restless", "remote", "ritual", "rusted", "room", "run"],
+        S: ["signal", "soft", "secret", "silver", "sleeping", "static", "she", "son", "stranger", "sad", "scared", "sorry", "stay", "stop", "speak", "safe", "spirit", "soon"],
+        T: ["thin", "trembling", "true", "tangled", "terminal", "thunderous", "there", "they", "trapped", "talk", "touch", "today", "tonight"],
+        U: ["unknown", "under", "unlit", "upward", "urgent", "unseen", "upstairs", "us"],
         V: ["valley", "violet", "vacant", "veiled", "vivid", "vessel"],
-        W: ["watching", "wet", "white", "wandering", "warm", "wireless"],
+        W: ["watching", "wet", "white", "wandering", "warm", "wireless", "window", "we", "woman", "wait", "warning"],
         X: ["xenial", "xanthic", "xeric", "x-ray", "xenolithic", "xylophonic"],
-        Y: ["yellow", "yearning", "young", "yielding", "yonder", "yawning"],
+        Y: ["yellow", "yearning", "young", "yielding", "yonder", "yawning", "yes", "you", "years"],
         Z: ["zero", "zinc", "zodiac", "zigzag", "zoning", "zealous"]
       };
       const state = {
