@@ -15942,404 +15942,752 @@
 
 
     function setupDarkLancer() {
-      const root = document.getElementById("dark-lancer-game");
-      if (!root) return;
+  const root = document.getElementById("dark-lancer-game");
+  if (!root) return;
 
-      const playerCardsEl = document.getElementById("dark-lancer-player-cards");
-      const dealerCardsEl = document.getElementById("dark-lancer-dealer-cards");
-      const playerScoreEl = document.getElementById("dark-lancer-player-score");
-      const dealerScoreEl = document.getElementById("dark-lancer-dealer-score");
-      const playerPanelEl = document.getElementById("dark-lancer-player-panel");
-      const dealerPanelEl = document.getElementById("dark-lancer-dealer-panel");
-      const playerHandEl = document.getElementById("dark-lancer-player-hand");
-      const dealerHandEl = document.getElementById("dark-lancer-dealer-hand");
-      const playerWinsEl = document.getElementById("dark-lancer-player-wins");
-      const dealerWinsEl = document.getElementById("dark-lancer-dealer-wins");
-      const resultEl = document.getElementById("dark-lancer-result");
-      const dealButton = document.getElementById("dark-lancer-deal");
-      const hitButton = document.getElementById("dark-lancer-hit");
-      const standButton = document.getElementById("dark-lancer-stand");
-      const shopListEl = document.getElementById("dark-lancer-shop-list");
-      const shopCreditEl = document.getElementById("dark-lancer-shop-credit");
-      if (!playerCardsEl || !dealerCardsEl || !playerScoreEl || !dealerScoreEl || !playerPanelEl || !dealerPanelEl || !playerHandEl || !dealerHandEl || !playerWinsEl || !dealerWinsEl || !resultEl || !dealButton || !hitButton || !standButton || !shopListEl || !shopCreditEl) return;
+  const playerCardsEl = document.getElementById("dark-lancer-player-cards");
+  const dealerCardsEl = document.getElementById("dark-lancer-dealer-cards");
+  const playerScoreEl = document.getElementById("dark-lancer-player-score");
+  const dealerScoreEl = document.getElementById("dark-lancer-dealer-score");
+  const playerPanelEl = document.getElementById("dark-lancer-player-panel");
+  const dealerPanelEl = document.getElementById("dark-lancer-dealer-panel");
+  const playerHandEl = document.getElementById("dark-lancer-player-hand");
+  const dealerHandEl = document.getElementById("dark-lancer-dealer-hand");
+  const playerWinsEl = document.getElementById("dark-lancer-player-wins");
+  const dealerWinsEl = document.getElementById("dark-lancer-dealer-wins");
+  const resultEl = document.getElementById("dark-lancer-result");
+  const dealButton = document.getElementById("dark-lancer-deal");
+  const hitButton = document.getElementById("dark-lancer-hit");
+  const standButton = document.getElementById("dark-lancer-stand");
+  const shopListEl = document.getElementById("dark-lancer-shop-list");
+  const shopCreditEl = document.getElementById("dark-lancer-shop-credit");
 
-      const suits = [
-        { mark: "♠", color: "black" },
-        { mark: "♥", color: "red" },
-        { mark: "♦", color: "red" },
-        { mark: "♣", color: "black" }
-      ];
-      const ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
-      const values = { A: 11, J: 10, Q: 10, K: 10 };
-      let deck = [];
-      let playerHand = [];
-      let dealerHand = [];
-      let active = false;
-      let tally = { player: 0, dealer: 0 };
-      const shopItems = [
-        { id: "chrome-suits", name: "CHROME SUITS", cost: 1 },
-        { id: "chrome-cards", name: "CHROME CARDS", cost: 2 },
-        { id: "mysterious-stranger", name: "MYSTERIOUS STRANGER", cost: 3 },
-        { id: "rainbow-suits", name: "RAINBOW SUITS", cost: 4 },
-        { id: "rainbow-cards", name: "RAINBOW CARDS", cost: 5 },
-        { id: "flaming-cards", name: "FLAMING CARDS", cost: 7 },
-        { id: "encrypted-cards", name: "ENCRYPTED CARDS", cost: 9 },
-        { id: "glyphic-cards", name: "GLYPHIC CARDS", cost: 11 },
-        { id: "fanged-ram-rising", name: "FANGED RAM RISING", cost: 13 },
-        { id: "destroy-the-dealer", name: "DESTROY THE DEALER", cost: 21 }
-      ];
-      const unlockedEffects = new Set();
-      const activeEffects = new Set();
+  if (!playerCardsEl || !dealerCardsEl || !playerScoreEl || !dealerScoreEl || !playerPanelEl || !dealerPanelEl || !playerHandEl || !dealerHandEl || !playerWinsEl || !dealerWinsEl || !resultEl || !dealButton || !hitButton || !standButton || !shopListEl || !shopCreditEl) return;
 
-      function createTallyMark(index, side) {
-        const mark = document.createElement("span");
-        mark.className = "dark-lancer-tally-mark";
-        const seed = side === "player" ? index * 7 : index * 11;
-        mark.style.setProperty("--tally-tilt", `${(seed % 13) - 6}deg`);
-        return mark;
+  const suits = [
+    { mark: "♠", color: "black" },
+    { mark: "♥", color: "red" },
+    { mark: "♦", color: "red" },
+    { mark: "♣", color: "black" }
+  ];
+  const ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+  const values = { A: 11, J: 10, Q: 10, K: 10 };
+
+  let deck = [];
+  let playerHand = [];
+  let dealerHand = [];
+  let active = false;
+  let tally = { player: 0, dealer: 0 };
+  let dealerDestroyedFadeStarted = false;
+
+  const shopItems = [
+    { id: "chrome-suits", name: "CHROME SUITS", cost: 1 },
+    { id: "chrome-cards", name: "CHROME CARDS", cost: 2 },
+    { id: "mysterious-stranger", name: "MYSTERIOUS STRANGER", cost: 3 },
+    { id: "rainbow-suits", name: "RAINBOW SUITS", cost: 4 },
+    { id: "rainbow-cards", name: "RAINBOW CARDS", cost: 5 },
+    { id: "flaming-cards", name: "FLAMING CARDS", cost: 7 },
+    { id: "encrypted-cards", name: "ENCRYPTED CARDS", cost: 9 },
+    { id: "glyphic-cards", name: "GLYPHIC CARDS", cost: 11 },
+    { id: "fanged-ram-rising", name: "FANGED RAM RISING", cost: 13 },
+    { id: "destroy-the-dealer", name: "DESTROY THE DEALER", cost: 21 }
+  ];
+
+  const unlockedEffects = new Set();
+  const activeEffects = new Set();
+
+  const encryptedRanks = [
+    "NULL", "VOID", "EYE", "HUSH", "BLOOD", "STATIC", "MIRROR",
+    "NO DATA", "SIGNAL", "CIPHER", "DREAM", "WITNESS", "ERROR",
+    "ASH", "TEETH", "VEIL", "INDEX", "OMEN", "????", "0x00"
+  ];
+
+  const encryptedSuits = [
+    "?", "#", "%", "§", "¤", "×", "÷", "∴", "∵", "⌁", "⎊", "▓", "▒", "░"
+  ];
+
+  const glyphs = [
+    "☉", "☽", "☿", "♀", "♂", "♃", "♄", "♅", "♆", "♇",
+    "✶", "✷", "✹", "✺", "✦", "✧", "✩", "✵", "✠", "✣",
+    "⟁", "△", "▽", "◇", "◆", "◈", "◉", "◎", "◌", "◍",
+    "ᚠ", "ᚢ", "ᚦ", "ᚨ", "ᚱ", "ᚲ", "ᚷ", "ᚹ", "ᛉ", "ᛟ",
+    "⛧", "⛤", "♁", "☍", "☌", "☊", "☋", "☈", "☄", "☷"
+  ];
+
+  function installDarkLancerExtraStyles() {
+    if (document.getElementById("dark-lancer-extra-effects-style")) return;
+
+    const style = document.createElement("style");
+    style.id = "dark-lancer-extra-effects-style";
+    style.textContent = `
+      .dark-lancer-card.is-ram-card {
+        position: relative;
+        overflow: visible;
+        background: linear-gradient(180deg, #240305 0%, #4d070d 48%, #180103 100%) !important;
+        border-color: #7d1621 !important;
+        color: #efe8e8 !important;
+        box-shadow:
+          0 0 10px rgba(120, 0, 0, 0.52),
+          0 0 26px rgba(190, 12, 18, 0.32),
+          0 0 48px rgba(90, 0, 0, 0.24),
+          inset 0 0 18px rgba(255, 40, 40, 0.11) !important;
       }
 
-      function renderTally() {
-        playerWinsEl.replaceChildren();
-        dealerWinsEl.replaceChildren();
-        for (let i = 0; i < tally.player; i += 1) playerWinsEl.appendChild(createTallyMark(i, "player"));
-        for (let i = 0; i < tally.dealer; i += 1) dealerWinsEl.appendChild(createTallyMark(i, "dealer"));
-        shopCreditEl.textContent = String(tally.player);
-        renderShop();
+      .dark-lancer-card.is-ram-card::before {
+        content: "";
+        position: absolute;
+        inset: -14px;
+        border-radius: inherit;
+        pointer-events: none;
+        z-index: -1;
+        background:
+          radial-gradient(circle at 34% 24%, rgba(255, 0, 0, 0.28), transparent 36%),
+          radial-gradient(circle at 70% 74%, rgba(120, 0, 0, 0.32), transparent 42%),
+          conic-gradient(from 20deg, transparent, rgba(120, 0, 0, 0.18), transparent, rgba(255, 40, 40, 0.12), transparent);
+        filter: blur(7px);
+        opacity: 0.75;
+        animation: darkLancerRamAura 2.7s ease-in-out infinite alternate;
       }
 
-      function isEffectActive(id) {
-        return activeEffects.has(id);
+      .dark-lancer-card.is-ram-card .dark-lancer-rank,
+      .dark-lancer-card.is-ram-card .dark-lancer-suit,
+      .dark-lancer-card.is-ram-card .dark-lancer-corner-rank {
+        color: #f2eded !important;
+        text-shadow:
+          0 0 4px rgba(255, 0, 0, 0.78),
+          0 0 10px rgba(255, 0, 0, 0.54),
+          0 0 19px rgba(180, 0, 0, 0.42) !important;
       }
 
-      function renderShop() {
-        shopListEl.replaceChildren();
-        shopItems.forEach((item) => {
-          const unlocked = unlockedEffects.has(item.id);
-          const activeItem = activeEffects.has(item.id);
-          const row = document.createElement("div");
-          row.className = `dark-lancer-shop-item${unlocked ? " is-unlocked" : ""}${activeItem ? " is-active" : ""}`;
-
-          const copy = document.createElement("div");
-          const name = document.createElement("div");
-          name.className = "dark-lancer-shop-name";
-          name.textContent = item.name;
-          const cost = document.createElement("div");
-          cost.className = "dark-lancer-shop-cost";
-          cost.textContent = unlocked ? "unlocked" : `${item.cost} wins`;
-          copy.append(name, cost);
-
-          const button = document.createElement("button");
-          button.className = "dark-lancer-shop-button";
-          button.type = "button";
-          button.dataset.effect = item.id;
-          button.textContent = unlocked ? (activeItem ? "ON" : "OFF") : "BUY";
-          button.disabled = !unlocked && tally.player < item.cost;
-
-          row.append(copy, button);
-          shopListEl.appendChild(row);
-        });
+      .dark-lancer-card.is-glyphic-card {
+        text-shadow:
+          0 0 4px currentColor,
+          0 0 9px currentColor,
+          0 0 16px currentColor,
+          0 0 24px currentColor;
+        filter: brightness(1.22);
       }
 
-      function resetShop() {
-        unlockedEffects.clear();
-        activeEffects.clear();
-        root.dataset.darkLancerEffects = "";
-        renderShop();
+      .dark-lancer-dealer-burn-ghost {
+        animation:
+          darkLancerDealerBurnGlitch 520ms steps(2, end),
+          darkLancerDealerBurnFade 900ms ease 420ms forwards;
+        transform-origin: center;
+        will-change: opacity, transform, filter, clip-path;
       }
 
-      function updateDealerDestruction() {
-        if (isEffectActive("destroy-the-dealer")) {
-          active = false;
-          dealButton.disabled = true;
-          hitButton.disabled = true;
-          standButton.disabled = true;
-          dealerHandEl.classList.add("dark-lancer-side-loss");
-          setResult("DEALER DESTROYED");
-          render();
-          return true;
+      @keyframes darkLancerRamAura {
+        from {
+          opacity: 0.38;
+          transform: scale(0.96) rotate(-2deg);
+          filter: blur(8px) saturate(1.1);
         }
-        dealerHandEl.classList.remove("dark-lancer-side-loss");
-        return false;
-      }
-
-      function applyEffectState() {
-        root.dataset.darkLancerEffects = Array.from(activeEffects).join(" ");
-        render();
-        if (!updateDealerDestruction()) setActive(active);
-        renderShop();
-      }
-
-      function buyOrToggleEffect(effectId) {
-        const item = shopItems.find((entry) => entry.id === effectId);
-        if (!item) return;
-        if (!unlockedEffects.has(effectId)) {
-          if (tally.player < item.cost) return;
-          tally.player -= item.cost;
-          unlockedEffects.add(effectId);
-          activeEffects.add(effectId);
-          renderTally();
-          applyEffectState();
-          return;
-        }
-        if (activeEffects.has(effectId)) activeEffects.delete(effectId);
-        else activeEffects.add(effectId);
-        applyEffectState();
-      }
-
-      function resetTally() {
-        tally = { player: 0, dealer: 0 };
-        renderTally();
-        resetShop();
-      }
-
-      function recordWin(side) {
-        if (side !== "player" && side !== "dealer") return;
-        tally[side] += 1;
-        renderTally();
-      }
-
-      function randomIndex(max) {
-        if (window.crypto && window.crypto.getRandomValues && max > 0) {
-          const limit = Math.floor(0x100000000 / max) * max;
-          const buffer = new Uint32Array(1);
-          do {
-            window.crypto.getRandomValues(buffer);
-          } while (buffer[0] >= limit);
-          return buffer[0] % max;
-        }
-        return Math.floor(Math.random() * max);
-      }
-
-      function buildDeck() {
-        const nextDeck = [];
-        suits.forEach((suit) => {
-          ranks.forEach((rank) => {
-            nextDeck.push({ rank, suit: suit.mark, color: suit.color, value: values[rank] || Number(rank) });
-          });
-        });
-        for (let i = nextDeck.length - 1; i > 0; i -= 1) {
-          const j = randomIndex(i + 1);
-          [nextDeck[i], nextDeck[j]] = [nextDeck[j], nextDeck[i]];
-        }
-        return nextDeck;
-      }
-
-      function scoreHand(hand) {
-        let total = hand.reduce((sum, card) => sum + card.value, 0);
-        let aces = hand.filter((card) => card.rank === "A").length;
-        while (total > 21 && aces > 0) {
-          total -= 10;
-          aces -= 1;
-        }
-        return total;
-      }
-
-      function drawCard() {
-        if (!deck.length) deck = buildDeck();
-        return deck.pop();
-      }
-
-      function setResult(text, mode = "") {
-        resultEl.textContent = text;
-        resultEl.classList.toggle("is-true", mode === "true");
-        resultEl.classList.toggle("is-clash", mode === "clash");
-      }
-
-      function clearOutcomeGlow() {
-        [playerPanelEl, dealerPanelEl, playerHandEl, dealerHandEl].forEach((el) => {
-          el.classList.remove("dark-lancer-side-win", "dark-lancer-side-loss", "dark-lancer-side-tie");
-        });
-      }
-
-      function setOutcomeGlow(outcome) {
-        clearOutcomeGlow();
-        if (outcome === "tie") {
-          [playerPanelEl, dealerPanelEl, playerHandEl, dealerHandEl].forEach((el) => el.classList.add("dark-lancer-side-tie"));
-          return;
-        }
-        const playerWon = outcome === "player";
-        playerPanelEl.classList.add(playerWon ? "dark-lancer-side-win" : "dark-lancer-side-loss");
-        playerHandEl.classList.add(playerWon ? "dark-lancer-side-win" : "dark-lancer-side-loss");
-        dealerPanelEl.classList.add(playerWon ? "dark-lancer-side-loss" : "dark-lancer-side-win");
-        dealerHandEl.classList.add(playerWon ? "dark-lancer-side-loss" : "dark-lancer-side-win");
-      }
-
-      function encodedText(card, index, type) {
-        const seed = `${card.rank}${card.suit}${index}`;
-        if (type === "glyph") {
-          const glyphs = ["IX", "VI", "XI", "IV", "XII", "III", "VII", "II", "X", "V"];
-          return glyphs[(seed.charCodeAt(0) + seed.length) % glyphs.length];
-        }
-        return seed.split("").map((char) => char.charCodeAt(0).toString(16).toUpperCase()).join("");
-      }
-
-      function getCardFace(card, index, side) {
-        const face = { rank: card.rank, suit: card.suit, corner: `${card.rank}${card.suit}` };
-        if (side !== "player") return face;
-        if (isEffectActive("fanged-ram-rising")) {
-          face.suit = "\u2648";
-          face.corner = `${face.rank}\u2648`;
-        }
-        if (isEffectActive("encrypted-cards")) {
-          face.rank = encodedText(card, index, "encrypt");
-          face.corner = encodedText(card, index + 3, "encrypt");
-        }
-        if (isEffectActive("glyphic-cards")) {
-          face.rank = encodedText(card, index, "glyph");
-          face.corner = `${face.rank}${face.suit}`;
-        }
-        return face;
-      }
-
-      function renderCard(card, index, side) {
-        const cardEl = document.createElement("div");
-        const cardClasses = ["dark-lancer-card"];
-        if (card.color === "red") cardClasses.push("is-red");
-        if (side === "player" && isEffectActive("chrome-suits")) cardClasses.push("is-chrome-suit");
-        if (side === "player" && isEffectActive("chrome-cards")) cardClasses.push("is-chrome-card");
-        if (side === "player" && isEffectActive("mysterious-stranger")) cardClasses.push("is-noir-card");
-        if (side === "player" && isEffectActive("rainbow-suits")) cardClasses.push("is-rainbow-suit");
-        if (side === "player" && isEffectActive("rainbow-cards")) cardClasses.push("is-rainbow-card");
-        if (side === "player" && isEffectActive("flaming-cards")) cardClasses.push("is-flaming-card");
-        if (side === "player" && isEffectActive("encrypted-cards")) cardClasses.push("is-encrypted-card");
-        if (side === "player" && isEffectActive("glyphic-cards")) cardClasses.push("is-glyphic-card");
-        if (side === "player" && isEffectActive("fanged-ram-rising")) cardClasses.push("is-ram-card");
-        if (side === "dealer" && isEffectActive("destroy-the-dealer")) cardClasses.push("is-destroyed-card");
-        cardEl.className = cardClasses.join(" ");
-        cardEl.style.animationDelay = `${Math.min(index * 70, 420)}ms`;
-        const face = getCardFace(card, index, side);
-        cardEl.innerHTML = `
-          <span class="dark-lancer-rank">${face.rank}</span>
-          <span class="dark-lancer-suit">${face.suit}</span>
-          <span class="dark-lancer-corner"><span class="dark-lancer-corner-rank">${face.rank}</span><span class="dark-lancer-corner-suit">${face.suit}</span></span>
-        `;
-        return cardEl;
-      }
-
-      function renderHand(target, hand, side) {
-        target.replaceChildren();
-        hand.forEach((card, index) => target.appendChild(renderCard(card, index, side)));
-      }
-
-      function render() {
-        renderHand(playerCardsEl, playerHand, "player");
-        renderHand(dealerCardsEl, dealerHand, "dealer");
-        playerScoreEl.textContent = String(scoreHand(playerHand));
-        dealerScoreEl.textContent = String(scoreHand(dealerHand));
-      }
-
-      function setActive(isActive) {
-        active = isActive;
-        const dealerDestroyed = isEffectActive("destroy-the-dealer");
-        dealButton.disabled = dealerDestroyed || active;
-        hitButton.disabled = dealerDestroyed || !active;
-        standButton.disabled = dealerDestroyed || !active;
-      }
-
-      function dealerPlay() {
-        while (scoreHand(dealerHand) < 17) dealerHand.push(drawCard());
-      }
-
-      function resolveScores() {
-        const playerScore = scoreHand(playerHand);
-        const dealerScore = scoreHand(dealerHand);
-        setActive(false);
-        render();
-
-        if (playerScore === 21 && dealerScore === 21) {
-          setOutcomeGlow("tie");
-          setResult("CLASH OF KNAVES!", "clash");
-        } else if (playerScore === 21) {
-          recordWin("player");
-          setOutcomeGlow("player");
-          setResult("TRUE LANCER!", "true");
-        } else if (playerScore > 21) {
-          recordWin("dealer");
-          setOutcomeGlow("dealer");
-          setResult("PLAYER BUST");
-        } else if (dealerScore > 21) {
-          recordWin("player");
-          setOutcomeGlow("player");
-          setResult("DEALER BUST");
-        } else if (dealerScore === 21) {
-          recordWin("dealer");
-          setOutcomeGlow("dealer");
-          setResult("DEALER 21");
-        } else if (playerScore > dealerScore) {
-          recordWin("player");
-          setOutcomeGlow("player");
-          setResult("PLAYER WINS");
-        } else if (dealerScore > playerScore) {
-          recordWin("dealer");
-          setOutcomeGlow("dealer");
-          setResult("DEALER WINS");
-        } else {
-          setOutcomeGlow("tie");
-          setResult("PUSH");
+        to {
+          opacity: 0.82;
+          transform: scale(1.04) rotate(2deg);
+          filter: blur(11px) saturate(1.55);
         }
       }
 
-      function finishRound() {
-        if (isEffectActive("destroy-the-dealer")) return;
-        if (scoreHand(playerHand) > 21) {
-          resolveScores();
-          return;
+      @keyframes darkLancerDealerBurnGlitch {
+        0% {
+          opacity: 1;
+          transform: translate(0, 0) scale(1) skew(0deg, 0deg);
+          filter: blur(0) contrast(1) brightness(1);
+          clip-path: inset(0 0 0 0);
         }
-        dealerPlay();
-        resolveScores();
-      }
-
-      function dealRound() {
-        if (isEffectActive("destroy-the-dealer")) {
-          updateDealerDestruction();
-          return;
+        14% {
+          transform: translate(-3px, 2px) scale(1.03) skew(7deg, -4deg);
+          filter: blur(0.5px) contrast(2.1) brightness(1.45);
+          clip-path: inset(8% 0 18% 0);
         }
-        clearOutcomeGlow();
-        deck = buildDeck();
-        playerHand = [drawCard(), drawCard()];
-        dealerHand = [drawCard(), drawCard()];
-        setActive(true);
-        setResult("LIVE");
-        render();
-        const playerScore = scoreHand(playerHand);
-        const dealerScore = scoreHand(dealerHand);
-        if (playerScore === 21 || dealerScore === 21) resolveScores();
+        28% {
+          transform: translate(4px, -2px) scale(0.97) skew(-9deg, 5deg);
+          filter: blur(1px) contrast(2.6) brightness(1.8);
+          clip-path: inset(28% 0 5% 0);
+        }
+        42% {
+          transform: translate(-5px, -1px) scale(1.08) skew(12deg, -8deg);
+          filter: blur(0) contrast(3) brightness(2);
+          clip-path: inset(4% 0 42% 0);
+        }
+        62% {
+          transform: translate(3px, 4px) scale(0.92) skew(-14deg, 9deg);
+          filter: blur(2px) contrast(1.8) brightness(1.25);
+          clip-path: inset(40% 0 12% 0);
+        }
+        100% {
+          opacity: 1;
+          transform: translate(0, 0) scale(1.04) skew(0deg, 0deg);
+          filter: blur(1px) contrast(1.6) brightness(1.3);
+          clip-path: inset(0 0 0 0);
+        }
       }
 
-      function hit() {
-        if (!active || isEffectActive("destroy-the-dealer")) return;
-        playerHand.push(drawCard());
-        render();
-        const playerScore = scoreHand(playerHand);
-        if (playerScore >= 21) finishRound();
+      @keyframes darkLancerDealerBurnFade {
+        from {
+          opacity: 1;
+          transform: translateY(0) scale(1.04);
+          filter: blur(1px) contrast(1.6) brightness(1.3);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(18px) scale(0.84) rotate(5deg);
+          filter: blur(7px) contrast(2.2) brightness(0.35);
+        }
       }
+    `;
+    document.head.appendChild(style);
+  }
 
-      function resetGame() {
-        deck = [];
-        playerHand = [];
-        dealerHand = [];
-        resetShop();
-        setActive(false);
-        clearOutcomeGlow();
-        setResult("DEAL");
-        resetTally();
-        render();
-      }
+  function createTallyMark(index, side) {
+    const mark = document.createElement("span");
+    mark.className = "dark-lancer-tally-mark";
+    const seed = side === "player" ? index * 7 : index * 11;
+    mark.style.setProperty("--tally-tilt", `${(seed % 13) - 6}deg`);
+    return mark;
+  }
 
-      dealButton.addEventListener("click", dealRound);
-      hitButton.addEventListener("click", hit);
-      standButton.addEventListener("click", finishRound);
-      shopListEl.addEventListener("click", (event) => {
-        const button = event.target.closest(".dark-lancer-shop-button");
-        if (!button) return;
-        buyOrToggleEffect(button.dataset.effect);
-      });
-      window.addEventListener("hashchange", () => {
-        if (window.location.hash !== "#dark-lancer") resetGame();
-      });
-      resetGame();
+  function renderTally() {
+    playerWinsEl.replaceChildren();
+    dealerWinsEl.replaceChildren();
+
+    for (let i = 0; i < tally.player; i += 1) {
+      playerWinsEl.appendChild(createTallyMark(i, "player"));
     }
+
+    for (let i = 0; i < tally.dealer; i += 1) {
+      dealerWinsEl.appendChild(createTallyMark(i, "dealer"));
+    }
+
+    shopCreditEl.textContent = String(tally.player);
+    renderShop();
+  }
+
+  function randomIndex(max) {
+    if (window.crypto && window.crypto.getRandomValues && max > 0) {
+      const limit = Math.floor(0x100000000 / max) * max;
+      const buffer = new Uint32Array(1);
+      do {
+        window.crypto.getRandomValues(buffer);
+      } while (buffer[0] >= limit);
+      return buffer[0] % max;
+    }
+    return Math.floor(Math.random() * max);
+  }
+
+  function randomFrom(list) {
+    return list[randomIndex(list.length)];
+  }
+
+  function randomEncryptedRank() {
+    return randomFrom(encryptedRanks);
+  }
+
+  function randomEncryptedSuit() {
+    return randomFrom(encryptedSuits);
+  }
+
+  function randomGlyph() {
+    return randomFrom(glyphs);
+  }
+
+  function isEffectActive(id) {
+    return activeEffects.has(id);
+  }
+
+  function clearPlayerCardAppearances() {
+    playerHand.forEach((card) => {
+      delete card.darkLancerPresentation;
+    });
+  }
+
+  function redrawPlayerCardAppearances() {
+    clearPlayerCardAppearances();
+    playerHand.forEach((card) => makePlayerCardPresentation(card));
+  }
+
+  function makePlayerCardPresentation(card) {
+    if (card.darkLancerPresentation) return card.darkLancerPresentation;
+
+    const visuals = {
+      encrypted: isEffectActive("encrypted-cards"),
+      glyphic: isEffectActive("glyphic-cards"),
+      ram: isEffectActive("fanged-ram-rising")
+    };
+
+    const face = {
+      rank: card.rank,
+      suit: card.suit,
+      cornerRank: card.rank
+    };
+
+    if (visuals.ram) {
+      face.suit = "♈︎";
+    }
+
+    if (visuals.encrypted) {
+      face.rank = randomEncryptedRank();
+      face.suit = randomEncryptedSuit();
+      face.cornerRank = randomEncryptedRank();
+    }
+
+    if (visuals.glyphic) {
+      face.rank = randomGlyph();
+      face.suit = randomGlyph();
+      face.cornerRank = randomGlyph();
+    }
+
+    card.darkLancerPresentation = { face, visuals };
+    return card.darkLancerPresentation;
+  }
+
+  function drawCard() {
+    if (!deck.length) deck = buildDeck();
+    return deck.pop();
+  }
+
+  function drawCardFor(side) {
+    const card = drawCard();
+    if (side === "player") makePlayerCardPresentation(card);
+    return card;
+  }
+
+  function installSecretTallyButton() {
+    if (root.querySelector(".dark-lancer-secret-tally")) return;
+    if (window.getComputedStyle(root).position === "static") root.style.position = "relative";
+
+    const button = document.createElement("button");
+    button.className = "dark-lancer-secret-tally";
+    button.type = "button";
+    button.tabIndex = -1;
+    button.setAttribute("aria-hidden", "true");
+    button.setAttribute("title", "");
+
+    Object.assign(button.style, {
+      position: "absolute",
+      left: "0",
+      bottom: "0",
+      width: "38px",
+      height: "38px",
+      border: "0",
+      padding: "0",
+      margin: "0",
+      opacity: "0",
+      background: "transparent",
+      color: "transparent",
+      cursor: "default",
+      zIndex: "9999"
+    });
+
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      tally.player += 1;
+      renderTally();
+    });
+
+    root.appendChild(button);
+  }
+
+  function fadeOutDealerCards() {
+    const cards = Array.from(dealerCardsEl.querySelectorAll(".dark-lancer-card"));
+    if (!cards.length) return;
+    if (window.getComputedStyle(dealerHandEl).position === "static") dealerHandEl.style.position = "relative";
+
+    const hostBox = dealerHandEl.getBoundingClientRect();
+
+    cards.forEach((cardEl) => {
+      const cardBox = cardEl.getBoundingClientRect();
+      const ghost = cardEl.cloneNode(true);
+
+      ghost.classList.add("is-destroyed-card", "dark-lancer-dealer-burn-ghost");
+
+      Object.assign(ghost.style, {
+        position: "absolute",
+        left: `${cardBox.left - hostBox.left}px`,
+        top: `${cardBox.top - hostBox.top}px`,
+        width: `${cardBox.width}px`,
+        height: `${cardBox.height}px`,
+        pointerEvents: "none",
+        zIndex: "9998",
+        opacity: "1"
+      });
+
+      dealerHandEl.appendChild(ghost);
+      window.setTimeout(() => ghost.remove(), 1450);
+    });
+  }
+
+  function renderShop() {
+    shopListEl.replaceChildren();
+
+    shopItems.forEach((item) => {
+      const unlocked = unlockedEffects.has(item.id);
+      const activeItem = activeEffects.has(item.id);
+      const row = document.createElement("div");
+      row.className = `dark-lancer-shop-item${unlocked ? " is-unlocked" : ""}${activeItem ? " is-active" : ""}`;
+
+      const copy = document.createElement("div");
+
+      const name = document.createElement("div");
+      name.className = "dark-lancer-shop-name";
+      name.textContent = item.name;
+
+      const cost = document.createElement("div");
+      cost.className = "dark-lancer-shop-cost";
+      cost.textContent = unlocked ? "unlocked" : `${item.cost} wins`;
+
+      copy.append(name, cost);
+
+      const button = document.createElement("button");
+      button.className = "dark-lancer-shop-button";
+      button.type = "button";
+      button.dataset.effect = item.id;
+      button.textContent = unlocked ? (activeItem ? "ON" : "OFF") : "BUY";
+      button.disabled = !unlocked && tally.player < item.cost;
+
+      row.append(copy, button);
+      shopListEl.appendChild(row);
+    });
+  }
+
+  function resetShop() {
+    unlockedEffects.clear();
+    activeEffects.clear();
+    root.dataset.darkLancerEffects = "";
+    clearPlayerCardAppearances();
+    renderShop();
+  }
+
+  function updateDealerDestruction() {
+    if (isEffectActive("destroy-the-dealer")) {
+      active = false;
+      dealButton.disabled = true;
+      hitButton.disabled = true;
+      standButton.disabled = true;
+      dealerHandEl.classList.add("dark-lancer-side-loss");
+
+      if (!dealerDestroyedFadeStarted) {
+        dealerDestroyedFadeStarted = true;
+        fadeOutDealerCards();
+        dealerHand = [];
+        dealerCardsEl.replaceChildren();
+        dealerScoreEl.textContent = "0";
+      }
+
+      setResult("DEALER DESTROYED");
+      return true;
+    }
+
+    dealerDestroyedFadeStarted = false;
+    dealerHandEl.classList.remove("dark-lancer-side-loss");
+    return false;
+  }
+
+  function applyEffectState() {
+    redrawPlayerCardAppearances();
+    root.dataset.darkLancerEffects = Array.from(activeEffects).join(" ");
+    render();
+    if (!updateDealerDestruction()) setActive(active);
+    renderShop();
+  }
+
+  function buyOrToggleEffect(effectId) {
+    const item = shopItems.find((entry) => entry.id === effectId);
+    if (!item) return;
+
+    if (!unlockedEffects.has(effectId)) {
+      if (tally.player < item.cost) return;
+      tally.player -= item.cost;
+      unlockedEffects.add(effectId);
+      activeEffects.add(effectId);
+      renderTally();
+      applyEffectState();
+      return;
+    }
+
+    if (activeEffects.has(effectId)) {
+      activeEffects.delete(effectId);
+    } else {
+      activeEffects.add(effectId);
+    }
+
+    applyEffectState();
+  }
+
+  function resetTally() {
+    tally = { player: 0, dealer: 0 };
+    renderTally();
+    resetShop();
+  }
+
+  function recordWin(side) {
+    if (side !== "player" && side !== "dealer") return;
+    tally[side] += 1;
+    renderTally();
+  }
+
+  function buildDeck() {
+    const nextDeck = [];
+
+    suits.forEach((suit) => {
+      ranks.forEach((rank) => {
+        nextDeck.push({
+          rank,
+          suit: suit.mark,
+          color: suit.color,
+          value: values[rank] || Number(rank)
+        });
+      });
+    });
+
+    for (let i = nextDeck.length - 1; i > 0; i -= 1) {
+      const j = randomIndex(i + 1);
+      [nextDeck[i], nextDeck[j]] = [nextDeck[j], nextDeck[i]];
+    }
+
+    return nextDeck;
+  }
+
+  function scoreHand(hand) {
+    let total = hand.reduce((sum, card) => sum + card.value, 0);
+    let aces = hand.filter((card) => card.rank === "A").length;
+
+    while (total > 21 && aces > 0) {
+      total -= 10;
+      aces -= 1;
+    }
+
+    return total;
+  }
+
+  function setResult(text, mode = "") {
+    resultEl.textContent = text;
+    resultEl.classList.toggle("is-true", mode === "true");
+    resultEl.classList.toggle("is-clash", mode === "clash");
+  }
+
+  function clearOutcomeGlow() {
+    [playerPanelEl, dealerPanelEl, playerHandEl, dealerHandEl].forEach((el) => {
+      el.classList.remove("dark-lancer-side-win", "dark-lancer-side-loss", "dark-lancer-side-tie");
+    });
+  }
+
+  function setOutcomeGlow(outcome) {
+    clearOutcomeGlow();
+
+    if (outcome === "tie") {
+      [playerPanelEl, dealerPanelEl, playerHandEl, dealerHandEl].forEach((el) => {
+        el.classList.add("dark-lancer-side-tie");
+      });
+      return;
+    }
+
+    const playerWon = outcome === "player";
+
+    playerPanelEl.classList.add(playerWon ? "dark-lancer-side-win" : "dark-lancer-side-loss");
+    playerHandEl.classList.add(playerWon ? "dark-lancer-side-win" : "dark-lancer-side-loss");
+    dealerPanelEl.classList.add(playerWon ? "dark-lancer-side-loss" : "dark-lancer-side-win");
+    dealerHandEl.classList.add(playerWon ? "dark-lancer-side-loss" : "dark-lancer-side-win");
+  }
+
+  function getCardFace(card, side) {
+    if (side !== "player") {
+      return {
+        rank: card.rank,
+        suit: card.suit,
+        cornerRank: card.rank
+      };
+    }
+
+    return makePlayerCardPresentation(card).face;
+  }
+
+  function renderCard(card, index, side) {
+    const cardEl = document.createElement("div");
+    const cardClasses = ["dark-lancer-card"];
+
+    const playerVisuals = side === "player"
+      ? makePlayerCardPresentation(card).visuals
+      : { encrypted: false, glyphic: false, ram: false };
+
+    if (card.color === "red") cardClasses.push("is-red");
+    if (side === "player" && isEffectActive("chrome-suits")) cardClasses.push("is-chrome-suit");
+    if (side === "player" && isEffectActive("chrome-cards")) cardClasses.push("is-chrome-card");
+    if (side === "player" && isEffectActive("mysterious-stranger")) cardClasses.push("is-noir-card");
+    if (side === "player" && isEffectActive("rainbow-suits")) cardClasses.push("is-rainbow-suit");
+    if (side === "player" && isEffectActive("rainbow-cards")) cardClasses.push("is-rainbow-card");
+    if (side === "player" && isEffectActive("flaming-cards")) cardClasses.push("is-flaming-card");
+
+    if (side === "player" && playerVisuals.encrypted) cardClasses.push("is-encrypted-card");
+    if (side === "player" && playerVisuals.glyphic) cardClasses.push("is-glyphic-card");
+    if (side === "player" && playerVisuals.ram) cardClasses.push("is-ram-card");
+
+    if (side === "dealer" && isEffectActive("destroy-the-dealer")) {
+      cardClasses.push("is-destroyed-card");
+    }
+
+    cardEl.className = cardClasses.join(" ");
+    cardEl.style.animationDelay = `${Math.min(index * 70, 420)}ms`;
+
+    const face = getCardFace(card, side);
+
+    cardEl.innerHTML = `
+      <span class="dark-lancer-rank">${face.rank}</span>
+      <span class="dark-lancer-suit">${face.suit}</span>
+      <span class="dark-lancer-corner"><span class="dark-lancer-corner-rank">${face.cornerRank}</span></span>
+    `;
+
+    return cardEl;
+  }
+
+  function renderHand(target, hand, side) {
+    target.replaceChildren();
+    hand.forEach((card, index) => {
+      target.appendChild(renderCard(card, index, side));
+    });
+  }
+
+  function render() {
+    renderHand(playerCardsEl, playerHand, "player");
+    renderHand(dealerCardsEl, dealerHand, "dealer");
+    playerScoreEl.textContent = String(scoreHand(playerHand));
+    dealerScoreEl.textContent = String(scoreHand(dealerHand));
+  }
+
+  function setActive(isActive) {
+    active = isActive;
+    const dealerDestroyed = isEffectActive("destroy-the-dealer");
+
+    dealButton.disabled = dealerDestroyed || active;
+    hitButton.disabled = dealerDestroyed || !active;
+    standButton.disabled = dealerDestroyed || !active;
+  }
+
+  function dealerPlay() {
+    while (scoreHand(dealerHand) < 17) {
+      dealerHand.push(drawCardFor("dealer"));
+    }
+  }
+
+  function resolveScores() {
+    const playerScore = scoreHand(playerHand);
+    const dealerScore = scoreHand(dealerHand);
+
+    setActive(false);
+    render();
+
+    if (playerScore === 21 && dealerScore === 21) {
+      setOutcomeGlow("tie");
+      setResult("CLASH OF KNAVES!", "clash");
+    } else if (playerScore === 21) {
+      recordWin("player");
+      setOutcomeGlow("player");
+      setResult("TRUE LANCER!", "true");
+    } else if (playerScore > 21) {
+      recordWin("dealer");
+      setOutcomeGlow("dealer");
+      setResult("PLAYER BUST");
+    } else if (dealerScore > 21) {
+      recordWin("player");
+      setOutcomeGlow("player");
+      setResult("DEALER BUST");
+    } else if (dealerScore === 21) {
+      recordWin("dealer");
+      setOutcomeGlow("dealer");
+      setResult("DEALER 21");
+    } else if (playerScore > dealerScore) {
+      recordWin("player");
+      setOutcomeGlow("player");
+      setResult("PLAYER WINS");
+    } else if (dealerScore > playerScore) {
+      recordWin("dealer");
+      setOutcomeGlow("dealer");
+      setResult("DEALER WINS");
+    } else {
+      setOutcomeGlow("tie");
+      setResult("PUSH");
+    }
+  }
+
+  function finishRound() {
+    if (isEffectActive("destroy-the-dealer")) return;
+
+    if (scoreHand(playerHand) > 21) {
+      resolveScores();
+      return;
+    }
+
+    dealerPlay();
+    resolveScores();
+  }
+
+  function dealRound() {
+    if (isEffectActive("destroy-the-dealer")) {
+      updateDealerDestruction();
+      return;
+    }
+
+    clearOutcomeGlow();
+    deck = buildDeck();
+
+    playerHand = [drawCardFor("player"), drawCardFor("player")];
+    dealerHand = [drawCardFor("dealer"), drawCardFor("dealer")];
+
+    setActive(true);
+    setResult("LIVE");
+    render();
+
+    const playerScore = scoreHand(playerHand);
+    const dealerScore = scoreHand(dealerHand);
+
+    if (playerScore === 21 || dealerScore === 21) resolveScores();
+  }
+
+  function hit() {
+    if (!active || isEffectActive("destroy-the-dealer")) return;
+
+    playerHand.push(drawCardFor("player"));
+    render();
+
+    const playerScore = scoreHand(playerHand);
+    if (playerScore >= 21) finishRound();
+  }
+
+  function resetGame() {
+    deck = [];
+    playerHand = [];
+    dealerHand = [];
+    dealerDestroyedFadeStarted = false;
+
+    resetShop();
+    setActive(false);
+    clearOutcomeGlow();
+    setResult("DEAL");
+    resetTally();
+    render();
+  }
+
+  dealButton.addEventListener("click", dealRound);
+  hitButton.addEventListener("click", hit);
+  standButton.addEventListener("click", finishRound);
+
+  shopListEl.addEventListener("click", (event) => {
+    const button = event.target.closest(".dark-lancer-shop-button");
+    if (!button) return;
+    buyOrToggleEffect(button.dataset.effect);
+  });
+
+  window.addEventListener("hashchange", () => {
+    if (window.location.hash !== "#dark-lancer") resetGame();
+  });
+
+  installDarkLancerExtraStyles();
+  installSecretTallyButton();
+  resetGame();
+}
+
 
     function setupSimonomicon() {
       const device = document.getElementById("simonomicon-device");
