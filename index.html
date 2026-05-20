@@ -15939,9 +15939,7 @@
       updateCursorClosetUi();
     }
 
-
-
-    function setupDarkLancer() {
+function setupDarkLancer() {
   const root = document.getElementById("dark-lancer-game");
   if (!root) return;
 
@@ -15984,6 +15982,9 @@
     { id: "chrome-suits", name: "CHROME SUITS", cost: 1 },
     { id: "chrome-cards", name: "CHROME CARDS", cost: 2 },
     { id: "mysterious-stranger", name: "MYSTERIOUS STRANGER", cost: 3 },
+    { id: "gemstone-cards", name: "GEMSTONE", cost: 3 },
+    { id: "hermetic-cards", name: "HERMETIC", cost: 3 },
+    { id: "null-cards", name: "_null", cost: 3 },
     { id: "rainbow-suits", name: "RAINBOW SUITS", cost: 4 },
     { id: "rainbow-cards", name: "RAINBOW CARDS", cost: 5 },
     { id: "flaming-cards", name: "FLAMING CARDS", cost: 7 },
@@ -16014,12 +16015,65 @@
     "⛧", "⛤", "♁", "☍", "☌", "☊", "☋", "☈", "☄", "☷"
   ];
 
+  const gemstoneBackgrounds = [
+    { name: "ruby", background: "radial-gradient(circle at 28% 22%, rgba(255, 219, 219, 0.72), transparent 13%), linear-gradient(135deg, #4a050d 0%, #9d1028 33%, #3a0309 65%, #d13b4c 100%)" },
+    { name: "sapphire", background: "radial-gradient(circle at 68% 18%, rgba(224, 244, 255, 0.72), transparent 14%), linear-gradient(135deg, #031348 0%, #0d45a3 36%, #020a2c 68%, #2f77d0 100%)" },
+    { name: "emerald", background: "radial-gradient(circle at 32% 26%, rgba(226, 255, 238, 0.7), transparent 13%), linear-gradient(135deg, #032d19 0%, #08713f 34%, #02180d 67%, #27bd75 100%)" },
+    { name: "amethyst", background: "radial-gradient(circle at 74% 24%, rgba(246, 226, 255, 0.66), transparent 13%), linear-gradient(135deg, #210235 0%, #6a238d 36%, #13011f 66%, #b65cdb 100%)" },
+    { name: "citrine", background: "radial-gradient(circle at 30% 20%, rgba(255, 252, 222, 0.75), transparent 14%), linear-gradient(135deg, #5c3302 0%, #c47a0a 38%, #301900 66%, #ffd35a 100%)" },
+    { name: "obsidian", background: "radial-gradient(circle at 70% 18%, rgba(235, 240, 255, 0.42), transparent 12%), linear-gradient(135deg, #050507 0%, #1a1b22 38%, #000000 70%, #3a3d48 100%)" }
+  ];
+
+  const facePartSelector = ".dark-lancer-rank, .dark-lancer-suit, .dark-lancer-corner-rank, .dark-lancer-corner-suit";
+
   function installDarkLancerExtraStyles() {
     if (document.getElementById("dark-lancer-extra-effects-style")) return;
 
     const style = document.createElement("style");
     style.id = "dark-lancer-extra-effects-style";
     style.textContent = `
+      .dark-lancer-card .dark-lancer-corner {
+        display: inline-flex;
+        gap: 0.08em;
+        align-items: baseline;
+      }
+
+      /* Bottom-right corner intentionally contains only rank/number.
+         Suit/text upgrades may affect it; card-surface upgrades do not. */
+
+      .dark-lancer-card.is-noir-card .dark-lancer-corner-rank {
+        color: #f0f0f0 !important;
+        text-shadow:
+          0 0 6px rgba(255, 255, 255, 0.22) !important;
+      }
+
+      .dark-lancer-card.is-rainbow-suit .dark-lancer-corner-rank {
+        color: #ffffff !important;
+        background: linear-gradient(90deg, #ff4fd8, #ffe15a, #55ff9f, #54c7ff, #b86cff, #ff4fd8);
+        background-size: 280% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow:
+          0 0 5px rgba(255, 255, 255, 0.34),
+          0 0 10px rgba(116, 201, 255, 0.28) !important;
+        animation: darkLancerRainbowSuitText 2.8s linear infinite;
+      }
+
+      .dark-lancer-card.is-flaming-card .dark-lancer-rank,
+      .dark-lancer-card.is-flaming-card .dark-lancer-corner-rank {
+        color: #ffd4a0 !important;
+        text-shadow:
+          0 0 5px rgba(255, 111, 0, 0.72),
+          0 0 12px rgba(255, 42, 0, 0.42),
+          0 0 20px rgba(255, 150, 0, 0.26) !important;
+      }
+
+      @keyframes darkLancerRainbowSuitText {
+        from { background-position: 0% 50%; }
+        to { background-position: 280% 50%; }
+      }
+
       .dark-lancer-card.is-ram-card {
         position: relative;
         overflow: visible;
@@ -16051,7 +16105,8 @@
 
       .dark-lancer-card.is-ram-card .dark-lancer-rank,
       .dark-lancer-card.is-ram-card .dark-lancer-suit,
-      .dark-lancer-card.is-ram-card .dark-lancer-corner-rank {
+      .dark-lancer-card.is-ram-card .dark-lancer-corner-rank,
+      .dark-lancer-card.is-ram-card .dark-lancer-corner-suit {
         color: #f2eded !important;
         text-shadow:
           0 0 4px rgba(255, 0, 0, 0.78),
@@ -16066,6 +16121,97 @@
           0 0 16px currentColor,
           0 0 24px currentColor;
         filter: brightness(1.22);
+      }
+
+      .dark-lancer-card.is-rainbow-suit .dark-lancer-suit {
+        color: #ffffff !important;
+        background: linear-gradient(90deg, #ff4fd8, #ffe15a, #55ff9f, #54c7ff, #b86cff, #ff4fd8);
+        background-size: 280% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow:
+          0 0 5px rgba(255, 255, 255, 0.45),
+          0 0 10px rgba(116, 201, 255, 0.28) !important;
+        animation: darkLancerRainbowSuitText 2.8s linear infinite;
+      }
+
+      .dark-lancer-card.is-chrome-suit .dark-lancer-rank,
+      .dark-lancer-card.is-chrome-suit .dark-lancer-suit,
+      .dark-lancer-card.is-chrome-suit .dark-lancer-corner-rank,
+      .dark-lancer-card.is-chrome-suit .dark-lancer-corner-suit {
+        color: #eef5ff !important;
+        background: linear-gradient(180deg, #ffffff 0%, #eef6ff 24%, #a8b6c7 52%, #ffffff 76%, #c8d5e4 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow:
+          0 0 6px rgba(220, 236, 255, 0.42),
+          0 0 12px rgba(170, 196, 230, 0.25) !important;
+        filter: brightness(1.12);
+      }
+
+      .dark-lancer-card.is-gemstone-card {
+        background: var(--dark-lancer-gem-bg) !important;
+        border-color: rgba(255, 255, 255, 0.62) !important;
+        box-shadow:
+          inset 0 0 18px rgba(255, 255, 255, 0.20),
+          inset 0 -18px 30px rgba(0, 0, 0, 0.22),
+          0 0 14px rgba(255, 255, 255, 0.20) !important;
+      }
+
+      .dark-lancer-card.is-gemstone-card .dark-lancer-rank,
+      .dark-lancer-card.is-gemstone-card .dark-lancer-suit,
+      .dark-lancer-card.is-gemstone-card .dark-lancer-corner-rank,
+      .dark-lancer-card.is-gemstone-card .dark-lancer-corner-suit {
+        color: #ffffff !important;
+        text-shadow:
+          0 0 8px rgba(255, 255, 255, 0.72) !important;
+      }
+
+      .dark-lancer-card.is-hermetic-card {
+        background:
+          radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.84), transparent 15%),
+          linear-gradient(160deg, #d9f7ff 0%, #8fd3eb 46%, #c8f4ff 100%) !important;
+        border-color: #d9a930 !important;
+        box-shadow:
+          inset 0 0 22px rgba(255, 255, 255, 0.34),
+          0 0 12px rgba(88, 185, 226, 0.35) !important;
+      }
+
+      .dark-lancer-card.is-hermetic-card .dark-lancer-rank,
+      .dark-lancer-card.is-hermetic-card .dark-lancer-suit,
+      .dark-lancer-card.is-hermetic-card .dark-lancer-corner-rank,
+      .dark-lancer-card.is-hermetic-card .dark-lancer-corner-suit {
+        color: #ffe66d !important;
+        background: linear-gradient(180deg, #fff9ce 0%, #ffe66d 34%, #ffc400 62%, #fff1a1 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow:
+          0 0 5px rgba(255, 232, 120, 0.66),
+          0 0 11px rgba(255, 198, 32, 0.34) !important;
+        filter: drop-shadow(0 0 4px rgba(255, 213, 64, 0.35));
+      }
+
+      .dark-lancer-card.is-null-card {
+        background:
+          linear-gradient(180deg, #6a6a6a 0%, #343434 48%, #242424 100%) !important;
+        border-color: #4a0c10 !important;
+        filter: grayscale(0.8) contrast(0.9);
+        animation: darkLancerNullCardPhase var(--dark-lancer-null-duration, 9s) steps(1, end) infinite;
+        animation-delay: var(--dark-lancer-null-delay, 0ms);
+      }
+
+      .dark-lancer-card.is-null-card .dark-lancer-rank,
+      .dark-lancer-card.is-null-card .dark-lancer-suit,
+      .dark-lancer-card.is-null-card .dark-lancer-corner-rank,
+      .dark-lancer-card.is-null-card .dark-lancer-corner-suit {
+        color: #ff2525 !important;
+        text-shadow:
+          0 0 5px rgba(255, 0, 0, 0.72),
+          0 0 12px rgba(160, 0, 0, 0.45) !important;
+        animation: darkLancerNullTextFlicker 850ms steps(2, end) infinite;
       }
 
       .dark-lancer-dealer-burn-ghost {
@@ -16086,6 +16232,54 @@
           opacity: 0.82;
           transform: scale(1.04) rotate(2deg);
           filter: blur(11px) saturate(1.55);
+        }
+      }
+
+      @keyframes darkLancerNullTextFlicker {
+        0%, 100% {
+          opacity: 1;
+          filter: brightness(1.1);
+        }
+        42% {
+          opacity: 0.64;
+          filter: brightness(1.85) contrast(1.8);
+        }
+        52% {
+          opacity: 0.96;
+          filter: brightness(0.7) contrast(2.2);
+        }
+      }
+
+      @keyframes darkLancerNullCardPhase {
+        0%, 76%, 100% {
+          opacity: 1;
+          transform: translate(0, 0) scale(1);
+          filter: grayscale(0.8) contrast(0.9) blur(0);
+          clip-path: inset(0 0 0 0);
+        }
+        78% {
+          opacity: 0.25;
+          transform: translate(-4px, 2px) scale(1.05) skew(8deg, -4deg);
+          filter: grayscale(1) contrast(2.4) brightness(1.4) blur(1px);
+          clip-path: inset(12% 0 27% 0);
+        }
+        80% {
+          opacity: 0;
+          transform: translate(5px, -3px) scale(0.92) skew(-12deg, 7deg);
+          filter: grayscale(1) contrast(3) brightness(0.45) blur(4px);
+          clip-path: inset(42% 0 8% 0);
+        }
+        82% {
+          opacity: 0.68;
+          transform: translate(-2px, 4px) scale(1.03) skew(4deg, -8deg);
+          filter: grayscale(1) contrast(2) brightness(1.6) blur(1px);
+          clip-path: inset(6% 0 40% 0);
+        }
+        84% {
+          opacity: 1;
+          transform: translate(0, 0) scale(1);
+          filter: grayscale(0.8) contrast(0.9) blur(0);
+          clip-path: inset(0 0 0 0);
         }
       }
 
@@ -16199,43 +16393,89 @@
   function clearPlayerCardAppearances() {
     playerHand.forEach((card) => {
       delete card.darkLancerPresentation;
+      delete card.darkLancerEncryptedFace;
+      delete card.darkLancerGlyphicFace;
+      delete card.darkLancerGemstone;
+      delete card.darkLancerNullMotion;
     });
   }
 
-  function redrawPlayerCardAppearances() {
-    clearPlayerCardAppearances();
-    playerHand.forEach((card) => makePlayerCardPresentation(card));
+  function refreshPlayerCardAppearances() {
+    playerHand.forEach((card) => {
+      delete card.darkLancerPresentation;
+      makePlayerCardPresentation(card);
+    });
+  }
+
+  function makeEncryptedFace() {
+    return {
+      rank: randomEncryptedRank(),
+      suit: randomEncryptedSuit(),
+      cornerRank: randomEncryptedRank(),
+      cornerSuit: randomEncryptedSuit()
+    };
+  }
+
+  function makeGlyphicFace() {
+    return {
+      rank: randomGlyph(),
+      suit: randomGlyph(),
+      cornerRank: randomGlyph(),
+      cornerSuit: randomGlyph()
+    };
+  }
+
+  function getCardGemstone(card) {
+    if (!card.darkLancerGemstone) {
+      card.darkLancerGemstone = randomFrom(gemstoneBackgrounds);
+    }
+    return card.darkLancerGemstone;
+  }
+
+  function getNullMotion(card) {
+    if (!card.darkLancerNullMotion) {
+      card.darkLancerNullMotion = {
+        delay: `-${randomIndex(8200)}ms`,
+        duration: `${8600 + randomIndex(3200)}ms`
+      };
+    }
+    return card.darkLancerNullMotion;
   }
 
   function makePlayerCardPresentation(card) {
-    if (card.darkLancerPresentation) return card.darkLancerPresentation;
-
     const visuals = {
       encrypted: isEffectActive("encrypted-cards"),
       glyphic: isEffectActive("glyphic-cards"),
-      ram: isEffectActive("fanged-ram-rising")
+      ram: isEffectActive("fanged-ram-rising"),
+      gemstone: isEffectActive("gemstone-cards"),
+      hermetic: isEffectActive("hermetic-cards"),
+      nullTheme: isEffectActive("null-cards")
     };
 
-    const face = {
+    let face = {
       rank: card.rank,
       suit: card.suit,
-      cornerRank: card.rank
+      cornerRank: card.rank,
+      cornerSuit: card.suit
     };
 
     if (visuals.ram) {
-      face.suit = "♈︎";
+      face = {
+        rank: face.rank,
+        suit: "♈︎",
+        cornerRank: face.cornerRank,
+        cornerSuit: "♈︎"
+      };
     }
 
     if (visuals.encrypted) {
-      face.rank = randomEncryptedRank();
-      face.suit = randomEncryptedSuit();
-      face.cornerRank = randomEncryptedRank();
+      if (!card.darkLancerEncryptedFace) card.darkLancerEncryptedFace = makeEncryptedFace();
+      face = { ...card.darkLancerEncryptedFace };
     }
 
     if (visuals.glyphic) {
-      face.rank = randomGlyph();
-      face.suit = randomGlyph();
-      face.cornerRank = randomGlyph();
+      if (!card.darkLancerGlyphicFace) card.darkLancerGlyphicFace = makeGlyphicFace();
+      face = { ...card.darkLancerGlyphicFace };
     }
 
     card.darkLancerPresentation = { face, visuals };
@@ -16386,7 +16626,7 @@
   }
 
   function applyEffectState() {
-    redrawPlayerCardAppearances();
+    refreshPlayerCardAppearances();
     root.dataset.darkLancerEffects = Array.from(activeEffects).join(" ");
     render();
     if (!updateDealerDestruction()) setActive(active);
@@ -16497,7 +16737,8 @@
       return {
         rank: card.rank,
         suit: card.suit,
-        cornerRank: card.rank
+        cornerRank: card.rank,
+        cornerSuit: card.suit
       };
     }
 
@@ -16508,9 +16749,12 @@
     const cardEl = document.createElement("div");
     const cardClasses = ["dark-lancer-card"];
 
-    const playerVisuals = side === "player"
-      ? makePlayerCardPresentation(card).visuals
-      : { encrypted: false, glyphic: false, ram: false };
+    const playerPresentation = side === "player"
+      ? makePlayerCardPresentation(card)
+      : null;
+    const playerVisuals = playerPresentation
+      ? playerPresentation.visuals
+      : { encrypted: false, glyphic: false, ram: false, gemstone: false, hermetic: false, nullTheme: false };
 
     if (card.color === "red") cardClasses.push("is-red");
     if (side === "player" && isEffectActive("chrome-suits")) cardClasses.push("is-chrome-suit");
@@ -16520,7 +16764,9 @@
     if (side === "player" && isEffectActive("rainbow-cards")) cardClasses.push("is-rainbow-card");
     if (side === "player" && isEffectActive("flaming-cards")) cardClasses.push("is-flaming-card");
 
-    if (side === "player" && playerVisuals.encrypted) cardClasses.push("is-encrypted-card");
+    if (side === "player" && playerVisuals.gemstone) cardClasses.push("is-gemstone-card");
+    if (side === "player" && playerVisuals.hermetic) cardClasses.push("is-hermetic-card");
+    if (side === "player" && playerVisuals.nullTheme) cardClasses.push("is-null-card");
     if (side === "player" && playerVisuals.glyphic) cardClasses.push("is-glyphic-card");
     if (side === "player" && playerVisuals.ram) cardClasses.push("is-ram-card");
 
@@ -16530,6 +16776,16 @@
 
     cardEl.className = cardClasses.join(" ");
     cardEl.style.animationDelay = `${Math.min(index * 70, 420)}ms`;
+
+    if (side === "player" && playerVisuals.gemstone) {
+      cardEl.style.setProperty("--dark-lancer-gem-bg", getCardGemstone(card).background);
+    }
+
+    if (side === "player" && playerVisuals.nullTheme) {
+      const motion = getNullMotion(card);
+      cardEl.style.setProperty("--dark-lancer-null-delay", motion.delay);
+      cardEl.style.setProperty("--dark-lancer-null-duration", motion.duration);
+    }
 
     const face = getCardFace(card, side);
 
@@ -16687,7 +16943,6 @@
   installSecretTallyButton();
   resetGame();
 }
-
 
     function setupSimonomicon() {
       const device = document.getElementById("simonomicon-device");
