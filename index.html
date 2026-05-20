@@ -6588,6 +6588,71 @@
       overflow: hidden;
     }
 
+    .dark-lancer-score,
+    .dark-lancer-hand {
+      transition: border-color .28s ease, box-shadow .28s ease, background .28s ease, filter .28s ease;
+    }
+
+    .dark-lancer-side-win {
+      border-color: rgba(88, 255, 151, .95);
+      background:
+        radial-gradient(circle at 50% 16%, rgba(88, 255, 151, .24), transparent 48%),
+        linear-gradient(135deg, rgba(88, 255, 151, .12), rgba(247, 251, 242, .035)),
+        rgba(4, 15, 9, .76);
+      box-shadow:
+        inset 0 0 20px rgba(88, 255, 151, .2),
+        0 0 9px rgba(88, 255, 151, .86),
+        0 0 24px rgba(88, 255, 151, .46),
+        0 0 42px rgba(88, 255, 151, .22);
+      animation: darkLancerWinGlow .9s ease-in-out 2;
+    }
+
+    .dark-lancer-side-loss {
+      border-color: rgba(255, 67, 92, .95);
+      background:
+        radial-gradient(circle at 50% 16%, rgba(255, 67, 92, .24), transparent 48%),
+        linear-gradient(135deg, rgba(255, 67, 92, .12), rgba(247, 251, 242, .025)),
+        rgba(18, 3, 7, .76);
+      box-shadow:
+        inset 0 0 20px rgba(255, 67, 92, .18),
+        0 0 9px rgba(255, 67, 92, .84),
+        0 0 24px rgba(255, 67, 92, .44),
+        0 0 42px rgba(255, 67, 92, .2);
+      animation: darkLancerLossGlow .9s ease-in-out 2;
+    }
+
+    .dark-lancer-side-tie {
+      border-color: rgba(92, 190, 255, .95);
+      background:
+        radial-gradient(circle at 50% 16%, rgba(92, 190, 255, .24), transparent 48%),
+        linear-gradient(135deg, rgba(92, 190, 255, .12), rgba(247, 251, 242, .035)),
+        rgba(3, 10, 19, .78);
+      box-shadow:
+        inset 0 0 20px rgba(92, 190, 255, .2),
+        0 0 9px rgba(92, 190, 255, .86),
+        0 0 24px rgba(92, 190, 255, .46),
+        0 0 42px rgba(92, 190, 255, .22);
+      animation: darkLancerTieGlow .9s ease-in-out 2;
+    }
+
+    .dark-lancer-side-win .dark-lancer-hand-label,
+    .dark-lancer-score.dark-lancer-side-win span {
+      color: #b8ffd3;
+      text-shadow: 0 0 7px rgba(88, 255, 151, .86);
+    }
+
+    .dark-lancer-side-loss .dark-lancer-hand-label,
+    .dark-lancer-score.dark-lancer-side-loss span {
+      color: #ffb8c1;
+      text-shadow: 0 0 7px rgba(255, 67, 92, .86);
+    }
+
+    .dark-lancer-side-tie .dark-lancer-hand-label,
+    .dark-lancer-score.dark-lancer-side-tie span {
+      color: #c7efff;
+      text-shadow: 0 0 7px rgba(92, 190, 255, .86);
+    }
+
     .dark-lancer-hand-label {
       color: #c7eff5;
       font: 10px/1 Georgia, "Times New Roman", serif;
@@ -6751,6 +6816,21 @@
     @keyframes darkLancerClash {
       0%, 100% { transform: skewX(0deg); text-shadow: 0 0 5px #fff, 0 0 16px rgba(199, 239, 245, .82); }
       50% { transform: skewX(-7deg); text-shadow: 3px 0 0 rgba(255, 125, 157, .82), -3px 0 0 rgba(199, 239, 245, .82), 0 0 24px #fff; }
+    }
+
+    @keyframes darkLancerWinGlow {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.28); }
+    }
+
+    @keyframes darkLancerLossGlow {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.2); }
+    }
+
+    @keyframes darkLancerTieGlow {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.24); }
     }
 
     @media (max-width: 680px) {
@@ -7287,16 +7367,16 @@
       <div class="popup-title">DARK LANCER <a href="#">x</a></div>
       <div class="popup-body dark-lancer-body" id="dark-lancer-game">
         <div class="dark-lancer-scoreboard">
-          <div class="dark-lancer-score"><span>PLAYER</span><strong id="dark-lancer-player-score">0</strong></div>
+          <div class="dark-lancer-score" id="dark-lancer-player-panel"><span>PLAYER</span><strong id="dark-lancer-player-score">0</strong></div>
           <div class="dark-lancer-result" id="dark-lancer-result" aria-live="polite">DEAL</div>
-          <div class="dark-lancer-score"><span>DEALER</span><strong id="dark-lancer-dealer-score">0</strong></div>
+          <div class="dark-lancer-score" id="dark-lancer-dealer-panel"><span>DEALER</span><strong id="dark-lancer-dealer-score">0</strong></div>
         </div>
         <div class="dark-lancer-table">
-          <section class="dark-lancer-hand" aria-label="Player hand">
+          <section class="dark-lancer-hand" id="dark-lancer-player-hand" aria-label="Player hand">
             <div class="dark-lancer-hand-label">PLAYER</div>
             <div class="dark-lancer-cards" id="dark-lancer-player-cards"></div>
           </section>
-          <section class="dark-lancer-hand" aria-label="Dealer hand">
+          <section class="dark-lancer-hand" id="dark-lancer-dealer-hand" aria-label="Dealer hand">
             <div class="dark-lancer-hand-label">DEALER</div>
             <div class="dark-lancer-cards" id="dark-lancer-dealer-cards"></div>
           </section>
@@ -14140,13 +14220,17 @@
       const dealerCardsEl = document.getElementById("dark-lancer-dealer-cards");
       const playerScoreEl = document.getElementById("dark-lancer-player-score");
       const dealerScoreEl = document.getElementById("dark-lancer-dealer-score");
+      const playerPanelEl = document.getElementById("dark-lancer-player-panel");
+      const dealerPanelEl = document.getElementById("dark-lancer-dealer-panel");
+      const playerHandEl = document.getElementById("dark-lancer-player-hand");
+      const dealerHandEl = document.getElementById("dark-lancer-dealer-hand");
       const playerWinsEl = document.getElementById("dark-lancer-player-wins");
       const dealerWinsEl = document.getElementById("dark-lancer-dealer-wins");
       const resultEl = document.getElementById("dark-lancer-result");
       const dealButton = document.getElementById("dark-lancer-deal");
       const hitButton = document.getElementById("dark-lancer-hit");
       const standButton = document.getElementById("dark-lancer-stand");
-      if (!playerCardsEl || !dealerCardsEl || !playerScoreEl || !dealerScoreEl || !playerWinsEl || !dealerWinsEl || !resultEl || !dealButton || !hitButton || !standButton) return;
+      if (!playerCardsEl || !dealerCardsEl || !playerScoreEl || !dealerScoreEl || !playerPanelEl || !dealerPanelEl || !playerHandEl || !dealerHandEl || !playerWinsEl || !dealerWinsEl || !resultEl || !dealButton || !hitButton || !standButton) return;
 
       const suits = [
         { mark: "♠", color: "black" },
@@ -14235,6 +14319,25 @@
         resultEl.classList.toggle("is-clash", mode === "clash");
       }
 
+      function clearOutcomeGlow() {
+        [playerPanelEl, dealerPanelEl, playerHandEl, dealerHandEl].forEach((el) => {
+          el.classList.remove("dark-lancer-side-win", "dark-lancer-side-loss", "dark-lancer-side-tie");
+        });
+      }
+
+      function setOutcomeGlow(outcome) {
+        clearOutcomeGlow();
+        if (outcome === "tie") {
+          [playerPanelEl, dealerPanelEl, playerHandEl, dealerHandEl].forEach((el) => el.classList.add("dark-lancer-side-tie"));
+          return;
+        }
+        const playerWon = outcome === "player";
+        playerPanelEl.classList.add(playerWon ? "dark-lancer-side-win" : "dark-lancer-side-loss");
+        playerHandEl.classList.add(playerWon ? "dark-lancer-side-win" : "dark-lancer-side-loss");
+        dealerPanelEl.classList.add(playerWon ? "dark-lancer-side-loss" : "dark-lancer-side-win");
+        dealerHandEl.classList.add(playerWon ? "dark-lancer-side-loss" : "dark-lancer-side-win");
+      }
+
       function renderCard(card, index) {
         const cardEl = document.createElement("div");
         cardEl.className = `dark-lancer-card${card.color === "red" ? " is-red" : ""}`;
@@ -14277,26 +14380,34 @@
         render();
 
         if (playerScore === 21 && dealerScore === 21) {
+          setOutcomeGlow("tie");
           setResult("CLASH OF KNAVES!", "clash");
         } else if (playerScore === 21) {
           recordWin("player");
+          setOutcomeGlow("player");
           setResult("TRUE LANCER!", "true");
         } else if (playerScore > 21) {
           recordWin("dealer");
+          setOutcomeGlow("dealer");
           setResult("PLAYER BUST");
         } else if (dealerScore > 21) {
           recordWin("player");
+          setOutcomeGlow("player");
           setResult("DEALER BUST");
         } else if (dealerScore === 21) {
           recordWin("dealer");
+          setOutcomeGlow("dealer");
           setResult("DEALER 21");
         } else if (playerScore > dealerScore) {
           recordWin("player");
+          setOutcomeGlow("player");
           setResult("PLAYER WINS");
         } else if (dealerScore > playerScore) {
           recordWin("dealer");
+          setOutcomeGlow("dealer");
           setResult("DEALER WINS");
         } else {
+          setOutcomeGlow("tie");
           setResult("PUSH");
         }
       }
@@ -14311,6 +14422,7 @@
       }
 
       function dealRound() {
+        clearOutcomeGlow();
         deck = buildDeck();
         playerHand = [drawCard(), drawCard()];
         dealerHand = [drawCard(), drawCard()];
@@ -14335,6 +14447,7 @@
         playerHand = [];
         dealerHand = [];
         setActive(false);
+        clearOutcomeGlow();
         setResult("DEAL");
         resetTally();
         render();
