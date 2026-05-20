@@ -876,6 +876,50 @@
       --theme-readable-card-strong: var(--time-readable-card-strong, rgba(235, 241, 236, .96));
     }
 
+    /* Keep the main-page Ohio clock and Last.fm status readable in Current Time mode. */
+    body.theme-current .voe-lastfm,
+    body.theme-current .voe-ohio-time {
+      background: var(--theme-readable-card-strong);
+      border-color: color-mix(in srgb, var(--line) 72%, var(--theme-readable-tag) 28%);
+      color: var(--theme-readable-ink);
+      box-shadow:
+        inset 1px 1px rgba(255, 255, 255, .18),
+        inset -1px -1px rgba(0, 0, 0, .20),
+        0 0 13px color-mix(in srgb, var(--theme-readable-tag) 24%, transparent);
+    }
+
+    body.theme-current .voe-lastfm::before,
+    body.theme-current .voe-ohio-time::before {
+      opacity: .08;
+    }
+
+    body.theme-current .voe-status,
+    body.theme-current .ohio-time-label {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      max-width: 100%;
+      min-height: 14px;
+      padding: 1px 4px;
+      background: var(--theme-readable-card);
+      border: 1px solid color-mix(in srgb, var(--theme-readable-tag) 48%, var(--line) 52%);
+      color: var(--theme-readable-title);
+      text-shadow:
+        0 1px 0 rgba(255, 255, 255, .28),
+        0 0 6px color-mix(in srgb, var(--theme-readable-accent) 32%, transparent);
+    }
+
+    body.theme-current .voe-track {
+      color: var(--theme-readable-ink);
+      text-shadow: none;
+    }
+
+    body.theme-current .voe-artist,
+    body.theme-current .ohio-time-value {
+      color: var(--theme-readable-accent);
+      text-shadow: 0 0 6px color-mix(in srgb, var(--theme-readable-accent) 24%, transparent);
+    }
+
     body.theme-night .dream-entry,
     body.theme-current .dream-entry,
     body.theme-night .random-dream-readout,
