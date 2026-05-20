@@ -4270,6 +4270,201 @@
         animation: divprimFaceCarveIn .42s steps(4, end) forwards !important;
       }
     }
+
+
+    /* Mobile-only repair pass: marquee reliability, scrollable tarot, and compact dream navigation. */
+    @keyframes marqueePhone {
+      from { transform: translate3d(0, 0, 0); }
+      to { transform: translate3d(-50%, 0, 0); }
+    }
+
+    @media (max-width: 560px) {
+      .marquee-shell {
+        width: 100%;
+        min-width: 0;
+        overflow: hidden;
+        contain: paint;
+      }
+
+      .marquee-track {
+        display: flex;
+        flex-wrap: nowrap;
+        width: max-content;
+        min-width: max-content;
+        max-width: none;
+        gap: 1.15rem;
+        padding-left: .75rem;
+        padding-right: 1.15rem;
+        transform: translate3d(0, 0, 0);
+        backface-visibility: hidden;
+        will-change: transform;
+        animation: marqueePhone 32s linear infinite !important;
+      }
+
+      .marquee-track span {
+        flex: 0 0 auto;
+        white-space: nowrap;
+      }
+
+      body.dreams-mode .dreams-scene {
+        min-height: calc(100svh - 170px);
+        grid-template-rows: auto auto minmax(0, 1fr);
+      }
+
+      .dream-log-list {
+        max-height: min(52svh, 480px);
+        min-height: 0;
+        overflow: auto;
+        padding-right: 4px;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .dream-entry p {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 5;
+        overflow: hidden;
+      }
+
+      .dream-reader,
+      .popup:target {
+        align-items: stretch;
+        place-items: stretch;
+      }
+
+      .dream-reader-window,
+      .dream-popup-window {
+        width: calc(100vw - 12px);
+        height: calc(100dvh - 12px);
+        max-height: calc(100dvh - 12px);
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto auto;
+        overflow: hidden;
+      }
+
+      .dream-reader-body,
+      .random-dream-readout {
+        min-height: 0;
+        overflow: auto;
+        padding: 12px;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+      }
+
+      .dreamscape-wrap {
+        min-height: 0;
+      }
+
+      .dream-reader-actions {
+        position: relative;
+        z-index: 4;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding: 8px;
+        background: #d9ded8;
+        box-shadow: 0 -7px 12px rgba(21,25,27,.16);
+      }
+
+      .random-dream-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .dream-reader-actions .dream-reader-nav {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .tarot-window {
+        width: calc(100vw - 12px);
+        max-height: calc(100dvh - 12px);
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        overflow: hidden;
+      }
+
+      .tarot-readout {
+        min-height: 0;
+        overflow: auto;
+        padding: 10px;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+      }
+
+      .tarot-spread {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .tarot-card {
+        min-height: auto;
+        grid-template-rows: auto auto auto auto;
+        gap: 5px;
+        padding: 7px;
+      }
+
+      .tarot-position {
+        font-size: 9px;
+        letter-spacing: .1em;
+      }
+
+      .tarot-sigil {
+        min-height: 42px;
+        font-size: 24px;
+      }
+
+      .tarot-name {
+        font-size: 11px;
+        line-height: 1.15;
+        overflow-wrap: anywhere;
+      }
+
+      .tarot-orientation,
+      .tarot-meaning,
+      .tarot-seed {
+        font-size: 10px;
+        line-height: 1.25;
+      }
+
+      .tarot-actions {
+        position: sticky;
+        bottom: -10px;
+        z-index: 3;
+        margin: 2px -10px -10px;
+        padding: 8px 10px 10px;
+        background: #d9ded8;
+        border-top: 1px dotted #485052;
+        box-shadow: 0 -7px 12px rgba(21,25,27,.14);
+      }
+
+      .tarot-draw-button {
+        width: 100%;
+      }
+
+      body.theme-night .dream-reader-actions,
+      body.theme-night .tarot-actions,
+      body.theme-current .dream-reader-actions,
+      body.theme-current .tarot-actions {
+        background: var(--theme-readable-card-strong);
+        border-color: color-mix(in srgb, var(--line) 66%, var(--theme-readable-tag) 34%);
+      }
+    }
+
+    @media (max-width: 340px) {
+      .tarot-spread {
+        gap: 6px;
+      }
+
+      .tarot-card {
+        padding: 6px;
+      }
+
+      .tarot-meaning {
+        font-size: 9.5px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -9321,6 +9516,8 @@
       document.getElementById("dream-reader-text").textContent = dream.body;
       document.getElementById("dream-reader-tags").textContent = dream.tags.join(" · ");
       renderDreamscape("dream-reader-dreamscape", dream, `dream ${number} landscape`);
+      const dreamReaderBody = document.querySelector("#dream-reader .dream-reader-body");
+      if (dreamReaderBody) dreamReaderBody.scrollTop = 0;
     }
 
     function openDreamReader(index) {
@@ -9353,6 +9550,8 @@
       document.getElementById("random-dream-body").textContent = dream.body;
       document.getElementById("random-dream-tags").textContent = dream.tags.join(" · ");
       renderDreamscape("random-dreamscape", dream, `random dream ${number} landscape`);
+      const randomDreamBody = document.getElementById("random-dream-readout");
+      if (randomDreamBody) randomDreamBody.scrollTop = 0;
     }
 
     document.getElementById("random-dream-button").addEventListener("click", drawRandomDream);
