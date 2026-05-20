@@ -598,6 +598,293 @@
       letter-spacing: .04em;
     }
 
+    .columbus-window {
+      width: min(520px, 94vw);
+      background: var(--panel);
+      border-color: var(--line);
+    }
+
+    .columbus-body {
+      display: grid;
+      grid-template-columns: 12px minmax(0, 1fr);
+      gap: 10px;
+      padding: 10px;
+      background: var(--panel);
+      color: var(--ink);
+    }
+
+    .columbus-rail {
+      min-height: 100%;
+      border: 1px solid color-mix(in srgb, var(--columbus-line, var(--line)) 62%, transparent);
+      background:
+        linear-gradient(to bottom, var(--columbus-sky-top, #89979b), var(--columbus-sky-mid, #c2c8c3) 48%, var(--columbus-ground, #6b6961));
+      box-shadow:
+        inset 0 0 7px color-mix(in srgb, var(--columbus-glow, rgba(255,255,255,.24)) 72%, transparent),
+        0 0 8px color-mix(in srgb, var(--columbus-accent-light, var(--dead-blue-light)) 24%, transparent);
+    }
+
+    .columbus-panel {
+      min-width: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .columbus-scene {
+      position: relative;
+      justify-self: center;
+      aspect-ratio: 928 / 1648;
+      max-height: min(68svh, 760px);
+      overflow: hidden;
+      background: #0f1514;
+      filter: var(--columbus-scene-filter, saturate(1) brightness(1));
+    }
+
+    .columbus-scene svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .columbus-full-graphic {
+      background: #0f1514;
+    }
+
+    .columbus-scene .sun-moon {
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: opacity 220ms linear;
+    }
+
+    .columbus-scene #sunGroup {
+      transform: translate(var(--columbus-sun-x, 210px), var(--columbus-sun-y, 210px));
+      opacity: var(--columbus-sun-opacity, .8);
+    }
+
+    .columbus-scene #moonGroup {
+      opacity: var(--columbus-moon-opacity, 0);
+    }
+
+    .columbus-scene #stars {
+      opacity: var(--columbus-star-opacity, 0);
+      animation: columbusStarTwinkle 4.5s ease-in-out infinite alternate;
+    }
+
+    .columbus-scene #clouds {
+      opacity: var(--columbus-cloud-opacity, .35);
+    }
+
+    .columbus-scene #clouds path {
+      animation: columbusCloudDrift 32s linear infinite alternate;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .columbus-scene #clouds path:nth-child(2) { animation-duration: 42s; animation-delay: -8s; }
+    .columbus-scene #clouds path:nth-child(3) { animation-duration: 36s; animation-delay: -16s; }
+
+    .columbus-scene #aurora {
+      opacity: var(--columbus-aurora-opacity, 0);
+      mix-blend-mode: screen;
+      animation: columbusAuroraWave 8s ease-in-out infinite alternate;
+    }
+
+    .columbus-scene #waterSurface {
+      filter: url(#waterWobble);
+    }
+
+    .columbus-scene .water-shimmer path,
+    .columbus-scene .water-shimmer line {
+      animation: columbusShimmerMove 5.4s ease-in-out infinite;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .columbus-scene .water-shimmer path:nth-child(2n),
+    .columbus-scene .water-shimmer line:nth-child(2n) { animation-duration: 7.2s; animation-delay: -2s; }
+    .columbus-scene .water-shimmer path:nth-child(3n),
+    .columbus-scene .water-shimmer line:nth-child(3n) { animation-duration: 4.8s; animation-delay: -3.5s; }
+
+    .columbus-scene #sceneTint {
+      fill: var(--columbus-scene-tint, rgba(255, 170, 98, .03));
+      pointer-events: none;
+      mix-blend-mode: soft-light;
+    }
+
+    .columbus-scene #towerBeacon {
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .columbus-scene #towerBeacon .pulse {
+      animation: columbusBeaconBlink 1.4s infinite ease-in-out;
+    }
+
+    @keyframes columbusShimmerMove {
+      0% { transform: translateX(-18px) scaleX(.94); opacity: .22; }
+      50% { transform: translateX(20px) scaleX(1.08); opacity: .72; }
+      100% { transform: translateX(-10px) scaleX(.98); opacity: .3; }
+    }
+
+    @keyframes columbusStarTwinkle {
+      from { opacity: calc(var(--columbus-star-opacity, 0) * .55); }
+      to { opacity: var(--columbus-star-opacity, 0); }
+    }
+
+    @keyframes columbusCloudDrift {
+      from { transform: translateX(-28px); }
+      to { transform: translateX(38px); }
+    }
+
+    @keyframes columbusAuroraWave {
+      from { transform: translateX(-18px) skewX(-4deg); }
+      to { transform: translateX(24px) skewX(5deg); }
+    }
+
+    @keyframes columbusBeaconBlink {
+      0%, 42%, 100% { opacity: .2; }
+      50%, 58% { opacity: 1; }
+    }
+
+    .columbus-season-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .24s ease;
+    }
+
+    .columbus-scene.show-season .columbus-season-overlay {
+      opacity: 1;
+    }
+
+    .columbus-season-overlay {
+      background: var(--columbus-season-overlay, radial-gradient(circle at 20% 18%, rgba(255,255,255,.18), transparent 18%));
+      mix-blend-mode: var(--columbus-season-blend, screen);
+    }
+
+    .columbus-season-overlay::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--columbus-season-particles, transparent);
+    }
+
+    .columbus-season-overlay::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: var(--columbus-season-ground, transparent);
+      mix-blend-mode: var(--columbus-season-ground-blend, multiply);
+    }
+
+    .columbus-readout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: end;
+    }
+
+    .columbus-place {
+      color: var(--signal-pink);
+      font: bold clamp(1.4rem, 5vw, 2.15rem)/.95 Georgia, "Times New Roman", serif;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      text-shadow:
+        1px 1px rgba(255,255,255,.55),
+        0 0 9px rgba(201,87,112,.28);
+    }
+
+    .columbus-meta {
+      display: grid;
+      gap: 3px;
+      color: var(--ink);
+      font: bold 11px/1.2 "Courier New", monospace;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .columbus-meta span span {
+      color: var(--signal-pink);
+    }
+
+    .columbus-meta span {
+      overflow-wrap: anywhere;
+    }
+
+    .columbus-toggles {
+      display: flex;
+      gap: 5px;
+      justify-content: end;
+      align-items: end;
+    }
+
+    .columbus-toggle {
+      border: 1px solid var(--line);
+      background: linear-gradient(#f7fbf2, #b8d5d9);
+      color: #101719;
+      font: bold 10px/1 "Courier New", monospace;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 5px 7px;
+      cursor: pointer;
+      box-shadow: inset 1px 1px rgba(255,255,255,.88), inset -1px -1px rgba(0,0,0,.16);
+    }
+
+    .columbus-toggle[aria-pressed="true"],
+    .columbus-toggle.is-cycling {
+      color: #f7fbf2;
+      background: linear-gradient(145deg, #8d2442, #1f2628);
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.18),
+        0 0 10px rgba(201,87,112,.34);
+    }
+
+    .columbus-slider {
+      width: 100%;
+      height: 20px;
+      accent-color: var(--signal-pink);
+      cursor: ew-resize;
+      background: transparent;
+    }
+
+    .columbus-slider:focus-visible,
+    .columbus-toggle:focus-visible {
+      outline: 1px dotted var(--signal-pink);
+      outline-offset: 2px;
+    }
+
+    .columbus-slider::-webkit-slider-runnable-track {
+      height: 4px;
+      border: 1px solid rgba(31,38,40,.56);
+      background: linear-gradient(90deg, #101719, var(--signal-pink), var(--dead-blue-light));
+    }
+
+    .columbus-slider::-webkit-slider-thumb {
+      appearance: none;
+      width: 11px;
+      height: 18px;
+      margin-top: -8px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 0 8px rgba(201,87,112,.42);
+    }
+
+    .columbus-slider::-moz-range-track {
+      height: 4px;
+      border: 1px solid rgba(31,38,40,.56);
+      background: linear-gradient(90deg, #101719, var(--signal-pink), var(--dead-blue-light));
+    }
+
+    .columbus-slider::-moz-range-thumb {
+      width: 11px;
+      height: 18px;
+      border: 1px solid var(--line);
+      border-radius: 0;
+      background: var(--panel);
+      box-shadow: 0 0 8px rgba(201,87,112,.42);
+    }
+
     .theme-flash {
       position: fixed;
       inset: 0;
@@ -4996,6 +5283,12 @@
       font: 13px/1.45 "Courier New", monospace;
     }
 
+    .popup-window.columbus-window {
+      width: min(520px, 94vw);
+      background: var(--panel);
+      border-color: var(--line);
+    }
+
     .popup-title {
       display: flex;
       justify-content: space-between;
@@ -7819,6 +8112,7 @@
           <a class="button88" href="#dream" id="random-dream-button" data-widget-button>RANDOM DREAM</a>
           <a class="button88" href="#tarot" id="tarot-button" data-widget-button>TAROT SPREAD</a>
           <a class="button88" href="#diviners-primitive" id="divprim-button" data-widget-button>DIV-PRIM</a>
+          <a class="button88" href="#columbus" id="columbus-button" data-widget-button>SKYLINE</a>
           <a class="button88" href="#sim-board-popup" id="sim-board-button" data-widget-button>SPIRIT BOARD</a>
           <a class="button88" href="#hollow-oracle" id="hollow-oracle-button" data-widget-button>HOLLOW ORACLE</a>
           <a class="button88" href="#heads-tails" id="heads-tails-button" data-widget-button>HEADS/TAILS</a>
@@ -7880,11 +8174,11 @@
     <div class="sim-board-window" id="sim-board-widget">
       <div class="popup-title">SPIRIT BOARD <a href="#">x</a></div>
       <div class="sim-readout" id="sim-readout" aria-live="polite">
-        <span class="sim-readout-placeholder">awaiting signal</span>
+        <span class="sim-readout-placeholder">awaiting contact</span>
       </div>
       <div class="sim-board" id="sim-board">
         <div class="sim-board-row">
-          <button class="sim-spirit-button" type="button" id="sim-hello">Hello to Begin</button>
+          <button class="sim-spirit-button" type="button" id="sim-hello">HELLO</button>
         </div>
         <div class="sim-board-row sim-answer-row">
           <button class="sim-answer" type="button" data-sim-word="YES">yes</button>
@@ -7934,6 +8228,298 @@
         <div class="weather-place">Hocking Hills</div>
         <div class="weather-period">loading weather...</div>
         <div class="weather-detail">listening to the county signal.</div>
+      </div>
+    </div>
+  </aside>
+
+  <aside id="columbus" class="popup columbus-popup" aria-label="Skyline popup">
+    <div class="popup-window columbus-window">
+      <div class="popup-title">SKYLINE <a href="#">x</a></div>
+      <div class="columbus-body">
+        <div class="columbus-rail" aria-hidden="true"></div>
+        <div class="columbus-panel">
+          <div class="columbus-scene show-season" id="columbus-scene" aria-label="Low-poly Columbus skyline, bridge, river, and hillside">
+            <svg class="columbus-full-graphic" viewBox="0 0 928 1648" preserveAspectRatio="xMidYMid meet" role="img" aria-hidden="true">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="var(--columbus-bridge-sky-top, #76aeea)" />
+          <stop offset="0.34" stop-color="var(--columbus-bridge-sky-high, #d9e4f2)" />
+          <stop offset="0.47" stop-color="var(--columbus-bridge-sky-warm, #f7c8a7)" />
+          <stop offset="0.60" stop-color="var(--columbus-bridge-sky-low, #9cb6ca)" />
+          <stop offset="1" stop-color="var(--columbus-bridge-sky-bottom, #6f8aa2)" />
+        </linearGradient>
+
+        <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="var(--columbus-water-top, #274f48)" />
+          <stop offset="0.18" stop-color="var(--columbus-water-mid-a, #1e403c)" />
+          <stop offset="0.28" stop-color="var(--columbus-water-glow, #e0c2ad)" />
+          <stop offset="0.50" stop-color="var(--columbus-water-mid-b, #9fb3c2)" />
+          <stop offset="1" stop-color="var(--columbus-water-bottom, #88a6c1)" />
+        </linearGradient>
+
+        <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#fff7c4" stop-opacity="1" />
+          <stop offset="0.32" stop-color="#ffd886" stop-opacity="0.72" />
+          <stop offset="1" stop-color="#ff9f5a" stop-opacity="0" />
+        </radialGradient>
+
+        <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#eaf4ff" stop-opacity="0.86" />
+          <stop offset="0.38" stop-color="#b8d6ff" stop-opacity="0.32" />
+          <stop offset="1" stop-color="#99bbff" stop-opacity="0" />
+        </radialGradient>
+
+        <linearGradient id="auroraGradient" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#83ffe3" stop-opacity="0" />
+          <stop offset="0.25" stop-color="#77ffca" stop-opacity="0.55" />
+          <stop offset="0.55" stop-color="#b484ff" stop-opacity="0.42" />
+          <stop offset="1" stop-color="#ff9ad8" stop-opacity="0" />
+        </linearGradient>
+
+        <linearGradient id="arch" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#6f93ad" />
+          <stop offset="0.45" stop-color="#8fb2cb" />
+          <stop offset="1" stop-color="#587c97" />
+        </linearGradient>
+
+        <linearGradient id="hill" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#74a51e" />
+          <stop offset="0.55" stop-color="#4b751a" />
+          <stop offset="1" stop-color="#163e25" />
+        </linearGradient>
+
+        <linearGradient id="hillDark" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#1b432d" />
+          <stop offset="1" stop-color="#0d2c25" />
+        </linearGradient>
+
+        <linearGradient id="warmTower" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#efc58e" />
+          <stop offset="1" stop-color="#705d65" />
+        </linearGradient>
+
+        <filter id="waterWobble" x="-8%" y="-8%" width="116%" height="116%">
+          <feTurbulence id="waterNoise" type="fractalNoise" baseFrequency="0.006 0.034" numOctaves="2" seed="4" result="noise">
+            <animate attributeName="baseFrequency" values="0.006 0.032;0.011 0.046;0.006 0.032" dur="7s" repeatCount="indefinite" />
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G">
+            <animate attributeName="scale" values="5;13;7;11;5" dur="8s" repeatCount="indefinite" />
+          </feDisplacementMap>
+        </filter>
+
+        <clipPath id="waterClip">
+          <rect x="0" y="740" width="928" height="516" />
+        </clipPath>
+      </defs>
+
+      <!-- sky -->
+      <rect width="928" height="1648" fill="url(#sky)" />
+
+      <!-- animated sky effects -->
+      <g id="stars">
+        <circle cx="74" cy="82" r="2.1" fill="#ffffff" />
+        <circle cx="148" cy="202" r="1.4" fill="#ffffff" />
+        <circle cx="221" cy="108" r="1.8" fill="#ffffff" />
+        <circle cx="312" cy="168" r="1.2" fill="#ffffff" />
+        <circle cx="414" cy="80" r="1.7" fill="#ffffff" />
+        <circle cx="504" cy="176" r="1.5" fill="#ffffff" />
+        <circle cx="624" cy="116" r="2" fill="#ffffff" />
+        <circle cx="731" cy="198" r="1.3" fill="#ffffff" />
+        <circle cx="846" cy="93" r="1.9" fill="#ffffff" />
+        <circle cx="885" cy="258" r="1.2" fill="#ffffff" />
+        <circle cx="41" cy="302" r="1.4" fill="#ffffff" />
+        <circle cx="275" cy="276" r="1.1" fill="#ffffff" />
+        <circle cx="566" cy="278" r="1.2" fill="#ffffff" />
+        <circle cx="788" cy="325" r="1.6" fill="#ffffff" />
+      </g>
+
+      <g id="aurora">
+        <path d="M -80 238 C 118 128 254 354 435 224 C 620 91 734 285 1012 148 L 1012 286 C 796 407 610 252 445 342 C 254 446 80 240 -80 396 Z" fill="url(#auroraGradient)" opacity="0.55" />
+        <path d="M -72 312 C 136 210 304 407 489 300 C 676 193 760 362 990 246 L 990 353 C 773 463 664 337 502 414 C 322 501 144 338 -72 446 Z" fill="url(#auroraGradient)" opacity="0.32" />
+      </g>
+
+      <g id="sunGroup" class="sun-moon">
+        <circle cx="0" cy="0" r="122" fill="url(#sunGlow)" opacity="0.72" />
+        <circle cx="0" cy="0" r="38" fill="#ffe798" />
+      </g>
+
+      <g id="moonGroup" class="sun-moon">
+        <circle cx="724" cy="156" r="142" fill="url(#moonGlow)" opacity="1" />
+        <circle cx="724" cy="156" r="48" fill="#f7fcff" />
+        <circle cx="708" cy="144" r="6" fill="#dbe7f2" opacity="0.72" />
+        <circle cx="739" cy="166" r="5" fill="#dbe7f2" opacity="0.64" />
+        <circle cx="721" cy="178" r="4" fill="#dbe7f2" opacity="0.56" />
+      </g>
+
+      <g id="clouds" fill="#ffffff">
+        <path d="M 46 250 C 95 216 144 212 187 244 C 226 225 279 238 311 270 C 242 278 169 281 84 282 C 28 282 8 272 46 250 Z" opacity="0.23" />
+        <path d="M 566 220 C 602 186 658 181 705 211 C 738 201 786 212 814 242 C 744 255 668 258 588 253 C 536 250 528 241 566 220 Z" opacity="0.19" />
+        <path d="M 220 380 C 271 345 335 347 379 382 C 421 364 485 379 519 414 C 419 427 331 429 237 421 C 180 416 177 402 220 380 Z" opacity="0.16" />
+      </g>
+
+      <!-- distant haze -->
+      <rect x="0" y="455" width="928" height="235" fill="#f5d8bd" opacity="0.20" />
+      <rect x="0" y="540" width="928" height="120" fill="#dbe4ed" opacity="0.28" />
+
+      <!-- distant city silhouettes -->
+      <g opacity="0.92">
+        <polygon points="170,640 170,515 181,515 181,396 189,396 194,345 200,396 208,406 208,455 216,409 224,397 231,420 231,514 239,514 239,640" fill="#827f79" opacity="0.62" />
+        <polygon points="95,640 95,604 132,604 132,564 173,562 173,640" fill="#c6b199" opacity="0.60" />
+        <polygon points="248,640 248,508 287,499 287,482 318,478 318,512 355,514 355,523 399,523 399,640" fill="#e5b45b" opacity="0.70" />
+        <polygon points="318,640 318,478 362,482 362,492 379,495 379,511 399,514 399,640" fill="#8c8d8b" opacity="0.48" />
+        <polygon points="800,650 800,535 833,535 833,519 860,518 860,557 884,557 884,501 928,501 928,650" fill="#6e9cc3" opacity="0.68" />
+        <polygon points="789,650 789,562 803,562 803,532 833,532 833,650" fill="#ead89e" opacity="0.55" />
+        <polygon points="835,650 835,597 902,586 902,617 928,612 928,650" fill="#cfae91" opacity="0.62" />
+      </g>
+
+      <!-- blinking red light on leftmost tower -->
+      <g id="towerBeacon">
+        <circle cx="194" cy="340" r="4.5" fill="#ff2a2a" class="pulse" />
+        <circle cx="194" cy="340" r="12" fill="#ff3b3b" opacity="0.24" class="pulse" />
+      </g>
+
+      <!-- main skyline -->
+      <g>
+        <polygon points="470,610 470,350 546,336 546,610" fill="#6a515b" />
+        <polygon points="490,610 490,376 546,367 546,610" fill="#bc8b69" />
+        <polygon points="545,610 545,337 612,331 612,610" fill="#7d6064" />
+        <rect x="613" y="373" width="75" height="237" fill="#f0d29b" />
+        <rect x="688" y="368" width="63" height="242" fill="#a8b2bd" />
+        <polygon points="621,373 660,321 711,317 744,366 751,610 688,610 688,373" fill="#6d7e73" />
+        <polygon points="660,321 681,319 691,368 621,373" fill="#8ea964" />
+        <polygon points="681,319 711,317 744,366 691,368" fill="#0c6a67" />
+        <rect x="751" y="375" width="3" height="235" fill="#6d7e8b" opacity="0.55" />
+        <rect x="342" y="575" width="191" height="88" fill="#ecd2bd" />
+        <rect x="355" y="638" width="141" height="40" fill="#bca596" opacity="0.78" />
+        <polygon points="534,600 613,600 613,626 648,626 648,662 534,662" fill="#6e8178" opacity="0.58" />
+      </g>
+
+      <!-- far river bank and trees -->
+      <g>
+        <polygon points="0,667 118,667 118,692 258,692 258,672 430,672 430,694 548,694 548,682 572,682 572,664 630,664 630,678 674,678 674,672 744,672 760,684 826,684 826,667 928,667 928,744 0,744" fill="#276533" />
+        <polygon points="0,696 180,693 274,697 370,690 515,693 604,692 670,690 742,691 785,705 882,704 928,709 928,758 0,758" fill="#1e4e2e" />
+      </g>
+
+      <!-- bridge arch above road -->
+      <g>
+        <path d="M -20 644 C 166 546 391 502 607 551 C 760 585 847 646 924 714 L 903 714 C 816 632 718 580 592 554 C 373 511 165 558 -5 665 Z" fill="url(#arch)" />
+        <path d="M 0 646 C 184 555 389 519 595 560 C 739 590 827 647 900 714" fill="none" stroke="#3f6b89" stroke-width="5" opacity="0.35" />
+      </g>
+
+      <!-- bridge vertical supports -->
+      <g fill="#5f7f97" opacity="0.68">
+        <rect x="96" y="600" width="6" height="106" />
+        <rect x="212" y="571" width="6" height="135" />
+        <rect x="332" y="553" width="6" height="153" />
+        <rect x="446" y="552" width="6" height="154" />
+        <rect x="558" y="563" width="6" height="143" />
+        <rect x="661" y="590" width="6" height="116" />
+        <rect x="756" y="630" width="6" height="76" />
+      </g>
+
+      <!-- bridge deck -->
+      <g>
+        <rect x="0" y="712" width="928" height="31" fill="#d7e2ea" />
+        <rect x="0" y="742" width="928" height="18" fill="#60788d" />
+        <polygon points="0,760 285,760 303,744 379,744 399,760 550,760 573,744 629,744 648,760 928,760 928,789 0,789" fill="#34495a" opacity="0.58" />
+        <polygon points="280,760 304,744 380,744 398,760" fill="#f1cfaa" />
+        <polygon points="550,760 573,744 628,744 648,760" fill="#d2b39f" />
+        <rect x="381" y="744" width="56" height="60" fill="#e8c2a3" />
+        <rect x="584" y="744" width="57" height="67" fill="#b8a69f" />
+      </g>
+
+      <!-- river and reflected skyline -->
+      <g clip-path="url(#waterClip)">
+        <g id="waterSurface">
+          <rect x="0" y="789" width="928" height="467" fill="url(#water)" />
+          <polygon points="0,802 92,801 166,790 265,789 348,800 453,797 524,803 618,800 690,797 780,798 928,782 928,836 0,839" fill="#173c32" opacity="0.92" />
+          <polygon points="0,836 120,834 258,826 367,824 512,825 620,829 715,831 838,830 928,818 928,875 0,876" fill="#2f6620" opacity="0.92" />
+
+          <!-- reflected bridge deck -->
+          <rect x="0" y="884" width="928" height="31" fill="#314354" opacity="0.80" />
+          <rect x="0" y="915" width="928" height="18" fill="#9eb1c1" opacity="0.72" />
+
+          <!-- reflected city blocks -->
+          <g opacity="0.55">
+            <polygon points="172,850 243,850 243,1128 220,1128 220,1190 205,1190 200,1160 190,1198 184,1128 172,1128" fill="#776f68" />
+            <polygon points="249,880 317,880 317,1038 287,1032 287,1012 270,1012 270,986 249,986" fill="#e7b557" />
+            <polygon points="318,880 398,880 398,1046 355,1046 355,1030 332,1030 332,1012 318,1012" fill="#6f777c" />
+            <rect x="356" y="876" width="139" height="47" fill="#dec0ad" />
+            <rect x="469" y="834" width="78" height="288" fill="#bb8d6d" />
+            <rect x="546" y="832" width="67" height="292" fill="#777379" />
+            <rect x="614" y="833" width="75" height="280" fill="#f0cf9d" />
+            <rect x="689" y="833" width="64" height="274" fill="#aeb7c0" />
+          </g>
+
+          <!-- reflected bridge arch -->
+          <path d="M -15 982 C 163 1073 383 1121 609 1076 C 755 1048 833 996 909 931 L 928 931 C 839 1015 748 1073 602 1102 C 382 1147 160 1092 -21 1002 Z" fill="#6f92aa" opacity="0.78" />
+          <path d="M 2 986 C 178 1072 383 1112 596 1070 C 735 1041 827 986 905 931" fill="none" stroke="#3d617a" stroke-width="5" opacity="0.28" />
+
+          <!-- reflected supports -->
+          <g fill="#4f6575" opacity="0.62">
+            <rect x="96" y="915" width="6" height="105" />
+            <rect x="212" y="915" width="6" height="135" />
+            <rect x="332" y="915" width="6" height="155" />
+            <rect x="446" y="915" width="6" height="154" />
+            <rect x="558" y="915" width="6" height="140" />
+            <rect x="661" y="915" width="6" height="114" />
+          </g>
+
+          <polygon points="356,808 440,808 395,826" fill="#f0cfad" opacity="0.95" />
+          <polygon points="474,823 528,826 510,833" fill="#ead0ae" opacity="0.75" />
+        </g>
+
+        <!-- animated shimmer lines, kept outside wobble group so they stay sharp -->
+        <g class="water-shimmer" fill="none" stroke-linecap="round" opacity="0.74">
+          <path d="M 54 852 C 108 844 151 846 208 853" stroke="#fff2c6" stroke-width="3" opacity="0.25" />
+          <path d="M 342 827 C 402 817 468 819 522 830" stroke="#fff4cd" stroke-width="3" opacity="0.32" />
+          <path d="M 600 858 C 672 846 738 850 816 860" stroke="#e8fbff" stroke-width="3" opacity="0.25" />
+          <path d="M 118 946 C 184 933 254 936 316 949" stroke="#c9f7ff" stroke-width="2.5" opacity="0.23" />
+          <path d="M 406 972 C 510 954 601 959 702 976" stroke="#ffe9bd" stroke-width="2.5" opacity="0.22" />
+          <path d="M 46 1052 C 138 1038 248 1040 341 1058" stroke="#d9faff" stroke-width="2" opacity="0.21" />
+          <path d="M 578 1068 C 660 1052 770 1058 877 1076" stroke="#f9d58e" stroke-width="2" opacity="0.19" />
+          <path d="M 260 1152 C 343 1134 449 1138 546 1158" stroke="#e5fbff" stroke-width="2" opacity="0.18" />
+          <line x1="90" y1="886" x2="234" y2="876" stroke="#ffffff" stroke-width="1.7" opacity="0.23" />
+          <line x1="632" y1="916" x2="854" y2="902" stroke="#ffffff" stroke-width="1.7" opacity="0.19" />
+        </g>
+      </g>
+
+      <!-- foreground left bank -->
+      <g>
+        <polygon points="0,849 101,849 127,876 205,887 205,913 165,913 159,943 64,943 64,888 25,888 25,872 0,872" fill="#143b2e" />
+        <polygon points="0,912 166,912 249,907 249,1235 0,1235" fill="#15382e" />
+        <polygon points="0,1235 165,1126 206,1113 230,1076 267,1062 271,1040 326,1024 358,953 430,930 447,915 0,915" fill="#284f20" />
+      </g>
+
+      <!-- main foreground hillside -->
+      <g>
+        <polygon points="928,704 928,1648 0,1648 0,1536 87,1468 158,1417 164,1388 222,1353 229,1338 264,1321 271,1300 323,1286 356,1221 438,1135 496,1064 561,994 629,947 705,892 800,825 869,756" fill="url(#hill)" />
+        <polygon points="812,1648 928,1648 928,873 899,961 878,1054 864,1158 847,1272 831,1378" fill="#0f3326" opacity="0.72" />
+        <polygon points="0,1536 166,1417 172,1388 229,1354 267,1321 270,1300 326,1286 357,1221 438,1135 497,1062 566,998 636,951 705,892 796,828 870,757 928,704 928,780 868,844 793,902 704,958 612,1016 522,1070 433,1125 365,1213 326,1271 236,1309 157,1377 74,1457 0,1511" fill="#5f8b19" opacity="0.70" />
+        <polygon points="0,849 55,849 55,858 75,846 103,846 126,855 129,876 205,886 205,912 0,912" fill="#ead1bd" opacity="0.82" />
+        <polygon points="0,1265 164,1265 211,1290 274,1310 264,1321 228,1338 222,1353 165,1388 158,1417 88,1468 0,1535" fill="#0f372a" opacity="0.92" />
+      </g>
+
+      <rect id="sceneTint" width="928" height="1648" />
+    </svg>
+
+            <div class="columbus-season-overlay" aria-hidden="true"></div>
+          </div>
+          <div class="columbus-readout">
+            <div>
+              <div class="columbus-place">COLUMBUS</div>
+              <div class="columbus-meta">
+                <span>TIME: <span id="columbus-time-value">--:-- --</span></span>
+                <span>SEASON: <span id="columbus-season-value">--</span></span>
+                <span>WEATHER: <span id="columbus-weather-value">loading weather...</span></span>
+              </div>
+            </div>
+            <div class="columbus-toggles" aria-label="Columbus overlays">
+              <button class="columbus-toggle" type="button" id="columbus-season-toggle" aria-pressed="true">SEASON</button>
+            </div>
+          </div>
+          <input class="columbus-slider" id="columbus-timeline" type="range" min="-720" max="720" step="15" value="0" aria-label="Shift Columbus timeline" />
+        </div>
       </div>
     </div>
   </aside>
@@ -8462,7 +9048,17 @@
     titleEyesTrigger?.addEventListener("blur", () => setHoverEyesActive(false));
     window.addEventListener("resize", buildHoverEyes);
 
+    const columbusWeatherState = {
+      status: "loading weather...",
+      detail: "listening to the county signal.",
+      meta: ""
+    };
+
     function renderWeather(status, detail, meta = "") {
+      columbusWeatherState.status = status;
+      columbusWeatherState.detail = detail;
+      columbusWeatherState.meta = meta;
+
       const readout = document.getElementById("weather-readout");
       const place = document.createElement("div");
       const period = document.createElement("div");
@@ -8490,6 +9086,7 @@
       }
 
       readout.appendChild(link);
+      updateColumbusWeatherReadout();
     }
 
     async function loadHockingHillsWeather() {
@@ -8525,6 +9122,10 @@
     document.getElementById("weather-button").addEventListener("click", loadHockingHillsWeather);
 
     if (window.location.hash === "#weather") {
+      loadHockingHillsWeather();
+    }
+
+    if (window.location.hash === "#columbus") {
       loadHockingHillsWeather();
     }
 
@@ -8627,16 +9228,16 @@
     let themeFlashTimer = null;
     let activeThemeMode = localStorage.getItem(THEME_STORAGE_KEY) || "normal";
 
-    function ohioDateParts() {
-      const parts = ohioPartsFormatter.formatToParts(new Date());
+    function ohioDateParts(date = new Date()) {
+      const parts = ohioPartsFormatter.formatToParts(date);
       return {
         hour: Number(parts.find((part) => part.type === "hour")?.value || 0),
         minute: Number(parts.find((part) => part.type === "minute")?.value || 0)
       };
     }
 
-    function setCurrentTimeThemeColors() {
-      const { hour, minute } = ohioDateParts();
+    function getCurrentTimeThemeValues(date = new Date()) {
+      const { hour, minute } = ohioDateParts(date);
       const dayProgress = (hour + minute / 60) / 24;
       const light = Math.max(0, Math.sin(((dayProgress - .25) / .5) * Math.PI));
       const dawnDusk = Math.max(0, 1 - Math.abs(dayProgress - .25) / .09, 1 - Math.abs(dayProgress - .75) / .09);
@@ -8648,27 +9249,39 @@
       const ground = `hsl(${92 - light * 18}, ${16 + light * 9}%, ${18 + light * 23}%)`;
       const panelLight = 18 + light * 66;
 
-      document.body.style.setProperty("--time-sky-top", top);
-      document.body.style.setProperty("--time-sky-mid", mid);
-      document.body.style.setProperty("--time-ground", ground);
-      document.body.style.setProperty("--time-glow", `hsla(${hue + 38}, 80%, ${62 + light * 18}%, ${.14 + light * .18})`);
-      document.body.style.setProperty("--time-panel", `hsl(${hue + 34}, 18%, ${panelLight}%)`);
-      document.body.style.setProperty("--time-line", `hsl(${hue}, 18%, ${26 + light * 22}%)`);
-      document.body.style.setProperty("--time-ink", light > .48 ? "#1f2628" : "#dce7e2");
-      document.body.style.setProperty("--time-accent", `hsl(${hue + 20}, 34%, ${42 + light * 24}%)`);
-      document.body.style.setProperty("--time-accent-light", `hsl(${hue + 22}, 46%, ${58 + light * 18}%)`);
-      document.body.style.setProperty("--time-signal", `hsl(${340 - dawnDusk * 18}, 54%, ${52 + dawnDusk * 18}%)`);
-
       const isBrightCurrentTheme = light > .48;
-      document.body.style.setProperty("--time-readable-ink", isBrightCurrentTheme ? "#182224" : "#f5fbf7");
-      document.body.style.setProperty("--time-readable-title", isBrightCurrentTheme ? "#781533" : "#fff7fb");
-      document.body.style.setProperty("--time-readable-tag", isBrightCurrentTheme ? "#304247" : "#d7f4f7");
-      document.body.style.setProperty("--time-readable-accent", isBrightCurrentTheme ? "#781533" : "#ffabc0");
-      document.body.style.setProperty("--time-readable-card", isBrightCurrentTheme ? "rgba(245, 248, 242, .9)" : "rgba(10, 16, 18, .88)");
-      document.body.style.setProperty("--time-readable-card-strong", isBrightCurrentTheme ? "rgba(235, 241, 236, .96)" : "rgba(7, 11, 13, .94)");
-      document.body.style.setProperty("--time-hue", `${Math.round((dayProgress * 360) - 160)}deg`);
-      document.body.style.setProperty("--time-saturation", saturation);
-      document.body.style.setProperty("--time-brightness", brightness);
+
+      return {
+        "sky-top": top,
+        "sky-mid": mid,
+        "ground": ground,
+        "glow": `hsla(${hue + 38}, 80%, ${62 + light * 18}%, ${.14 + light * .18})`,
+        "panel": `hsl(${hue + 34}, 18%, ${panelLight}%)`,
+        "line": `hsl(${hue}, 18%, ${26 + light * 22}%)`,
+        "ink": isBrightCurrentTheme ? "#1f2628" : "#dce7e2",
+        "accent": `hsl(${hue + 20}, 34%, ${42 + light * 24}%)`,
+        "accent-light": `hsl(${hue + 22}, 46%, ${58 + light * 18}%)`,
+        "signal": `hsl(${340 - dawnDusk * 18}, 54%, ${52 + dawnDusk * 18}%)`,
+        "readable-ink": isBrightCurrentTheme ? "#182224" : "#f5fbf7",
+        "readable-title": isBrightCurrentTheme ? "#781533" : "#fff7fb",
+        "readable-tag": isBrightCurrentTheme ? "#304247" : "#d7f4f7",
+        "readable-accent": isBrightCurrentTheme ? "#781533" : "#ffabc0",
+        "readable-card": isBrightCurrentTheme ? "rgba(245, 248, 242, .9)" : "rgba(10, 16, 18, .88)",
+        "readable-card-strong": isBrightCurrentTheme ? "rgba(235, 241, 236, .96)" : "rgba(7, 11, 13, .94)",
+        "hue": `${Math.round((dayProgress * 360) - 160)}deg`,
+        "saturation": saturation,
+        "brightness": brightness
+      };
+    }
+
+    function applyTimeThemeValues(target, prefix, values) {
+      Object.entries(values).forEach(([name, value]) => {
+        target.style.setProperty(`--${prefix}${name}`, value);
+      });
+    }
+
+    function setCurrentTimeThemeColors(date = new Date()) {
+      applyTimeThemeValues(document.body, "time-", getCurrentTimeThemeValues(date));
     }
 
     function flashThemeLabel(label) {
@@ -8697,12 +9310,264 @@
       applyThemeMode(nextMode, true);
     }
 
+    const columbusTimeline = document.getElementById("columbus-timeline");
+    const columbusTimeValue = document.getElementById("columbus-time-value");
+    const columbusSeasonValue = document.getElementById("columbus-season-value");
+    const columbusScene = document.getElementById("columbus-scene");
+    const columbusSeasonToggle = document.getElementById("columbus-season-toggle");
+    const ohioSeasonFormatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/New_York",
+      month: "numeric",
+      day: "numeric"
+    });
+    const COLUMBUS_SEASON_FILTER_ORDER = ["spring", "summer", "autumn", "winter"];
+    let columbusSeasonFilter = null;
+
+    const COLUMBUS_BRIDGE_STOPS = [
+      {
+        at: 0,
+        name: "Midnight",
+        vars: {
+          "--columbus-bridge-sky-top": "#07101f", "--columbus-bridge-sky-high": "#101b35", "--columbus-bridge-sky-warm": "#24234b", "--columbus-bridge-sky-low": "#16253f", "--columbus-bridge-sky-bottom": "#07111d",
+          "--columbus-water-top": "#061c24", "--columbus-water-mid-a": "#09282f", "--columbus-water-glow": "#213551", "--columbus-water-mid-b": "#162d44", "--columbus-water-bottom": "#081725",
+          "--columbus-scene-tint": "rgba(25, 36, 94, 0.26)", "--columbus-scene-filter": "saturate(0.82) brightness(0.66)",
+          "--columbus-sun-x": "116px", "--columbus-sun-y": "610px", "--columbus-sun-opacity": "0", "--columbus-moon-opacity": "1", "--columbus-star-opacity": "0.95", "--columbus-cloud-opacity": "0.12", "--columbus-aurora-opacity": "0.5",
+          "--columbus-hill-a": "#163e25", "--columbus-hill-b": "#0d2c25", "--columbus-foreground": "#0f3326"
+        }
+      },
+      {
+        at: 22,
+        name: "Dawn",
+        vars: {
+          "--columbus-bridge-sky-top": "#2c5fb8", "--columbus-bridge-sky-high": "#a7c8ff", "--columbus-bridge-sky-warm": "#ffd2a8", "--columbus-bridge-sky-low": "#8bb6e8", "--columbus-bridge-sky-bottom": "#5f90c8",
+          "--columbus-water-top": "#17323d", "--columbus-water-mid-a": "#224653", "--columbus-water-glow": "#e5c2a0", "--columbus-water-mid-b": "#8fb6d1", "--columbus-water-bottom": "#5b86a8",
+          "--columbus-scene-tint": "rgba(255, 170, 120, 0.10)", "--columbus-scene-filter": "saturate(1.0) brightness(0.92)",
+          "--columbus-sun-x": "158px", "--columbus-sun-y": "462px", "--columbus-sun-opacity": "0.55", "--columbus-moon-opacity": "0.28", "--columbus-star-opacity": "0.12", "--columbus-cloud-opacity": "0.28", "--columbus-aurora-opacity": "0.12",
+          "--columbus-hill-a": "#276533", "--columbus-hill-b": "#1e4e2e", "--columbus-foreground": "#4e7d1d"
+        }
+      },
+      {
+        at: 45,
+        name: "Noon",
+        vars: {
+          "--columbus-bridge-sky-top": "#2f8fff", "--columbus-bridge-sky-high": "#8fd0ff", "--columbus-bridge-sky-warm": "#dff4ff", "--columbus-bridge-sky-low": "#6bbcff", "--columbus-bridge-sky-bottom": "#3f9fff",
+          "--columbus-water-top": "#1a5e73", "--columbus-water-mid-a": "#2381a0", "--columbus-water-glow": "#d7eefc", "--columbus-water-mid-b": "#8ed1ec", "--columbus-water-bottom": "#5eaed8",
+          "--columbus-scene-tint": "rgba(255, 255, 255, 0.03)", "--columbus-scene-filter": "saturate(1.18) brightness(1.08)",
+          "--columbus-sun-x": "428px", "--columbus-sun-y": "158px", "--columbus-sun-opacity": "0.92", "--columbus-moon-opacity": "0", "--columbus-star-opacity": "0", "--columbus-cloud-opacity": "0.34", "--columbus-aurora-opacity": "0",
+          "--columbus-hill-a": "#2d7437", "--columbus-hill-b": "#245d35", "--columbus-foreground": "#5f8b19"
+        }
+      },
+      {
+        at: 66,
+        name: "Sunset",
+        vars: {
+          "--columbus-bridge-sky-top": "#5f8fce", "--columbus-bridge-sky-high": "#d6d9ec", "--columbus-bridge-sky-warm": "#ff996d", "--columbus-bridge-sky-low": "#b06e84", "--columbus-bridge-sky-bottom": "#4f657c",
+          "--columbus-water-top": "#203f44", "--columbus-water-mid-a": "#254445", "--columbus-water-glow": "#e79975", "--columbus-water-mid-b": "#897f9a", "--columbus-water-bottom": "#5e7d9c",
+          "--columbus-scene-tint": "rgba(255, 92, 54, 0.18)", "--columbus-scene-filter": "saturate(1.15) brightness(0.96)",
+          "--columbus-sun-x": "742px", "--columbus-sun-y": "318px", "--columbus-sun-opacity": "0.8", "--columbus-moon-opacity": "0.05", "--columbus-star-opacity": "0.05", "--columbus-cloud-opacity": "0.42", "--columbus-aurora-opacity": "0.06",
+          "--columbus-hill-a": "#556f2a", "--columbus-hill-b": "#2e4c2c", "--columbus-foreground": "#49651c"
+        }
+      },
+      {
+        at: 100,
+        name: "Night",
+        vars: {
+          "--columbus-bridge-sky-top": "#070b18", "--columbus-bridge-sky-high": "#111b35", "--columbus-bridge-sky-warm": "#322750", "--columbus-bridge-sky-low": "#172139", "--columbus-bridge-sky-bottom": "#09111d",
+          "--columbus-water-top": "#061823", "--columbus-water-mid-a": "#08202a", "--columbus-water-glow": "#3c335e", "--columbus-water-mid-b": "#172943", "--columbus-water-bottom": "#091624",
+          "--columbus-scene-tint": "rgba(20, 30, 92, 0.34)", "--columbus-scene-filter": "saturate(0.74) brightness(0.58)",
+          "--columbus-sun-x": "812px", "--columbus-sun-y": "648px", "--columbus-sun-opacity": "0", "--columbus-moon-opacity": "1", "--columbus-star-opacity": "1", "--columbus-cloud-opacity": "0.11", "--columbus-aurora-opacity": "0.62",
+          "--columbus-hill-a": "#123827", "--columbus-hill-b": "#0b241e", "--columbus-foreground": "#0f3326"
+        }
+      }
+    ];
+
+    function columbusHexToRgb(hex) {
+      const clean = hex.replace("#", "");
+      const value = parseInt(clean.length === 3 ? clean.split("").map((char) => char + char).join("") : clean, 16);
+      return [(value >> 16) & 255, (value >> 8) & 255, value & 255];
+    }
+
+    function columbusRgbToHex(rgb) {
+      return `#${rgb.map((value) => Math.round(value).toString(16).padStart(2, "0")).join("")}`;
+    }
+
+    function columbusLerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function columbusLerpColor(a, b, t) {
+      const next = columbusHexToRgb(b);
+      return columbusRgbToHex(columbusHexToRgb(a).map((value, index) => columbusLerp(value, next[index], t)));
+    }
+
+    function columbusParseRgba(value) {
+      return value.match(/rgba\(([^)]+)\)/)[1].split(",").map(Number);
+    }
+
+    function columbusLerpRgba(a, b, t) {
+      const av = columbusParseRgba(a);
+      const bv = columbusParseRgba(b);
+      return `rgba(${Math.round(columbusLerp(av[0], bv[0], t))}, ${Math.round(columbusLerp(av[1], bv[1], t))}, ${Math.round(columbusLerp(av[2], bv[2], t))}, ${columbusLerp(av[3], bv[3], t).toFixed(3)})`;
+    }
+
+    function columbusInterpolateBridgeVars(value) {
+      const current = COLUMBUS_BRIDGE_STOPS.find((stop, index) => value >= stop.at && value <= COLUMBUS_BRIDGE_STOPS[Math.min(index + 1, COLUMBUS_BRIDGE_STOPS.length - 1)].at) || COLUMBUS_BRIDGE_STOPS[COLUMBUS_BRIDGE_STOPS.length - 2];
+      const next = COLUMBUS_BRIDGE_STOPS[COLUMBUS_BRIDGE_STOPS.indexOf(current) + 1] || current;
+      const span = Math.max(next.at - current.at, 1);
+      const t = Math.min(Math.max((value - current.at) / span, 0), 1);
+      const result = {};
+
+      Object.keys(current.vars).forEach((key) => {
+        const a = current.vars[key];
+        const b = next.vars[key];
+        if (a.startsWith("#")) result[key] = columbusLerpColor(a, b, t);
+        else if (a.startsWith("rgba")) result[key] = columbusLerpRgba(a, b, t);
+        else if (a.endsWith("px")) result[key] = `${columbusLerp(parseFloat(a), parseFloat(b), t)}px`;
+        else if (key === "--columbus-scene-filter") result[key] = t < .5 ? a : b;
+        else result[key] = String(columbusLerp(parseFloat(a), parseFloat(b), t));
+      });
+
+      return result;
+    }
+
+    function getColumbusDate() {
+      const offsetMinutes = Number(columbusTimeline?.value || 0);
+      return new Date(Date.now() + offsetMinutes * 60000);
+    }
+
+    function getColumbusSeason(date) {
+      const parts = ohioSeasonFormatter.formatToParts(date);
+      const month = Number(parts.find((part) => part.type === "month")?.value || 1);
+      const day = Number(parts.find((part) => part.type === "day")?.value || 1);
+      const stamp = month * 100 + day;
+      if (stamp >= 321 && stamp < 621) return "spring";
+      if (stamp >= 621 && stamp < 923) return "summer";
+      if (stamp >= 923 && stamp < 1221) return "autumn";
+      return "winter";
+    }
+
+    function applyColumbusSeasonOverlay(season) {
+      const overlays = {
+        spring: {
+          overlay: "radial-gradient(circle at 24% 24%, rgba(255,198,218,.28), transparent 21%), radial-gradient(circle at 72% 36%, rgba(174,222,132,.24), transparent 28%), linear-gradient(180deg, rgba(255,224,232,.08), rgba(113,163,65,.08))",
+          particles: "radial-gradient(circle at 16% 25%, rgba(255,214,226,.88) 0 2px, transparent 3px), radial-gradient(circle at 38% 52%, rgba(255,214,226,.74) 0 2px, transparent 3px), radial-gradient(circle at 64% 36%, rgba(181,224,128,.72) 0 2px, transparent 3px), radial-gradient(circle at 82% 69%, rgba(255,214,226,.64) 0 2px, transparent 3px)",
+          ground: "linear-gradient(180deg, transparent 0 60%, rgba(129,176,83,.16) 61% 100%)",
+          blend: "screen",
+          groundBlend: "soft-light"
+        },
+        summer: {
+          overlay: "radial-gradient(circle at 70% 18%, rgba(255,236,115,.3), transparent 25%), linear-gradient(180deg, rgba(255,206,94,.08), rgba(47,128,39,.14))",
+          particles: "radial-gradient(circle at 30% 30%, rgba(255,244,168,.72) 0 2px, transparent 3px), radial-gradient(circle at 84% 42%, rgba(255,244,168,.62) 0 2px, transparent 3px), radial-gradient(circle at 54% 78%, rgba(112,185,60,.44) 0 2px, transparent 3px)",
+          ground: "linear-gradient(180deg, transparent 0 54%, rgba(67,142,42,.22) 55% 100%), radial-gradient(ellipse at 74% 88%, rgba(255,230,93,.18), transparent 28%)",
+          blend: "screen",
+          groundBlend: "soft-light"
+        },
+        autumn: {
+          overlay: "radial-gradient(circle at 22% 20%, rgba(209,91,48,.28), transparent 25%), linear-gradient(180deg, rgba(199,116,45,.12), rgba(98,56,22,.2))",
+          particles: "radial-gradient(ellipse at 20% 28%, rgba(218,96,51,.82) 0 2px, transparent 3px), radial-gradient(ellipse at 44% 50%, rgba(190,126,43,.78) 0 2px, transparent 3px), radial-gradient(ellipse at 66% 64%, rgba(146,79,35,.76) 0 2px, transparent 3px), radial-gradient(ellipse at 84% 42%, rgba(220,151,63,.7) 0 2px, transparent 3px)",
+          ground: "linear-gradient(180deg, transparent 0 56%, rgba(150,82,32,.25) 57% 100%), radial-gradient(ellipse at 34% 82%, rgba(218,96,51,.22), transparent 26%)",
+          blend: "screen",
+          groundBlend: "multiply"
+        },
+        winter: {
+          overlay: "linear-gradient(180deg, rgba(225,244,255,.24), rgba(255,255,255,.1)), radial-gradient(circle at 70% 12%, rgba(235,248,255,.26), transparent 24%)",
+          particles: "radial-gradient(circle at 18% 18%, rgba(255,255,255,.92) 0 1.5px, transparent 2.5px), radial-gradient(circle at 42% 36%, rgba(255,255,255,.82) 0 1.5px, transparent 2.5px), radial-gradient(circle at 76% 26%, rgba(255,255,255,.88) 0 1.5px, transparent 2.5px), radial-gradient(circle at 88% 58%, rgba(255,255,255,.76) 0 1.5px, transparent 2.5px), radial-gradient(circle at 55% 72%, rgba(255,255,255,.72) 0 1.5px, transparent 2.5px)",
+          ground: "linear-gradient(180deg, transparent 0 50%, rgba(235,248,255,.22) 51% 100%), linear-gradient(90deg, transparent 0 12%, rgba(255,255,255,.16) 13% 30%, transparent 31% 100%)",
+          blend: "screen",
+          groundBlend: "screen"
+        }
+      };
+      const selected = overlays[season] || overlays.spring;
+      document.body.style.setProperty("--columbus-season-overlay", selected.overlay);
+      document.body.style.setProperty("--columbus-season-particles", selected.particles);
+      document.body.style.setProperty("--columbus-season-ground", selected.ground);
+      document.body.style.setProperty("--columbus-season-blend", selected.blend);
+      document.body.style.setProperty("--columbus-season-ground-blend", selected.groundBlend);
+    }
+
+    function setColumbusSeasonFilter(season) {
+      columbusSeasonFilter = COLUMBUS_SEASON_FILTER_ORDER.includes(season) ? season : COLUMBUS_SEASON_FILTER_ORDER[0];
+      if (columbusSeasonValue) columbusSeasonValue.textContent = columbusSeasonFilter;
+      applyColumbusSeasonOverlay(columbusSeasonFilter);
+      if (columbusSeasonToggle) {
+        columbusSeasonToggle.textContent = columbusSeasonFilter.toUpperCase();
+        columbusSeasonToggle.setAttribute("aria-label", `Season filter: ${columbusSeasonFilter}`);
+        columbusSeasonToggle.classList.add("is-cycling");
+      }
+      columbusScene?.classList.add("show-season");
+    }
+
+    function updateColumbusWeatherReadout() {
+      const weatherValue = document.getElementById("columbus-weather-value");
+      if (!weatherValue) return;
+      weatherValue.textContent = columbusWeatherState.status;
+    }
+
+    function setColumbusTimelineOffset(offsetMinutes) {
+      if (!columbusTimeline) return;
+
+      const min = Number(columbusTimeline.min);
+      const max = Number(columbusTimeline.max);
+      const step = Number(columbusTimeline.step) || 15;
+      const clamped = Math.max(min, Math.min(max, Math.round(offsetMinutes / step) * step));
+      columbusTimeline.value = String(clamped);
+      updateColumbusWidget();
+    }
+
+    function handleColumbusTimelineKeydown(event) {
+      if (!columbusTimeline) return;
+
+      const offset = Number(columbusTimeline.value || 0);
+      const step = Number(columbusTimeline.step) || 15;
+      const keyOffsets = {
+        ArrowRight: step,
+        ArrowUp: step,
+        ArrowLeft: -step,
+        ArrowDown: -step
+      };
+
+      if (event.key in keyOffsets) {
+        event.preventDefault();
+        setColumbusTimelineOffset(offset + keyOffsets[event.key]);
+      } else if (event.key === "Home") {
+        event.preventDefault();
+        setColumbusTimelineOffset(0);
+      }
+    }
+
+    function updateColumbusWidget() {
+      if (!columbusTimeline || !columbusTimeValue || !columbusSeasonValue) return;
+
+      const columbusDate = getColumbusDate();
+      const { hour, minute } = ohioDateParts(columbusDate);
+      const dayProgress = (hour + minute / 60) / 24;
+      const bridgeValue = Math.min(100, Math.max(0, dayProgress * 100));
+      const season = getColumbusSeason(columbusDate);
+
+      columbusTimeValue.textContent = ohioClockFormatter.format(columbusDate);
+      if (!columbusSeasonFilter) columbusSeasonFilter = season;
+      applyTimeThemeValues(document.body, "columbus-", getCurrentTimeThemeValues(columbusDate));
+      Object.entries(columbusInterpolateBridgeVars(bridgeValue)).forEach(([name, value]) => {
+        document.body.style.setProperty(name, value);
+      });
+      setColumbusSeasonFilter(columbusSeasonFilter);
+      updateColumbusWeatherReadout();
+      columbusTimeline.setAttribute("aria-valuenow", columbusTimeline.value);
+    }
+
     updateOhioTime();
+    updateColumbusWidget();
     setInterval(() => {
-      if (!document.hidden) updateOhioTime();
+      if (!document.hidden) {
+        updateOhioTime();
+        updateColumbusWidget();
+      }
     }, 1000);
     document.addEventListener("visibilitychange", () => {
-      if (!document.hidden) updateOhioTime();
+      if (!document.hidden) {
+        updateOhioTime();
+        updateColumbusWidget();
+      }
     });
     applyThemeMode(activeThemeMode);
     setInterval(() => {
@@ -8711,6 +9576,16 @@
       }
     }, 30000);
     document.getElementById("ohio-theme-button").addEventListener("click", cycleThemeMode);
+    document.getElementById("columbus-button")?.addEventListener("click", () => {
+      loadHockingHillsWeather();
+      updateColumbusWidget();
+    });
+    columbusTimeline?.addEventListener("input", updateColumbusWidget);
+    columbusTimeline?.addEventListener("keydown", handleColumbusTimelineKeydown);
+    columbusSeasonToggle?.addEventListener("click", () => {
+      const currentIndex = COLUMBUS_SEASON_FILTER_ORDER.indexOf(columbusSeasonFilter || getColumbusSeason(getColumbusDate()));
+      setColumbusSeasonFilter(COLUMBUS_SEASON_FILTER_ORDER[(currentIndex + 1) % COLUMBUS_SEASON_FILTER_ORDER.length]);
+    });
     window.addEventListener("storage", (event) => {
       if (event.key === THEME_STORAGE_KEY) {
         applyThemeMode(event.newValue || "normal");
@@ -13493,7 +14368,7 @@
         if (!state.spelled.length) {
           readout.replaceChildren(Object.assign(document.createElement("span"), {
             className: "sim-readout-placeholder",
-            textContent: "awaiting sentence"
+            textContent: "awaiting contact"
           }));
           return;
         }
