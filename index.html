@@ -801,6 +801,34 @@
         0 0 10px rgba(255,255,255,.18);
     }
 
+    body.theme-night .alignment-tool,
+    body.theme-current .alignment-tool {
+      filter: none;
+    }
+
+    body.theme-night .alignment-tool-label,
+    body.theme-current .alignment-tool-label {
+      color: #f7fbf2;
+      text-shadow:
+        0 0 4px rgba(255,255,255,.9),
+        0 0 10px rgba(145,184,193,.68),
+        0 0 16px var(--signal-pink);
+    }
+
+    body.theme-night .alignment-tool-symbol,
+    body.theme-current .alignment-tool-symbol {
+      color: #101719;
+      background:
+        radial-gradient(circle at 35% 28%, rgba(255,255,255,.9), transparent 28%),
+        linear-gradient(#f7fbf2, #b8d5d9);
+      border-color: rgba(247,251,242,.92);
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.84),
+        inset -1px -1px rgba(0,0,0,.28),
+        0 0 8px rgba(255,255,255,.48),
+        0 0 16px rgba(145,184,193,.42);
+    }
+
     body.theme-night .tarot-name,
     body.theme-current .tarot-name {
       color: #fff;
@@ -3598,6 +3626,20 @@
       text-transform: uppercase;
     }
 
+    .go-fish-body.is-fish-showcase .go-fish-hud span {
+      color: #f7fbf2;
+      padding: 4px 7px;
+      background: rgba(8,14,16,.54);
+      border: 1px solid rgba(247,251,242,.42);
+      text-shadow:
+        0 0 4px rgba(255,255,255,.95),
+        0 0 10px var(--fish-show-a, rgba(145,184,193,.72)),
+        0 0 18px var(--fish-show-b, rgba(201,87,112,.58));
+      box-shadow:
+        inset 0 0 8px rgba(255,255,255,.12),
+        0 0 12px rgba(255,255,255,.18);
+    }
+
     .go-fish-pond {
       position: relative;
       width: 100%;
@@ -4064,6 +4106,202 @@
         0 0 4px rgba(255,255,255,.85),
         0 0 10px var(--fish-color, #8d2442),
         0 0 18px var(--fish-color, #8d2442);
+    }
+
+    .go-fish-alignment-badge {
+      display: inline-block;
+      min-width: 34px;
+      padding: 1px 6px 2px;
+      margin: 0 1px;
+      border: 1px solid rgba(31,38,40,.72);
+      font-weight: bold;
+      text-align: center;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.12),
+        inset -2px -2px rgba(0,0,0,.42),
+        1px 2px 0 rgba(0,0,0,.36);
+    }
+
+    .go-fish-alignment-badge.is-yin {
+      color: #f7fbf2;
+      background: linear-gradient(145deg, #050607, #1f2628);
+      border-color: rgba(247,251,242,.3);
+      text-shadow: 0 1px 0 #000;
+    }
+
+    .go-fish-alignment-badge.is-yang {
+      color: #101719;
+      background: linear-gradient(145deg, #ffffff, #dce7e2);
+      border-color: rgba(31,38,40,.56);
+      text-shadow: 0 1px 0 rgba(255,255,255,.74);
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.9),
+        inset -2px -2px rgba(0,0,0,.2),
+        1px 2px 0 rgba(0,0,0,.24);
+    }
+
+    .go-fish-body.is-fish-showcase .go-fish-catch-name {
+      display: inline-block;
+      padding: 2px 7px 3px;
+      margin: 2px 0;
+      background:
+        linear-gradient(145deg, rgba(6,8,9,.94), rgba(31,38,40,.82));
+      border: 1px solid rgba(247,251,242,.26);
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.12),
+        inset -2px -2px rgba(0,0,0,.64),
+        2px 3px 0 rgba(0,0,0,.66),
+        0 0 14px rgba(0,0,0,.58);
+      text-shadow:
+        0 1px 0 #000;
+    }
+
+    .cursor-closet-window {
+      width: min(420px, 92vw);
+    }
+
+    .cursor-closet-body {
+      display: grid;
+      gap: 10px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.42), transparent 38%),
+        repeating-linear-gradient(90deg, rgba(31,38,40,.06) 0 1px, transparent 1px 8px),
+        linear-gradient(#d9ded8, #aeb9b8);
+    }
+
+    .cursor-closet-status {
+      padding: 7px 8px;
+      color: #243033;
+      background: rgba(247,251,242,.58);
+      border: 1px dotted rgba(31,38,40,.46);
+      font: bold 11px/1 "Courier New", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      box-shadow: inset 1px 1px rgba(255,255,255,.62);
+    }
+
+    .cursor-closet-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .cursor-choice {
+      min-height: 58px;
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid rgba(31,38,40,.66);
+      background:
+        linear-gradient(145deg, rgba(247,251,242,.72), rgba(174,185,184,.78));
+      color: #1f2628;
+      cursor: pointer;
+      text-align: left;
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.64),
+        3px 4px 0 rgba(31,38,40,.16);
+      font: bold 11px/1.15 "Courier New", monospace;
+      text-transform: uppercase;
+    }
+
+    .cursor-choice:hover,
+    .cursor-choice:focus-visible,
+    .cursor-choice.is-active {
+      color: #f7fbf2;
+      background:
+        linear-gradient(145deg, rgba(31,38,40,.92), rgba(80,94,96,.86));
+      outline: 1px dotted #f7fbf2;
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.16),
+        0 0 12px rgba(145,184,193,.42),
+        3px 4px 0 rgba(31,38,40,.22);
+    }
+
+    .cursor-choice-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(31,38,40,.5);
+      background: rgba(247,251,242,.66);
+      color: #8d2442;
+      font: 22px/1 Georgia, "Times New Roman", serif;
+      text-shadow: 0 0 8px rgba(201,87,112,.42);
+      box-shadow: inset 0 0 8px rgba(255,255,255,.44);
+    }
+
+    .cursor-choice:hover .cursor-choice-mark,
+    .cursor-choice:focus-visible .cursor-choice-mark,
+    .cursor-choice.is-active .cursor-choice-mark {
+      color: #f7fbf2;
+      background: rgba(8,14,16,.72);
+      border-color: rgba(247,251,242,.62);
+      text-shadow:
+        0 0 5px rgba(255,255,255,.92),
+        0 0 13px rgba(201,87,112,.8);
+    }
+
+    .cursor-choice-name {
+      overflow-wrap: anywhere;
+    }
+
+    .cursor-choice-none {
+      min-height: 36px;
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+    }
+
+    body.cursor-closet-hide-native,
+    body.cursor-closet-hide-native * {
+      cursor: none !important;
+    }
+
+    .cursor-closet-cursor,
+    .cursor-closet-canvas {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 10000;
+      pointer-events: none;
+    }
+
+    .cursor-closet-canvas {
+      width: 100vw;
+      height: 100vh;
+      mix-blend-mode: screen;
+    }
+
+    .cursor-closet-cursor {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      color: #f7fbf2;
+      font: bold 29px/1 Georgia, "Times New Roman", serif;
+      text-shadow:
+        0 0 5px rgba(255,255,255,.95),
+        0 0 13px rgba(145,184,193,.8),
+        0 0 20px rgba(201,87,112,.62);
+      transform: translate3d(-100px, -100px, 0);
+      will-change: transform, color, filter;
+    }
+
+    .cursor-closet-cursor.is-hyperglyph {
+      transition: color .45s ease, filter .45s ease, opacity .25s ease;
+    }
+
+    .cursor-closet-cursor.is-chromaglyph {
+      transition: color .22s ease, filter .22s ease, text-shadow .22s ease;
+    }
+
+    .cursor-closet-cursor.is-inner-radiance,
+    .cursor-closet-cursor.is-rave-tail {
+      display: none;
     }
 
     .popup {
@@ -6008,6 +6246,7 @@
           <a class="button88" href="#hollow-oracle" id="hollow-oracle-button" data-widget-button>HOLLOW ORACLE</a>
           <a class="button88" href="#heads-tails" id="heads-tails-button" data-widget-button>HEADS/TAILS</a>
           <a class="button88" href="#go-fish" id="go-fish-button" data-widget-button>GO FISH</a>
+          <a class="button88" href="#cursor-closet" id="cursor-closet-button" data-widget-button>CURSOR CLOSET</a>
         </div>
         <div class="widget-cycle-controls" aria-label="Cycle widget buttons">
           <button class="widget-cycle-button" type="button" id="widget-cycle-up" aria-label="Show previous widget group">▲</button>
@@ -6022,7 +6261,7 @@
       <div class="popup-title">SIM BOARD <a href="#">x</a></div>
       <div class="sim-board-title">
         <span>Spirit in the Machine</span>
-        <span class="sim-board-subtitle">HELLO to Start, Goodbye to End. Esc to free cursor.</span>
+        <span class="sim-board-subtitle">word sentence channel</span>
       </div>
       <div class="sim-readout" id="sim-readout" aria-live="polite">
         <span class="sim-readout-placeholder">awaiting signal</span>
@@ -6147,6 +6386,40 @@
           </div>
           <div class="go-fish-readout" id="go-fish-readout"></div>
         </div>
+      </div>
+    </div>
+  </aside>
+
+  <aside id="cursor-closet" class="popup" aria-label="Cursor Closet popup">
+    <div class="popup-window cursor-closet-window">
+      <div class="popup-title">CURSOR CLOSET <a href="#">x</a></div>
+      <div class="popup-body cursor-closet-body">
+        <div class="cursor-closet-status" id="cursor-closet-status" aria-live="polite">ACTIVE: NONE</div>
+        <div class="cursor-closet-grid" aria-label="Cursor choices">
+          <button class="cursor-choice" type="button" data-cursor-mode="glyph">
+            <span class="cursor-choice-mark">☉</span>
+            <span class="cursor-choice-name">Glyph</span>
+          </button>
+          <button class="cursor-choice" type="button" data-cursor-mode="hyperglyph">
+            <span class="cursor-choice-mark">✧</span>
+            <span class="cursor-choice-name">Hyperglyph</span>
+          </button>
+          <button class="cursor-choice" type="button" data-cursor-mode="chromaglyph">
+            <span class="cursor-choice-mark">◇</span>
+            <span class="cursor-choice-name">Chromaglyph</span>
+          </button>
+          <button class="cursor-choice" type="button" data-cursor-mode="inner-radiance">
+            <span class="cursor-choice-mark">✶</span>
+            <span class="cursor-choice-name">Inner Radiance</span>
+          </button>
+          <button class="cursor-choice" type="button" data-cursor-mode="rave-tail">
+            <span class="cursor-choice-mark">⌁</span>
+            <span class="cursor-choice-name">Rave Tail</span>
+          </button>
+        </div>
+        <button class="cursor-choice cursor-choice-none" type="button" data-cursor-mode="none">
+          <span class="cursor-choice-name">None</span>
+        </button>
       </div>
     </div>
   </aside>
@@ -12385,6 +12658,7 @@
         const finStyle = randomFrom(fishFinStyles);
         const darkEye = Math.random() < .5;
         const alignment = darkEye ? "Yin" : "Yang";
+        const alignmentClass = darkEye ? "is-yin" : "is-yang";
         const patternInk = Math.random() > .5 ? "#f7fbf2" : "#1f2628";
         const patternAccent = Math.random() > .5 ? accent : color.hex;
         const hasGlow = effects.includes("glow");
@@ -12446,7 +12720,7 @@
             ${innerRadianceOverlay}
             ${extraGlow}
           </g>`;
-        fishReadout.innerHTML = `Your score was <strong>${score}</strong>, <strong>${scorePhrase(score)}</strong> You caught a:<br><strong class="go-fish-catch-name" style="--fish-color: ${color.hex};">${color.name} ${descriptor} ${breed}</strong>.<br>This fish has a <strong>${bodyType.name}-type</strong> body, and <strong>${effectsPhrase}</strong>.<br>It is aligned with <strong>${alignment}</strong>, and is marked by <strong>${pupil}</strong>.`;
+        fishReadout.innerHTML = `Your score was <strong>${score}</strong>, <strong>${scorePhrase(score)}</strong> You caught a:<br><strong class="go-fish-catch-name" style="--fish-color: ${color.hex};">${color.name} ${descriptor} ${breed}</strong>.<br>This fish has a <strong>${bodyType.name}-type</strong> body, and <strong>${effectsPhrase}</strong>.<br>It is aligned with <strong class="go-fish-alignment-badge ${alignmentClass}">${alignment}</strong>, and is marked by <strong>${pupil}</strong>.`;
         setFishShowcasePalette(score, color, accent);
         fishBodyPanel.classList.add("has-catch");
         fishBodyPanel.classList.remove("is-fish-showcase");
@@ -12481,6 +12755,284 @@
       resetFishing({ resetScore: true });
     }
 
+    function setupCursorCloset() {
+      const STORAGE_KEY = "voe.cursorCloset.active";
+      const choices = Array.from(document.querySelectorAll("[data-cursor-mode]"));
+      const status = document.getElementById("cursor-closet-status");
+      if (!choices.length || !status) return;
+
+      const modes = {
+        none: "NONE",
+        glyph: "GLYPH",
+        hyperglyph: "HYPERGLYPH",
+        chromaglyph: "CHROMAGLYPH",
+        "inner-radiance": "INNER RADIANCE",
+        "rave-tail": "RAVE TAIL"
+      };
+      const glyphs = ["☉", "☽", "☿", "♃", "♄", "♆", "♇", "⚚", "⚕", "✶", "✷", "✹", "✧", "◇", "◬", "⟡", "⌁", "⌬", "☍", "☊"];
+      const fireColors = ["#fff4a8", "#ffb33f", "#ff6b35", "#c95770", "#f7fbf2"];
+      const chromaColors = ["#ff3b5f", "#ff8b2f", "#ffe34f", "#57e05f", "#38d8ff", "#6f8dff", "#c95cff"];
+      let activeMode = "none";
+      let cursorGlyph = glyphs[Math.floor(Math.random() * glyphs.length)];
+      let chromaIndex = 0;
+      let cursorEl = null;
+      let trailCanvas = null;
+      let trailCtx = null;
+      let animationFrame = null;
+      let lastFrameTime = 0;
+      let lastGlyphChange = 0;
+      let mouseX = -100;
+      let mouseY = -100;
+      let pointerSeen = false;
+      let fireParticles = [];
+      let ravePoints = [];
+
+      function readSavedMode() {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          return Object.prototype.hasOwnProperty.call(modes, saved) ? saved : "none";
+        } catch (error) {
+          return "none";
+        }
+      }
+
+      function saveMode(mode) {
+        try {
+          if (mode === "none") {
+            localStorage.removeItem(STORAGE_KEY);
+          } else {
+            localStorage.setItem(STORAGE_KEY, mode);
+          }
+        } catch (error) {
+          // Local storage can be unavailable in some privacy modes.
+        }
+      }
+
+      function updateCursorClosetUi() {
+        status.textContent = `ACTIVE: ${modes[activeMode] || "NONE"}`;
+        choices.forEach((choice) => {
+          const isActive = choice.dataset.cursorMode === activeMode;
+          choice.classList.toggle("is-active", isActive);
+          choice.setAttribute("aria-pressed", String(isActive));
+        });
+      }
+
+      function createCursorLayers() {
+        if (cursorEl && trailCanvas) return;
+        trailCanvas = document.createElement("canvas");
+        trailCanvas.className = "cursor-closet-canvas";
+        cursorEl = document.createElement("div");
+        cursorEl.className = "cursor-closet-cursor";
+        cursorEl.setAttribute("aria-hidden", "true");
+        document.body.append(trailCanvas, cursorEl);
+        trailCtx = trailCanvas.getContext("2d");
+        resizeCursorCanvas();
+      }
+
+      function resizeCursorCanvas() {
+        if (!trailCanvas || !trailCtx) return;
+        const dpr = window.devicePixelRatio || 1;
+        trailCanvas.width = Math.ceil(window.innerWidth * dpr);
+        trailCanvas.height = Math.ceil(window.innerHeight * dpr);
+        trailCanvas.style.width = `${window.innerWidth}px`;
+        trailCanvas.style.height = `${window.innerHeight}px`;
+        trailCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function removeCursorLayers() {
+        if (cursorEl) cursorEl.remove();
+        if (trailCanvas) trailCanvas.remove();
+        cursorEl = null;
+        trailCanvas = null;
+        trailCtx = null;
+      }
+
+      function setCursorPosition() {
+        if (!cursorEl) return;
+        cursorEl.style.transform = `translate3d(${mouseX - 21}px, ${mouseY - 21}px, 0)`;
+      }
+
+      function contactRgba(hex, alpha) {
+        const clean = hex.replace("#", "");
+        const value = Number.parseInt(clean, 16);
+        const red = (value >> 16) & 255;
+        const green = (value >> 8) & 255;
+        const blue = value & 255;
+        return `rgba(${red},${green},${blue},${alpha})`;
+      }
+
+      function addInnerRadianceParticles() {
+        for (let i = 0; i < 3; i += 1) {
+          fireParticles.push({
+            x: mouseX + (Math.random() - .5) * 10,
+            y: mouseY + (Math.random() - .5) * 10,
+            dx: (Math.random() - .5) * .9,
+            dy: -(.35 + Math.random() * 1.1),
+            size: 7 + Math.random() * 15,
+            age: 0,
+            life: 420 + Math.random() * 360,
+            color: fireColors[Math.floor(Math.random() * fireColors.length)]
+          });
+        }
+      }
+
+      function addRavePoint() {
+        ravePoints.push({ x: mouseX, y: mouseY, age: 0, life: 520 });
+        if (ravePoints.length > 34) ravePoints.shift();
+      }
+
+      function onCursorMove(event) {
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+        pointerSeen = true;
+        setCursorPosition();
+        if (activeMode === "inner-radiance") addInnerRadianceParticles();
+        if (activeMode === "rave-tail") addRavePoint();
+      }
+
+      function drawInnerRadiance(delta) {
+        if (!trailCtx) return;
+        trailCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        trailCtx.save();
+        trailCtx.globalCompositeOperation = "lighter";
+        fireParticles = fireParticles.filter((particle) => {
+          particle.age += delta;
+          particle.x += particle.dx * (delta / 16);
+          particle.y += particle.dy * (delta / 16);
+          const progress = Math.min(1, particle.age / particle.life);
+          const alpha = 1 - progress;
+          const size = particle.size * (1 + progress * .9);
+          trailCtx.shadowColor = particle.color;
+          trailCtx.shadowBlur = 22;
+          trailCtx.strokeStyle = contactRgba(particle.color, alpha * .7);
+          trailCtx.lineWidth = 3;
+          trailCtx.strokeRect(particle.x - size / 2, particle.y - size / 2, size, size);
+          trailCtx.fillStyle = contactRgba(particle.color, alpha * .18);
+          trailCtx.fillRect(particle.x - size / 2, particle.y - size / 2, size, size);
+          return progress < 1;
+        });
+        trailCtx.restore();
+      }
+
+      function drawRaveTail(delta, time) {
+        if (!trailCtx) return;
+        trailCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        ravePoints = ravePoints.filter((point) => {
+          point.age += delta;
+          return point.age < point.life;
+        });
+        if (ravePoints.length < 2) return;
+        trailCtx.save();
+        trailCtx.globalCompositeOperation = "lighter";
+        trailCtx.lineCap = "round";
+        for (let i = 1; i < ravePoints.length; i += 1) {
+          const from = ravePoints[i - 1];
+          const to = ravePoints[i];
+          const age = Math.max(from.age, to.age);
+          const alpha = Math.max(0, 1 - age / to.life);
+          trailCtx.strokeStyle = `hsla(${(time / 12 + i * 28) % 360}, 96%, 64%, ${alpha})`;
+          trailCtx.shadowColor = `hsl(${(time / 12 + i * 28) % 360}, 96%, 64%)`;
+          trailCtx.shadowBlur = 12;
+          trailCtx.lineWidth = 2.2 * alpha + .7;
+          trailCtx.beginPath();
+          trailCtx.moveTo(from.x, from.y);
+          trailCtx.lineTo(to.x, to.y);
+          trailCtx.stroke();
+        }
+        trailCtx.restore();
+      }
+
+      function tickCursorCloset(time) {
+        if (activeMode === "none") return;
+        const delta = Math.min(48, time - (lastFrameTime || time));
+        lastFrameTime = time;
+        if (pointerSeen) setCursorPosition();
+
+        if (activeMode === "hyperglyph" && time - lastGlyphChange > 760) {
+          cursorGlyph = glyphs[Math.floor(Math.random() * glyphs.length)];
+          cursorEl.textContent = cursorGlyph;
+          cursorEl.style.color = Math.random() > .5 ? "#f7fbf2" : "#91b8c1";
+          lastGlyphChange = time;
+        }
+
+        if (activeMode === "chromaglyph" && time - lastGlyphChange > 620) {
+          cursorGlyph = glyphs[Math.floor(Math.random() * glyphs.length)];
+          const chromaColor = chromaColors[chromaIndex % chromaColors.length];
+          cursorEl.textContent = cursorGlyph;
+          cursorEl.style.color = chromaColor;
+          cursorEl.style.textShadow = `
+            0 0 5px rgba(255,255,255,.95),
+            0 0 13px ${chromaColor},
+            0 0 24px ${chromaColor}
+          `;
+          chromaIndex += 1;
+          lastGlyphChange = time;
+        }
+
+        if (activeMode === "inner-radiance") drawInnerRadiance(delta);
+        if (activeMode === "rave-tail") drawRaveTail(delta, time);
+        animationFrame = requestAnimationFrame(tickCursorCloset);
+      }
+
+      function startCursorMode(mode) {
+        createCursorLayers();
+        document.body.classList.add("cursor-closet-active");
+        document.body.classList.toggle("cursor-closet-hide-native", mode !== "inner-radiance" && mode !== "rave-tail");
+        cursorGlyph = glyphs[Math.floor(Math.random() * glyphs.length)];
+        chromaIndex = Math.floor(Math.random() * chromaColors.length);
+        cursorEl.className = `cursor-closet-cursor is-${mode}`;
+        cursorEl.style.color = mode === "chromaglyph" ? chromaColors[chromaIndex % chromaColors.length] : "";
+        cursorEl.style.textShadow = "";
+        cursorEl.textContent = mode === "inner-radiance" || mode === "rave-tail" ? "" : cursorGlyph;
+        if (mode === "chromaglyph") chromaIndex += 1;
+        fireParticles = [];
+        ravePoints = [];
+        lastFrameTime = 0;
+        lastGlyphChange = 0;
+        window.addEventListener("pointermove", onCursorMove, { passive: true });
+        window.addEventListener("resize", resizeCursorCanvas);
+        animationFrame = requestAnimationFrame(tickCursorCloset);
+      }
+
+      function stopCursorMode() {
+        window.removeEventListener("pointermove", onCursorMove);
+        window.removeEventListener("resize", resizeCursorCanvas);
+        if (animationFrame) cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+        fireParticles = [];
+        ravePoints = [];
+        document.body.classList.remove("cursor-closet-active");
+        document.body.classList.remove("cursor-closet-hide-native");
+        removeCursorLayers();
+      }
+
+      function setCursorMode(mode, shouldPersist = true) {
+        const nextMode = Object.prototype.hasOwnProperty.call(modes, mode) ? mode : "none";
+        if (activeMode !== "none") stopCursorMode();
+        activeMode = nextMode;
+        if (activeMode !== "none") startCursorMode(activeMode);
+        if (shouldPersist) saveMode(activeMode);
+        updateCursorClosetUi();
+      }
+
+      choices.forEach((choice) => {
+        choice.addEventListener("click", () => setCursorMode(choice.dataset.cursorMode || "none"));
+      });
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden && animationFrame) {
+          cancelAnimationFrame(animationFrame);
+          animationFrame = null;
+        } else if (!document.hidden && activeMode !== "none" && !animationFrame) {
+          lastFrameTime = 0;
+          animationFrame = requestAnimationFrame(tickCursorCloset);
+        }
+      });
+
+      setCursorMode(readSavedMode(), false);
+      updateCursorClosetUi();
+    }
+
     const ariesHotspot = document.getElementById("aries-hotspot");
     if (ariesHotspot) ariesHotspot.addEventListener("click", triggerAriesOmen);
     const ariesOmen = document.getElementById("aries-omen");
@@ -12495,6 +13047,7 @@
     setupHollowOracle();
     setupHeadsTails();
     setupGoFish();
+    setupCursorCloset();
     renderSiteLinks();
   </script>
   <script>
