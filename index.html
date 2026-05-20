@@ -16641,5 +16641,253 @@
   }
 })();
 </script>
+  <script>
+/* DARK LANCER occult card augmentations */
+(() => {
+  const GLYPHS = [
+    "☉", "☽", "☿", "♀", "♂", "♃", "♄", "♅", "♆", "♇",
+    "✶", "✷", "✹", "✺", "✦", "✧", "✩", "✵", "✠", "✣",
+    "⟁", "△", "▽", "◇", "◆", "◈", "◉", "◎", "◌", "◍",
+    "ᚠ", "ᚢ", "ᚦ", "ᚨ", "ᚱ", "ᚲ", "ᚷ", "ᚹ", "ᛉ", "ᛟ",
+    "⛧", "⛤", "♁", "♆", "☍", "☌", "☊", "☋", "☈", "☄"
+  ];
+
+  const ENCRYPTED_TEXT = [
+    "NULL", "VOID", "EYE", "HUSH", "BLOOD", "STATIC", "MIRROR",
+    "NO DATA", "SIGNAL", "CIPHER", "DREAM", "WITNESS", "ERROR",
+    "ASH", "TEETH", "RAM", "VEIL", "INDEX", "OMEN"
+  ];
+
+  const ENCRYPTED_SUITS = [
+    "?", "#", "%", "§", "¤", "×", "÷", "∴", "∵", "⌁", "⎊", "▓", "▒", "░"
+  ];
+
+  const rand = arr => arr[Math.floor(Math.random() * arr.length)];
+
+  function findDarkLancerWidget() {
+    const direct =
+      document.querySelector("#dark-lancer") ||
+      document.querySelector("#darkLancer") ||
+      document.querySelector(".dark-lancer") ||
+      document.querySelector("[data-widget='dark-lancer']");
+
+    if (direct) return direct;
+
+    const title = [...document.querySelectorAll("*")]
+      .find(el => el.textContent && el.textContent.trim().toUpperCase() === "DARK LANCER");
+
+    return title ? title.closest(".widget, .window, section, article, div") : null;
+  }
+
+  function cardLooksEncrypted(card) {
+    const mark = `${card.className || ""} ${card.dataset?.type || ""} ${card.dataset?.card || ""}`.toLowerCase();
+    return mark.includes("encrypted") || mark.includes("cipher") || mark.includes("scramble");
+  }
+
+  function cardLooksGlyphic(card) {
+    const mark = `${card.className || ""} ${card.dataset?.type || ""} ${card.dataset?.card || ""}`.toLowerCase();
+    return mark.includes("glyphic") || mark.includes("glyph") || mark.includes("occult");
+  }
+
+  function getCardBits(card) {
+    return {
+      value:
+        card.querySelector(".card-value, .rank, .value, .number, [data-card-value], [data-rank]") ||
+        card.querySelector(".top, .face, span") ||
+        card,
+      suit:
+        card.querySelector(".card-suit, .suit, [data-card-suit], [data-suit]") ||
+        card.querySelector(".bottom, .sigil")
+    };
+  }
+
+  function scrambleEncryptedCard(card) {
+    const { value, suit } = getCardBits(card);
+
+    if (value) value.textContent = rand(ENCRYPTED_TEXT);
+    if (suit) suit.textContent = rand(ENCRYPTED_SUITS);
+
+    card.classList.add("dl-encrypted-flicker");
+  }
+
+  function glyphicCard(card) {
+    const { value, suit } = getCardBits(card);
+
+    if (value) value.textContent = rand(GLYPHS);
+    if (suit) suit.textContent = rand(GLYPHS);
+
+    card.classList.add("dl-glyphic-glow");
+  }
+
+  function mutateCards(root) {
+    const cards = root.querySelectorAll(
+      ".card, .dl-card, .dark-lancer-card, [data-card], [data-rank], [data-suit]"
+    );
+
+    cards.forEach(card => {
+      if (cardLooksEncrypted(card)) scrambleEncryptedCard(card);
+      if (cardLooksGlyphic(card)) glyphicCard(card);
+    });
+  }
+
+  function installDealerFade(root) {
+    const dealer =
+      root.querySelector(".dealer-hand, #dealer-hand, [data-hand='dealer'], [data-owner='dealer']") ||
+      [...root.querySelectorAll("*")].find(el => el.textContent?.trim().toUpperCase() === "DEALER")?.parentElement;
+
+    if (!dealer || dealer.dataset.dlFadeInstalled) return;
+    dealer.dataset.dlFadeInstalled = "true";
+
+    dealer.style.position ||= "relative";
+
+    const observer = new MutationObserver(records => {
+      for (const record of records) {
+        record.removedNodes.forEach(node => {
+          if (!(node instanceof HTMLElement)) return;
+          if (!node.matches?.(".card, .dl-card, .dark-lancer-card, [data-card]")) return;
+
+          const ghost = node.cloneNode(true);
+          const box = node.getBoundingClientRect();
+          const parentBox = dealer.getBoundingClientRect();
+
+          Object.assign(ghost.style, {
+            position: "absolute",
+            left: `${box.left - parentBox.left}px`,
+            top: `${box.top - parentBox.top}px`,
+            width: `${box.width}px`,
+            height: `${box.height}px`,
+            pointerEvents: "none",
+            zIndex: "999",
+            opacity: "1",
+            transform: "translateY(0) scale(1)",
+            transition: "opacity 700ms ease, transform 700ms ease, filter 700ms ease",
+            filter: "blur(0px)"
+          });
+
+          dealer.appendChild(ghost);
+
+          requestAnimationFrame(() => {
+            ghost.style.opacity = "0";
+            ghost.style.transform = "translateY(10px) scale(0.94)";
+            ghost.style.filter = "blur(3px)";
+          });
+
+          setTimeout(() => ghost.remove(), 800);
+        });
+      }
+    });
+
+    observer.observe(dealer, { childList: true, subtree: true });
+  }
+
+  function installSecretTallyButton(root) {
+    if (root.querySelector(".dl-secret-tally-button")) return;
+
+    root.style.position ||= "relative";
+
+    let secretBonus = 0;
+
+    const btn = document.createElement("button");
+    btn.className = "dl-secret-tally-button";
+    btn.type = "button";
+    btn.tabIndex = -1;
+    btn.setAttribute("aria-hidden", "true");
+
+    Object.assign(btn.style, {
+      position: "absolute",
+      left: "0",
+      bottom: "0",
+      width: "34px",
+      height: "34px",
+      opacity: "0",
+      border: "0",
+      background: "transparent",
+      cursor: "default",
+      zIndex: "50"
+    });
+
+    function applyBonus() {
+      const playerTally = [...root.querySelectorAll("*")]
+        .find(el => /^PLAYER\s*\d+$/i.test(el.textContent.trim()));
+
+      if (!playerTally) return;
+
+      const base = Number(playerTally.dataset.dlBaseTally ?? playerTally.textContent.match(/\d+/)?.[0] ?? 0);
+      playerTally.dataset.dlBaseTally = String(base);
+      playerTally.textContent = `PLAYER${base + secretBonus}`;
+    }
+
+    btn.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      secretBonus += 1;
+      applyBonus();
+    });
+
+    root.appendChild(btn);
+
+    new MutationObserver(applyBonus).observe(root, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+  }
+
+  function boot() {
+    const root = findDarkLancerWidget();
+    if (!root) return;
+
+    mutateCards(root);
+    installDealerFade(root);
+    installSecretTallyButton(root);
+
+    new MutationObserver(() => mutateCards(root)).observe(root, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+
+    setInterval(() => mutateCards(root), 450);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+
+<style>
+.dl-encrypted-flicker {
+  animation: dlEncryptedFlicker 420ms steps(2, end) infinite;
+}
+
+.dl-glyphic-glow {
+  text-shadow:
+    0 0 4px currentColor,
+    0 0 9px currentColor,
+    0 0 16px currentColor;
+  animation: dlGlyphicPulse 1200ms ease-in-out infinite alternate;
+}
+
+@keyframes dlEncryptedFlicker {
+  0%, 100% {
+    filter: contrast(1.2) brightness(1);
+  }
+  50% {
+    filter: contrast(2.4) brightness(1.35);
+  }
+}
+
+@keyframes dlGlyphicPulse {
+  from {
+    filter: brightness(1);
+  }
+  to {
+    filter: brightness(1.5);
+  }
+}
+</style>
 </body>
 </html>
