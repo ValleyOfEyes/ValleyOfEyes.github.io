@@ -3527,6 +3527,545 @@
       to { opacity: 1; transform: translateY(0) rotate(var(--tally-tilt, -6deg)); }
     }
 
+    .go-fish-window {
+      width: min(1120px, 98vw);
+      max-height: 94vh;
+      overflow: visible;
+    }
+
+    .go-fish-window > .popup-title {
+      position: relative;
+      z-index: 40;
+    }
+
+    .go-fish-body {
+      position: relative;
+      display: grid;
+      gap: 12px;
+      max-height: calc(94vh - 32px);
+      overflow: visible;
+      background:
+        radial-gradient(circle at 50% 24%, rgba(145,184,193,.18), transparent 34%),
+        linear-gradient(#d9ded8, #aeb9b8);
+      transition: background .38s ease, box-shadow .38s ease;
+      isolation: isolate;
+    }
+
+    .go-fish-body > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .go-fish-body.is-fish-showcase {
+      background:
+        radial-gradient(circle at 16% 18%, var(--fish-show-a, rgba(111,143,165,.52)), transparent 28%),
+        radial-gradient(circle at 82% 22%, var(--fish-show-b, rgba(212,111,155,.46)), transparent 25%),
+        radial-gradient(circle at 52% 78%, var(--fish-show-c, rgba(137,154,71,.38)), transparent 34%),
+        conic-gradient(from 24deg at 50% 42%, var(--fish-show-d, rgba(247,251,242,.32)), transparent 16%, var(--fish-show-b, rgba(212,111,155,.42)), transparent 42%, var(--fish-show-a, rgba(111,143,165,.5)), transparent 72%, var(--fish-show-c, rgba(137,154,71,.36))),
+        repeating-linear-gradient(132deg, var(--fish-show-line, rgba(247,251,242,.14)) 0 1px, transparent 1px 14px),
+        linear-gradient(145deg, #11191c, #26393d 48%, #101416);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.18),
+        inset 0 0 44px rgba(0,0,0,.42);
+    }
+
+    .go-fish-body.is-fish-showcase::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,.14) 0 1px, transparent 2px 28px),
+        linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+      mix-blend-mode: screen;
+      opacity: .6;
+      animation: fishShowcaseDrift 8s linear infinite;
+    }
+
+    @keyframes fishShowcaseDrift {
+      from { transform: translateX(-18px) rotate(0deg); }
+      to { transform: translateX(18px) rotate(1deg); }
+    }
+
+    .go-fish-hud {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: #324043;
+      font: bold 10px/1 "Courier New", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .go-fish-pond {
+      position: relative;
+      width: 100%;
+      height: clamp(430px, 72vh, 720px);
+      min-height: 0;
+      display: block;
+      overflow: hidden;
+      padding: 0;
+      border: 1px solid #1f2628;
+      cursor: crosshair;
+      background:
+        radial-gradient(circle at 13% 23%, rgba(237,242,238,.56) 0 3px, transparent 4px),
+        radial-gradient(ellipse at 18% 36%, rgba(65,86,82,.52), transparent 22%),
+        radial-gradient(ellipse at 73% 33%, rgba(71,91,88,.45), transparent 26%),
+        linear-gradient(#9ca9a8 0 24%, #788784 25% 31%, transparent 32%),
+        radial-gradient(ellipse at 52% 70%, rgba(11,21,24,.94), rgba(31,68,74,.9) 42%, rgba(91,125,126,.8) 70%, rgba(31,38,40,.9)),
+        #5c7778;
+      box-shadow:
+        inset 0 0 0 2px rgba(255,255,255,.18),
+        inset 0 -34px 48px rgba(0,0,0,.32),
+        5px 6px 0 rgba(31,38,40,.18);
+    }
+
+    .go-fish-pond[hidden] {
+      display: none;
+    }
+
+    .go-fish-pond::before {
+      content: "";
+      position: absolute;
+      inset: 18% -8% -20%;
+      background:
+        radial-gradient(ellipse at 18% 62%, rgba(137,154,71,.44) 0 8%, transparent 9%),
+        radial-gradient(ellipse at 82% 72%, rgba(137,154,71,.34) 0 7%, transparent 8%),
+        radial-gradient(ellipse at 58% 48%, rgba(201,87,112,.2) 0 4%, transparent 5%),
+        linear-gradient(90deg, rgba(255,255,255,.1), transparent 34%, rgba(201,87,112,.1) 55%, transparent),
+        repeating-linear-gradient(182deg, rgba(237,242,238,.08) 0 1px, transparent 1px 34px);
+      transform: rotate(-2deg);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .go-fish-pond::after {
+      content: "cast into the pond";
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      transform: translate(-50%, -50%);
+      color: rgba(237,242,238,.68);
+      font: bold 12px/1 "Courier New", monospace;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 0 rgba(0,0,0,.72), 0 0 12px rgba(145,184,193,.72);
+      transition: opacity .2s ease;
+      pointer-events: none;
+      z-index: 7;
+    }
+
+    .go-fish-pond.is-playing::after,
+    .go-fish-pond.is-finished::after {
+      opacity: 0;
+    }
+
+    .go-fish-bank {
+      position: absolute;
+      left: -6%;
+      right: -6%;
+      bottom: -18px;
+      height: 72px;
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(237,242,238,.24), transparent 30%),
+        linear-gradient(#58635a, #2f3637);
+      clip-path: polygon(0 32%, 18% 13%, 38% 28%, 58% 8%, 82% 26%, 100% 16%, 100% 100%, 0 100%);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .go-fish-bank::before,
+    .go-fish-bank::after {
+      content: "";
+      position: absolute;
+      bottom: 34px;
+      width: 86px;
+      height: 96px;
+      background:
+        linear-gradient(78deg, transparent 0 45%, #2f3637 46% 49%, transparent 50%),
+        linear-gradient(93deg, transparent 0 50%, #4f6254 51% 54%, transparent 55%),
+        linear-gradient(108deg, transparent 0 45%, #2f3637 46% 49%, transparent 50%);
+      opacity: .72;
+    }
+
+    .go-fish-bank::before { left: 8%; }
+    .go-fish-bank::after { right: 7%; transform: scaleX(-1); }
+
+    .go-fish-water-lines {
+      position: absolute;
+      inset: 13% 0 16%;
+      width: 100%;
+      height: 72%;
+      z-index: 2;
+      opacity: .58;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .go-fish-water-lines path {
+      fill: none;
+      stroke: rgba(237,242,238,.42);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-dasharray: 90 42;
+      filter: drop-shadow(0 0 5px rgba(145,184,193,.5));
+      animation: fishWaveDrift 5.8s linear infinite;
+    }
+
+    .go-fish-water-lines path:nth-child(2n) {
+      stroke: rgba(145,184,193,.36);
+      stroke-dasharray: 54 58;
+      animation-duration: 7.4s;
+      animation-direction: reverse;
+    }
+
+    .go-fish-water-lines path:nth-child(3n) {
+      stroke: rgba(201,87,112,.2);
+      stroke-width: 1.5;
+    }
+
+    .go-fish-bottom {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 38%;
+      z-index: 2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .pond-piece {
+      position: absolute;
+      left: var(--x);
+      bottom: var(--y);
+      width: var(--w);
+      height: var(--h);
+      opacity: var(--op, .8);
+      transform: translateX(-50%) rotate(var(--rot, 0deg)) scale(var(--scale, 1));
+      transform-origin: 50% 100%;
+    }
+
+    .pond-piece.foliage {
+      background:
+        linear-gradient(90deg, transparent 0 38%, rgba(31,38,40,.82) 39% 45%, transparent 46%),
+        linear-gradient(18deg, transparent 0 44%, rgba(137,154,71,.78) 45% 54%, transparent 55%),
+        linear-gradient(-18deg, transparent 0 43%, rgba(79,98,84,.82) 44% 54%, transparent 55%);
+      clip-path: polygon(45% 100%, 52% 52%, 38% 4%, 56% 48%, 74% 12%, 61% 56%, 88% 24%, 66% 68%, 58% 100%);
+      filter: drop-shadow(0 0 5px rgba(137,154,71,.34));
+    }
+
+    .pond-piece.rock {
+      border-radius: 48% 38% 42% 52%;
+      background:
+        radial-gradient(circle at 28% 24%, rgba(237,242,238,.22), transparent 24%),
+        linear-gradient(135deg, #788784, #2f3637 72%);
+      box-shadow:
+        inset -5px -6px 0 rgba(0,0,0,.22),
+        0 2px 8px rgba(0,0,0,.28);
+      clip-path: polygon(8% 58%, 26% 18%, 63% 7%, 96% 38%, 88% 78%, 54% 94%, 18% 88%);
+    }
+
+    .pond-piece.debris {
+      height: 5px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #1f2628, #6f5f49 54%, #2f3637);
+      box-shadow: 0 0 5px rgba(31,38,40,.28);
+    }
+
+    .pond-piece.debris::after {
+      content: "";
+      position: absolute;
+      right: -5px;
+      top: -3px;
+      width: 9px;
+      height: 9px;
+      border: 1px solid rgba(31,38,40,.52);
+      border-radius: 50%;
+    }
+
+    @keyframes fishWaveDrift {
+      from { stroke-dashoffset: 0; transform: translateX(-18px); }
+      to { stroke-dashoffset: -132px; transform: translateX(18px); }
+    }
+
+    .go-fish-line {
+      position: absolute;
+      left: var(--line-x, 50%);
+      top: 2px;
+      width: 1px;
+      height: var(--line-length, 0px);
+      background: rgba(237,242,238,.78);
+      box-shadow: 0 0 5px rgba(255,255,255,.72);
+      opacity: 0;
+      transform-origin: top;
+      transition: height .1s linear, opacity .18s ease, left .1s linear;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .go-fish-line::after {
+      content: "";
+      position: absolute;
+      left: -4px;
+      bottom: -7px;
+      width: 8px;
+      height: 8px;
+      border: 1px solid rgba(237,242,238,.82);
+      border-radius: 50%;
+      background: rgba(31,38,40,.38);
+      box-shadow: 0 0 8px rgba(145,184,193,.68);
+    }
+
+    .go-fish-pond.is-playing .go-fish-line,
+    .go-fish-pond.is-finished .go-fish-line {
+      opacity: 1;
+    }
+
+    .go-fish-pond.is-reeling .go-fish-line {
+      height: 26px;
+    }
+
+    .go-fish-glyph-layer {
+      position: absolute;
+      inset: 28% 0 0;
+      z-index: 5;
+    }
+
+    .fish-glyph {
+      position: absolute;
+      left: var(--gx);
+      top: var(--gy);
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 1px solid rgba(237,242,238,.42);
+      border-radius: 50%;
+      color: #f7fbf2;
+      background: rgba(31,38,40,.38);
+      box-shadow:
+        inset 0 0 10px rgba(145,184,193,.34),
+        0 0 7px rgba(255,255,255,.62),
+        0 0 16px rgba(201,87,112,.5);
+      cursor: pointer;
+      font: 21px/1 Georgia, "Times New Roman", serif;
+      text-shadow:
+        0 0 5px rgba(255,255,255,.94),
+        0 0 12px rgba(145,184,193,.78);
+      animation: fishGlyphVanish var(--life, 1.35s) ease forwards;
+    }
+
+    .fish-glyph:hover,
+    .fish-glyph:focus-visible {
+      outline: 1px dotted #fff;
+      transform: scale(1.08);
+    }
+
+    .fish-glyph.is-caught {
+      pointer-events: none;
+      border-color: rgba(255,255,255,.92);
+      background: rgba(237,242,238,.52);
+      color: #1f2628;
+      box-shadow:
+        inset 0 0 12px rgba(255,255,255,.78),
+        0 0 12px rgba(255,255,255,.92),
+        0 0 26px rgba(201,87,112,.86);
+      text-shadow: 0 0 7px rgba(255,255,255,.96);
+      animation: fishGlyphPop .34s cubic-bezier(.16, 1, .3, 1) forwards;
+    }
+
+    .fish-glyph.is-caught::before,
+    .fish-glyph.is-caught::after {
+      content: "";
+      position: absolute;
+      inset: -13px;
+      border: 1px solid rgba(255,255,255,.78);
+      border-radius: 50%;
+      animation: fishGlyphBurst .34s ease-out forwards;
+    }
+
+    .fish-glyph.is-caught::after {
+      inset: -7px;
+      border-color: rgba(145,184,193,.72);
+      transform: rotate(45deg);
+      animation-delay: .04s;
+    }
+
+    @keyframes fishGlyphVanish {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(.68); }
+      18% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      74% { opacity: .92; }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(.42); }
+    }
+
+    @keyframes fishGlyphPop {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      42% { opacity: 1; transform: translate(-50%, -50%) scale(1.42); filter: brightness(1.45); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(.2) rotate(16deg); filter: brightness(1.8); }
+    }
+
+    @keyframes fishGlyphBurst {
+      from { opacity: .9; transform: scale(.45); }
+      to { opacity: 0; transform: scale(1.8); }
+    }
+
+    .go-fish-reveal-box {
+      position: relative;
+      min-height: 170px;
+      display: grid;
+      place-items: center;
+      gap: 12px;
+      padding: 20px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(255,255,255,.18), transparent 25%),
+        radial-gradient(circle at 18% 24%, rgba(201,87,112,.22), transparent 22%),
+        radial-gradient(circle at 82% 76%, rgba(145,184,193,.22), transparent 24%),
+        repeating-linear-gradient(120deg, rgba(237,242,238,.08) 0 1px, transparent 1px 12px),
+        linear-gradient(135deg, rgba(31,38,40,.96), rgba(8,14,16,.95));
+      border: 1px solid rgba(237,242,238,.42);
+      color: #edf2ee;
+      text-align: center;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.08),
+        inset 0 0 34px rgba(0,0,0,.6),
+        6px 7px 0 rgba(31,38,40,.2);
+    }
+
+    .go-fish-reveal-box[hidden],
+    .go-fish-result[hidden] {
+      display: none;
+    }
+
+    .go-fish-reveal-box::before {
+      content: "";
+      position: absolute;
+      inset: -22%;
+      background:
+        radial-gradient(circle, rgba(237,242,238,.24), transparent 33%),
+        conic-gradient(from 22deg, transparent, rgba(145,184,193,.2), transparent, rgba(201,87,112,.16), transparent);
+      filter: blur(18px);
+      opacity: .82;
+      animation: fishFog 4s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    .go-fish-reveal-button {
+      position: relative;
+      z-index: 1;
+      min-height: 48px;
+      padding: 10px 20px;
+      border: 1px solid rgba(237,242,238,.66);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.18), transparent 46%),
+        rgba(31,38,40,.52);
+      color: #f7fbf2;
+      cursor: pointer;
+      font: bold 12px/1 "Courier New", monospace;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      text-shadow:
+        0 0 6px rgba(255,255,255,.95),
+        0 0 14px rgba(145,184,193,.72),
+        0 0 24px rgba(201,87,112,.42);
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.18),
+        0 0 18px rgba(145,184,193,.28);
+      animation: revealPulse 1.8s ease-in-out infinite;
+    }
+
+    .go-fish-reveal-copy {
+      position: relative;
+      z-index: 1;
+      max-width: 390px;
+      color: rgba(237,242,238,.72);
+      font: bold 10px/1.45 "Courier New", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    @keyframes fishFog {
+      from { transform: translate(-16px, -8px) scale(1); }
+      to { transform: translate(16px, 9px) scale(1.08); }
+    }
+
+    @keyframes revealPulse {
+      0%, 100% { filter: brightness(1); transform: scale(1); }
+      50% { filter: brightness(1.24); transform: scale(1.035); }
+    }
+
+    .go-fish-result {
+      display: grid;
+      gap: 8px;
+      justify-items: center;
+      position: relative;
+      z-index: 8;
+      overflow: visible;
+      margin-top: -10px;
+    }
+
+    .go-fish-fish-card {
+      width: 100%;
+      min-height: clamp(218px, 34vh, 320px);
+      display: grid;
+      place-items: center;
+      margin-top: -18px;
+      margin-bottom: -8px;
+      overflow: visible;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+
+    .go-fish-svg {
+      width: min(720px, 106%);
+      max-width: none;
+      height: auto;
+      overflow: visible;
+      cursor: pointer;
+      transform: translateY(clamp(-18px, -2vh, -8px));
+      transform-origin: center;
+      filter:
+        drop-shadow(0 0 18px rgba(247,251,242,.32))
+        drop-shadow(8px 10px 0 rgba(31,38,40,.2));
+      transition: transform .22s ease, filter .22s ease;
+    }
+
+    .go-fish-svg:hover,
+    .go-fish-svg:focus-visible {
+      outline: none;
+      transform: translateY(clamp(-24px, -2.6vh, -12px)) scale(1.018);
+      filter:
+        drop-shadow(0 0 24px rgba(247,251,242,.5))
+        drop-shadow(10px 13px 0 rgba(31,38,40,.22));
+    }
+
+    .go-fish-readout {
+      width: 100%;
+      min-height: 54px;
+      padding: 9px 10px;
+      color: #242c2f;
+      background: rgba(237,242,238,.58);
+      border: 1px dotted rgba(31,38,40,.42);
+      font: 12px/1.45 "Courier New", monospace;
+    }
+
+    .go-fish-readout strong {
+      color: #8d2442;
+      text-transform: uppercase;
+    }
+
+    .go-fish-readout .go-fish-catch-name {
+      color: var(--fish-color, #8d2442);
+      text-shadow:
+        0 0 4px rgba(255,255,255,.85),
+        0 0 10px var(--fish-color, #8d2442),
+        0 0 18px var(--fish-color, #8d2442);
+    }
+
     .popup {
       position: fixed;
       inset: 0;
@@ -5468,6 +6007,7 @@
           <a class="button88" href="#sim-board-popup" id="sim-board-button" data-widget-button>SIM BOARD</a>
           <a class="button88" href="#hollow-oracle" id="hollow-oracle-button" data-widget-button>HOLLOW ORACLE</a>
           <a class="button88" href="#heads-tails" id="heads-tails-button" data-widget-button>HEADS/TAILS</a>
+          <a class="button88" href="#go-fish" id="go-fish-button" data-widget-button>GO FISH</a>
         </div>
         <div class="widget-cycle-controls" aria-label="Cycle widget buttons">
           <button class="widget-cycle-button" type="button" id="widget-cycle-up" aria-label="Show previous widget group">▲</button>
@@ -5572,6 +6112,41 @@
           <div class="coin-tally tails" id="tails-tally" aria-label="Tails tally"></div>
         </div>
         <div class="coin-caption" id="coin-caption">waiting on the coin</div>
+      </div>
+    </div>
+  </aside>
+
+  <aside id="go-fish" class="popup" aria-label="Go Fish popup">
+    <div class="popup-window go-fish-window">
+      <div class="popup-title">GO FISH <a href="#">x</a></div>
+      <div class="popup-body go-fish-body">
+        <div class="go-fish-hud">
+          <span id="go-fish-score">score 0</span>
+          <span id="go-fish-timer">10.0s</span>
+        </div>
+        <div class="go-fish-pond" id="go-fish-pond" tabindex="0" aria-label="Cast a line into the pond">
+          <svg class="go-fish-water-lines" viewBox="0 0 1000 520" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M-60 78 C42 42 122 112 224 78 S404 44 506 78 686 112 788 78 968 42 1060 78" />
+            <path d="M-80 142 C36 104 122 176 238 142 S432 106 548 142 742 178 858 142 1016 106 1080 142" />
+            <path d="M-60 208 C54 170 142 244 256 208 S450 172 564 208 758 244 872 208 1010 172 1060 208" />
+            <path d="M-84 274 C30 238 116 308 230 274 S424 240 538 274 732 308 846 274 1018 240 1084 274" />
+            <path d="M-60 342 C58 304 146 378 264 342 S464 306 582 342 782 378 900 342 1016 306 1060 342" />
+            <path d="M-82 414 C28 378 114 448 224 414 S414 378 524 414 714 450 824 414 998 378 1082 414" />
+          </svg>
+          <span class="go-fish-bottom" id="go-fish-bottom" aria-hidden="true"></span>
+          <span class="go-fish-line" id="go-fish-line" aria-hidden="true"></span>
+          <span class="go-fish-glyph-layer" id="go-fish-glyph-layer"></span>
+          <span class="go-fish-bank" aria-hidden="true"></span>
+        </div>
+        <div class="go-fish-reveal-box" id="go-fish-reveal-box" hidden>
+          <button class="go-fish-reveal-button" type="button" id="go-fish-reveal-button">reveal your catch</button>
+        </div>
+        <div class="go-fish-result" id="go-fish-result" hidden>
+          <div class="go-fish-fish-card">
+            <svg class="go-fish-svg" id="go-fish-svg" viewBox="0 0 520 260" role="img" aria-label="Your generated fish" tabindex="0"></svg>
+          </div>
+          <div class="go-fish-readout" id="go-fish-readout"></div>
+        </div>
       </div>
     </div>
   </aside>
@@ -11260,6 +11835,652 @@
       coin.addEventListener("click", flip);
     }
 
+    function setupGoFish() {
+      const pond = document.getElementById("go-fish-pond");
+      const line = document.getElementById("go-fish-line");
+      const glyphLayer = document.getElementById("go-fish-glyph-layer");
+      const pondBottom = document.getElementById("go-fish-bottom");
+      const scoreReadout = document.getElementById("go-fish-score");
+      const timerReadout = document.getElementById("go-fish-timer");
+      const revealBox = document.getElementById("go-fish-reveal-box");
+      const revealButton = document.getElementById("go-fish-reveal-button");
+      const result = document.getElementById("go-fish-result");
+      const fishSvg = document.getElementById("go-fish-svg");
+      const fishReadout = document.getElementById("go-fish-readout");
+      const fishBodyPanel = pond?.closest(".go-fish-body");
+      if (!pond || !line || !glyphLayer || !pondBottom || !scoreReadout || !timerReadout || !revealBox || !revealButton || !result || !fishSvg || !fishReadout || !fishBodyPanel) return;
+
+      const glyphs = ["☉", "☽", "☿", "♃", "♄", "♆", "♇", "⚚", "⚕", "✶", "✷", "✹", "✧", "◇", "◬", "⟡"];
+      const pupils = ["☉", "☽", "☿", "♄", "♃", "⚚", "✶", "✧", "◇", "◬", "⟡"];
+      const colors = [
+        { name: "pink", hex: "#d46f9b" },
+        { name: "blue", hex: "#6f8fa5" },
+        { name: "green", hex: "#899a47" },
+        { name: "violet", hex: "#8f63c7" },
+        { name: "gold", hex: "#d6a84e" },
+        { name: "red", hex: "#b8444f" },
+        { name: "silver", hex: "#b8c8ce" },
+        { name: "teal", hex: "#4f9a92" }
+      ];
+      const descriptors = ["angular", "prismatic", "sawback", "wide-eyed", "razor-finned", "opal", "iron-jawed", "needle-nosed", "velvet", "sunlit", "glass-bellied", "stormbright"];
+      const breeds = ["trout", "bass", "carp", "minnow", "catfish", "koi", "sunfish", "perch", "pike", "gar", "goby", "flounder", "sturgeon", "tetra", "ray", "mackerel", "snapper", "cod", "herring", "anchovy"];
+      const bodyTypes = [
+        {
+          name: "tropical",
+          size: .98,
+          eyeX: 158,
+          eyeY: 126,
+          body: "82,132 124,82 210,50 318,70 386,128 324,190 218,212 124,178",
+          tail: "344,130 444,52 424,119 468,141 423,162 448,222",
+          topFin: "206,58 258,0 318,72",
+          bottomFin: "236,202 306,250 316,174",
+          sideFin: "250,138 314,108 292,178",
+          mouth: "M110 142 L132 136 L116 154",
+          facets: ["134,84 214,56 198,128", "214,56 316,70 262,132 198,128", "262,132 316,70 382,126 326,152", "126,186 198,128 226,210"],
+          marks: "M142 76 L162 56 M186 64 L206 42 M294 68 L314 44 M346 94 L376 76"
+        },
+        {
+          name: "bottom-feeder",
+          size: 1.02,
+          eyeX: 166,
+          eyeY: 138,
+          body: "70,150 122,106 236,92 356,112 430,154 356,196 220,206 116,184",
+          tail: "390,152 470,96 446,148 472,206",
+          topFin: "218,96 284,50 326,112",
+          bottomFin: "210,202 288,246 332,190",
+          sideFin: "250,158 324,138 302,198",
+          mouth: "M104 154 C82 148 76 160 64 158 M110 166 C88 174 78 184 62 180 M114 144 C90 132 82 124 66 126",
+          facets: ["124,108 214,96 190,154", "214,96 356,112 276,158 190,154", "276,158 356,112 430,154 342,178", "116,184 190,154 220,206"],
+          marks: "M154 102 L172 76 M206 98 L232 70 M292 104 L324 78"
+        },
+        {
+          name: "shark",
+          size: 1,
+          eyeX: 174,
+          eyeY: 118,
+          body: "66,136 140,88 288,72 418,116 460,138 410,158 276,176 136,166",
+          tail: "412,136 484,78 462,134 486,194",
+          topFin: "238,80 296,18 326,96",
+          bottomFin: "256,176 334,226 330,164",
+          sideFin: "258,142 340,118 314,176",
+          mouth: "M108 146 L154 152 L118 162",
+          facets: ["140,88 248,78 220,126", "248,78 418,116 300,138 220,126", "300,138 418,116 410,158 320,160", "136,166 220,126 276,176"],
+          marks: "M160 90 L184 66 M210 82 L236 56 M344 98 L378 82"
+        },
+        {
+          name: "puffer",
+          size: .94,
+          eyeX: 180,
+          eyeY: 124,
+          body: "92,132 126,76 204,42 300,54 374,112 380,174 304,224 198,218 118,184",
+          tail: "364,136 452,86 430,134 454,184",
+          topFin: "206,48 250,2 302,58",
+          bottomFin: "218,216 282,258 308,210",
+          sideFin: "252,150 326,126 302,194",
+          mouth: "M118 144 L142 136 L128 158",
+          facets: ["126,76 204,42 196,130", "204,42 300,54 260,132 196,130", "260,132 300,54 374,112 318,154", "198,218 196,130 260,132 304,224"],
+          marks: "M142 82 L122 52 M188 48 L180 16 M292 56 L310 24 M356 108 L390 88 M340 188 L374 218 M204 218 L192 252"
+        },
+        {
+          name: "flat",
+          size: .95,
+          eyeX: 180,
+          eyeY: 118,
+          body: "62,132 170,56 312,48 452,126 314,206 168,196",
+          tail: "414,126 486,86 466,126 488,166",
+          topFin: "182,58 258,16 340,54",
+          bottomFin: "176,194 254,238 342,202",
+          sideFin: "238,134 326,94 314,174",
+          mouth: "M112 142 L142 132 L124 158",
+          facets: ["170,56 248,52 220,130", "248,52 312,48 302,126 220,130", "302,126 312,48 452,126 324,150", "168,196 220,130 314,206"],
+          marks: "M146 82 L172 56 M218 58 L244 28 M322 58 L356 40 M378 92 L418 76"
+        },
+        {
+          name: "eel",
+          size: 1.08,
+          eyeX: 142,
+          eyeY: 124,
+          body: "56,138 120,104 202,92 292,108 382,94 462,122 432,154 328,150 242,170 146,166",
+          tail: "426,124 496,92 466,128 496,162",
+          topFin: "194,94 248,46 296,108",
+          bottomFin: "246,166 316,214 328,150",
+          sideFin: "238,142 298,124 284,174",
+          mouth: "M86 144 L120 138 L96 158",
+          facets: ["120,104 202,92 184,138", "202,92 292,108 246,140 184,138", "246,140 292,108 382,94 328,150", "146,166 184,138 242,170"],
+          marks: "M158 98 L176 76 M226 98 L248 78 M312 102 L344 80 M396 104 L428 86"
+        },
+        {
+          name: "megalo",
+          size: 1.08,
+          eyeX: 184,
+          eyeY: 112,
+          body: "58,138 146,72 272,50 394,82 460,128 410,186 276,212 128,178",
+          tail: "402,128 492,52 464,122 494,224",
+          topFin: "234,58 292,-4 342,78",
+          bottomFin: "236,208 324,260 330,184",
+          sideFin: "260,144 348,106 316,184",
+          mouth: "M88 146 L164 154 L120 174 L104 162 L138 156",
+          facets: ["146,72 232,60 214,132", "232,60 394,82 300,128 214,132", "300,128 394,82 460,128 370,160", "128,178 214,132 276,212"],
+          marks: "M158 74 L176 42 M212 62 L236 28 M330 72 L358 42 M404 98 L440 76"
+        },
+        {
+          name: "tasseled",
+          size: .9,
+          eyeX: 210,
+          eyeY: 114,
+          body: "142,56 252,34 360,84 344,168 254,224 154,178 94,116",
+          tail: "326,168 430,126 402,158 448,202 382,190 360,232",
+          topFin: "206,46 264,0 326,72",
+          bottomFin: "190,190 236,258 286,214",
+          sideFin: "226,148 324,126 292,190",
+          mouth: "M118 134 L152 130 L128 152",
+          facets: ["142,56 252,34 214,118", "252,34 360,84 282,128 214,118", "282,128 360,84 344,168 294,168", "154,178 214,118 254,224"],
+          marks: "M120 160 C96 186 78 204 50 220 M148 178 C126 214 110 238 82 252 M190 196 C176 230 168 248 144 264"
+        },
+        {
+          name: "robotic",
+          size: .98,
+          eyeX: 164,
+          eyeY: 126,
+          body: "82,128 130,78 236,64 350,76 414,128 360,186 236,198 130,178",
+          tail: "366,128 450,72 440,116 482,128 438,142 450,188",
+          topFin: "210,66 254,16 316,72",
+          bottomFin: "226,196 282,244 328,188",
+          sideFin: "248,138 326,114 302,176",
+          mouth: "M108 140 H146 V154 H118",
+          facets: ["130,78 236,64 206,128", "236,64 350,76 292,128 206,128", "292,128 350,76 414,128 336,154", "130,178 206,128 236,198"],
+          marks: "M154 88 H198 M228 74 V110 M304 78 H356 M176 178 H230 M310 164 H360"
+        },
+        {
+          name: "angelic",
+          size: .98,
+          eyeX: 162,
+          eyeY: 124,
+          body: "80,132 128,78 226,52 326,72 390,126 322,184 222,210 126,180",
+          tail: "344,128 442,38 426,116 474,140 424,166 448,238",
+          topFin: "198,58 260,-10 330,78",
+          bottomFin: "226,204 296,266 324,174",
+          sideFin: "244,140 328,86 296,188",
+          mouth: "M108 142 L132 136 L116 154",
+          facets: ["128,78 226,52 200,128", "226,52 326,72 262,132 200,128", "262,132 326,72 390,126 326,154", "126,180 200,128 222,210"],
+          marks: "M136 72 L116 44 M190 58 L178 20 M318 72 L348 38 M360 100 L402 70 M156 186 L132 220 M286 196 L316 236"
+        },
+        {
+          name: "lantern",
+          size: 1,
+          eyeX: 178,
+          eyeY: 126,
+          body: "74,136 134,88 232,60 342,76 416,126 370,184 246,218 128,182",
+          tail: "374,128 464,70 440,128 466,192",
+          topFin: "218,66 278,24 326,78",
+          bottomFin: "218,206 290,246 330,182",
+          sideFin: "252,148 326,126 306,192",
+          mouth: "M104 146 L142 136 L116 164",
+          facets: ["134,88 232,60 206,132", "232,60 342,76 282,134 206,132", "282,134 342,76 416,126 346,160", "128,182 206,132 246,218"],
+          marks: "M146 88 L168 62 M218 66 L238 36 M314 78 L342 50 M140 184 C114 206 96 212 76 232"
+        },
+        {
+          name: "crystal",
+          size: .96,
+          eyeX: 164,
+          eyeY: 124,
+          body: "86,130 150,62 244,28 342,74 410,130 338,198 236,232 142,184",
+          tail: "362,130 456,42 436,122 474,144 436,164 458,226",
+          topFin: "210,46 262,-18 320,70",
+          bottomFin: "226,214 288,260 328,188",
+          sideFin: "248,140 330,102 296,188",
+          mouth: "M112 142 L136 134 L118 156",
+          facets: ["150,62 244,28 212,128", "244,28 342,74 274,132 212,128", "274,132 342,74 410,130 340,158", "142,184 212,128 236,232"],
+          marks: "M154 66 L136 34 M202 44 L206 10 M328 74 L356 42 M374 110 L414 92 M170 190 L150 224"
+        },
+        {
+          name: "knife",
+          size: 1.04,
+          eyeX: 154,
+          eyeY: 122,
+          body: "52,132 132,74 278,58 430,122 454,138 312,168 140,180",
+          tail: "406,126 484,68 462,126 486,184",
+          topFin: "224,62 280,12 334,76",
+          bottomFin: "236,174 310,226 338,160",
+          sideFin: "244,138 328,112 292,176",
+          mouth: "M78 142 L128 136 L92 156",
+          facets: ["132,74 236,62 202,124", "236,62 430,122 288,134 202,124", "288,134 430,122 454,138 320,152", "140,180 202,124 312,168"],
+          marks: "M144 78 L164 52 M206 66 L226 38 M322 86 L358 68 M374 110 L416 102"
+        }
+      ];
+      const pondPieceTypes = ["foliage", "foliage", "foliage", "rock", "rock", "debris"];
+      const fishBodyPatterns = ["stripes", "spots", "shards", "ribs", "wave"];
+      const fishFinPatterns = ["bars", "dots", "veins", "rays"];
+      const fishFinStyles = ["split", "frilled", "spined", "ribboned", "sawtooth"];
+      const state = {
+        active: false,
+        score: 0,
+        startedAt: 0,
+        timer: null,
+        spawner: null,
+        ender: null
+      };
+
+      function updateScore() {
+        scoreReadout.textContent = `score ${state.score}`;
+      }
+
+      function populatePondBottom() {
+        pondBottom.replaceChildren();
+        const pieceCount = 24 + Math.floor(Math.random() * 16);
+        for (let i = 0; i < pieceCount; i++) {
+          const type = randomFrom(pondPieceTypes);
+          const piece = document.createElement("span");
+          piece.className = `pond-piece ${type}`;
+          const x = 3 + Math.random() * 94;
+          const y = Math.random() * 28;
+          const scale = .75 + Math.random() * .78;
+          const rotation = -34 + Math.random() * 68;
+          let width = 34;
+          let height = 48;
+          if (type === "foliage") {
+            width = 20 + Math.random() * 38;
+            height = 72 + Math.random() * 112;
+          } else if (type === "rock") {
+            width = 28 + Math.random() * 72;
+            height = 16 + Math.random() * 42;
+          } else {
+            width = 34 + Math.random() * 74;
+            height = 5;
+          }
+          piece.style.setProperty("--x", `${x.toFixed(1)}%`);
+          piece.style.setProperty("--y", `${y.toFixed(1)}%`);
+          piece.style.setProperty("--w", `${width.toFixed(0)}px`);
+          piece.style.setProperty("--h", `${height.toFixed(0)}px`);
+          piece.style.setProperty("--rot", `${rotation.toFixed(1)}deg`);
+          piece.style.setProperty("--scale", scale.toFixed(2));
+          piece.style.setProperty("--op", (.48 + Math.random() * .42).toFixed(2));
+          pondBottom.appendChild(piece);
+        }
+      }
+
+      function resetFishing(options = {}) {
+        state.active = false;
+        window.clearInterval(state.timer);
+        window.clearInterval(state.spawner);
+        window.clearTimeout(state.ender);
+        state.timer = null;
+        state.spawner = null;
+        state.ender = null;
+        glyphLayer.replaceChildren();
+        pond.classList.remove("is-playing", "is-finished", "is-reeling");
+        fishBodyPanel.classList.remove("is-fish-showcase", "has-catch");
+        pond.hidden = false;
+        revealBox.hidden = true;
+        result.hidden = true;
+        populatePondBottom();
+        timerReadout.textContent = "10.0s";
+        line.style.setProperty("--line-length", "0px");
+        if (options.resetScore) {
+          state.score = 0;
+          updateScore();
+        }
+      }
+
+      function updateLinePosition(event) {
+        const rect = pond.getBoundingClientRect();
+        const fallbackX = rect.width * .52;
+        const fallbackY = rect.height * .62;
+        const x = event?.clientX ? event.clientX - rect.left : fallbackX;
+        const y = event?.clientY ? event.clientY - rect.top : fallbackY;
+        line.style.setProperty("--line-x", `${Math.max(28, Math.min(rect.width - 28, x))}px`);
+        line.style.setProperty("--line-length", `${Math.round(Math.max(82, Math.min(rect.height - 54, y)))}px`);
+      }
+
+      function spawnGlyph() {
+        if (!state.active) return;
+        const glyph = document.createElement("button");
+        glyph.className = "fish-glyph";
+        glyph.type = "button";
+        glyph.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+        glyph.style.setProperty("--gx", `${Math.round(10 + Math.random() * 80)}%`);
+        glyph.style.setProperty("--gy", `${Math.round(12 + Math.random() * 72)}%`);
+        glyph.style.setProperty("--life", `${(1.05 + Math.random() * .78).toFixed(2)}s`);
+        glyph.setAttribute("aria-label", "Catch glowing glyph");
+        const vanishTimer = window.setTimeout(() => glyph.remove(), 1900);
+        glyph.addEventListener("click", (event) => {
+          event.stopPropagation();
+          if (!state.active || glyph.dataset.caught) return;
+          glyph.dataset.caught = "true";
+          window.clearTimeout(vanishTimer);
+          state.score += 1;
+          updateScore();
+          glyph.classList.add("is-caught");
+          window.setTimeout(() => glyph.remove(), 340);
+        });
+        glyphLayer.appendChild(glyph);
+      }
+
+      function endGame() {
+        if (!state.active) return;
+        state.active = false;
+        window.clearInterval(state.timer);
+        window.clearInterval(state.spawner);
+        window.clearTimeout(state.ender);
+        state.timer = null;
+        state.spawner = null;
+        state.ender = null;
+        glyphLayer.replaceChildren();
+        timerReadout.textContent = "0.0s";
+        updateScore();
+        pond.classList.remove("is-playing", "is-reeling");
+        pond.classList.add("is-finished");
+        pond.hidden = true;
+        window.setTimeout(() => {
+          revealBox.hidden = false;
+        }, 180);
+      }
+
+      function startGame(event) {
+        if (state.active || event.target.closest(".fish-glyph")) return;
+        resetFishing({ resetScore: true });
+        state.active = true;
+        state.startedAt = performance.now();
+        pond.classList.add("is-playing");
+        updateLinePosition(event);
+        updateScore();
+        spawnGlyph();
+        state.spawner = window.setInterval(spawnGlyph, 440);
+        state.timer = window.setInterval(() => {
+          const remaining = Math.max(0, 10000 - (performance.now() - state.startedAt));
+          timerReadout.textContent = `${(remaining / 1000).toFixed(1)}s`;
+        }, 80);
+        state.ender = window.setTimeout(endGame, 10000);
+      }
+
+      function scorePhrase(score) {
+        if (score >= 18) return "exceptional!";
+        if (score >= 12) return "good work.";
+        if (score >= 7) return "not bad.";
+        if (score >= 3) return "which isn't great.";
+        return "were you even trying?";
+      }
+
+      function fishColorForScore(score) {
+        const vivid = score >= 12 ? colors.slice(0, 6) : colors;
+        return vivid[Math.floor(Math.random() * vivid.length)];
+      }
+
+      function randomFrom(items) {
+        return items[Math.floor(Math.random() * items.length)];
+      }
+
+      function rgbaFromHex(hex, alpha) {
+        const clean = hex.replace("#", "");
+        const value = Number.parseInt(clean.length === 3 ? clean.split("").map((char) => char + char).join("") : clean, 16);
+        const red = (value >> 16) & 255;
+        const green = (value >> 8) & 255;
+        const blue = value & 255;
+        return `rgba(${red},${green},${blue},${alpha})`;
+      }
+
+      function setFishShowcasePalette(score, color, accent) {
+        const palette = score >= 22
+          ? ["#f7fbf2", "#f6c34e", "#48d7ff", "#ff5ba4"]
+          : score >= 17
+            ? ["#55c8d8", "#d46f9b", "#8f63c7", "#f0dc72"]
+            : score >= 12
+              ? ["#4f9a92", "#c95770", "#6f8fa5", "#d6a84e"]
+              : ["#6f8fa5", "#899a47", "#8f63c7", "#b8c8ce"];
+        const tones = [color.hex, accent, ...palette];
+        fishBodyPanel.style.setProperty("--fish-show-a", rgbaFromHex(tones[0], score >= 18 ? .72 : .5));
+        fishBodyPanel.style.setProperty("--fish-show-b", rgbaFromHex(tones[1], score >= 18 ? .66 : .46));
+        fishBodyPanel.style.setProperty("--fish-show-c", rgbaFromHex(tones[2], score >= 18 ? .56 : .36));
+        fishBodyPanel.style.setProperty("--fish-show-d", rgbaFromHex(tones[3], score >= 22 ? .72 : .42));
+        fishBodyPanel.style.setProperty("--fish-show-line", rgbaFromHex(tones[4], score >= 17 ? .24 : .14));
+      }
+
+      function toggleFishShowcase() {
+        if (result.hidden) return;
+        fishBodyPanel.classList.toggle("is-fish-showcase");
+      }
+
+      function makeEye(cx, cy, pupil, darkEye, outlineEffect) {
+        const eyeFill = darkEye ? "#1f2628" : "#f7fbf2";
+        const eyeStroke = darkEye ? "#f7fbf2" : "#1f2628";
+        const pupilFill = darkEye ? "#f7fbf2" : "#1f2628";
+        const eyeOutlineEffect = darkEye ? "" : outlineEffect;
+        const shape = Math.random() > .5
+          ? `<polygon points="${cx - 30},${cy} ${cx - 2},${cy - 22} ${cx + 34},${cy} ${cx - 2},${cy + 22}" fill="${eyeFill}" stroke="${eyeStroke}"${eyeOutlineEffect} stroke-width="6" stroke-linejoin="miter" />`
+          : `<polygon points="${cx - 26},${cy - 10} ${cx + 8},${cy - 26} ${cx + 34},${cy - 7} ${cx + 28},${cy + 21} ${cx - 8},${cy + 25} ${cx - 34},${cy + 9}" fill="${eyeFill}" stroke="${eyeStroke}"${eyeOutlineEffect} stroke-width="6" stroke-linejoin="miter" />`;
+        return `${shape}<text x="${cx}" y="${cy + 2}" text-anchor="middle" dominant-baseline="central" fill="${pupilFill}" font-family="Georgia, 'Times New Roman', serif" font-size="27" font-weight="bold">${pupil}</text>`;
+      }
+
+      function chooseFishPattern(patterns, chance) {
+        return Math.random() < chance ? randomFrom(patterns) : "none";
+      }
+
+      function makePatternLayer(kind, clipId, ink, accent, opacity) {
+        if (kind === "none") return "";
+        let marks = "";
+        if (kind === "stripes" || kind === "bars") {
+          for (let x = 76; x < 506; x += kind === "bars" ? 34 : 48) {
+            marks += `<path d="M${x} 38 L${x - 78} 236" stroke="${ink}" stroke-width="${kind === "bars" ? 5 : 6}" stroke-linecap="square" />`;
+          }
+        } else if (kind === "spots" || kind === "dots") {
+          const count = kind === "dots" ? 18 : 24;
+          for (let i = 0; i < count; i++) {
+            const cx = 82 + Math.random() * 360;
+            const cy = 48 + Math.random() * 172;
+            const r = kind === "dots" ? 3 + Math.random() * 4 : 5 + Math.random() * 8;
+            marks += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="${i % 3 ? ink : accent}" />`;
+          }
+        } else if (kind === "shards") {
+          for (let i = 0; i < 14; i++) {
+            const x = 88 + Math.random() * 330;
+            const y = 48 + Math.random() * 150;
+            const w = 18 + Math.random() * 30;
+            const h = 12 + Math.random() * 24;
+            marks += `<polygon points="${x.toFixed(1)},${y.toFixed(1)} ${(x + w).toFixed(1)},${(y + h * .35).toFixed(1)} ${(x + w * .25).toFixed(1)},${(y + h).toFixed(1)}" fill="${i % 2 ? ink : accent}" />`;
+          }
+        } else if (kind === "ribs" || kind === "rays") {
+          for (let x = 114; x < 442; x += kind === "rays" ? 36 : 44) {
+            marks += `<path d="M${x} 54 C${x - 24} 96 ${x - 24} 160 ${x} 218" fill="none" stroke="${ink}" stroke-width="4" stroke-linecap="round" />`;
+          }
+        } else if (kind === "veins") {
+          for (let x = 128; x < 424; x += 56) {
+            marks += `<path d="M${x} 66 L${x + 38} 128 L${x + 4} 204 M${x + 18} 112 L${x + 52} 92 M${x + 18} 150 L${x + 58} 172" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter" />`;
+          }
+        } else {
+          for (let y = 70; y < 210; y += 30) {
+            marks += `<path d="M54 ${y} C96 ${y - 24} 136 ${y + 24} 178 ${y} S260 ${y - 24} 302 ${y} 386 ${y + 24} 470 ${y}" fill="none" stroke="${ink}" stroke-width="4" stroke-linecap="round" />`;
+          }
+        }
+        return `<g clip-path="url(#${clipId})" opacity="${opacity}">${marks}</g>`;
+      }
+
+      function makeFinFlourish(style, ink, accent, outlineEffect) {
+        if (style === "split") {
+          return `<g clip-path="url(#fish-fin-clip)" opacity=".72">
+            <path d="M384 78 L428 132 L386 202 M214 24 L260 84 L306 22 M230 236 L286 178 L336 238" fill="none" stroke="${ink}" stroke-width="5" stroke-linecap="square" />
+            <path d="M398 102 L462 126 M396 154 L462 144" fill="none" stroke="${accent}" stroke-width="4" stroke-linecap="square" />
+          </g>`;
+        }
+        if (style === "frilled") {
+          return `<g opacity=".82">
+            <path d="M372 84 C416 42 466 56 504 26 M376 180 C424 224 468 204 506 244" fill="none" stroke="#1f2628"${outlineEffect} stroke-width="13" stroke-linecap="round" />
+            <path d="M372 84 C416 42 466 56 504 26 M376 180 C424 224 468 204 506 244" fill="none" stroke="${accent}" stroke-width="8" stroke-linecap="round" />
+            <path d="M198 54 C228 24 272 28 308 52 M220 206 C250 236 294 230 328 204" fill="none" stroke="${ink}" stroke-width="5" stroke-linecap="round" opacity=".72" />
+          </g>`;
+        }
+        if (style === "spined") {
+          return `<g opacity=".78">
+            <polygon points="174,62 194,18 218,66" fill="${accent}" stroke="#1f2628"${outlineEffect} stroke-width="5" stroke-linejoin="miter" />
+            <polygon points="238,54 264,6 292,66" fill="${accent}" stroke="#1f2628"${outlineEffect} stroke-width="5" stroke-linejoin="miter" />
+            <polygon points="302,68 334,20 354,84" fill="${accent}" stroke="#1f2628"${outlineEffect} stroke-width="5" stroke-linejoin="miter" />
+            <polygon points="214,204 248,250 266,198" fill="${accent}" stroke="#1f2628"${outlineEffect} stroke-width="5" stroke-linejoin="miter" />
+            <polygon points="284,196 330,246 326,184" fill="${accent}" stroke="#1f2628"${outlineEffect} stroke-width="5" stroke-linejoin="miter" />
+          </g>`;
+        }
+        if (style === "ribboned") {
+          return `<g opacity=".86">
+            <path d="M406 104 C462 72 484 94 520 64 M412 158 C468 190 488 164 520 202" fill="none" stroke="#1f2628"${outlineEffect} stroke-width="11" stroke-linecap="round" />
+            <path d="M406 104 C462 72 484 94 520 64 M412 158 C468 190 488 164 520 202" fill="none" stroke="${accent}" stroke-width="6" stroke-linecap="round" />
+            <path d="M420 130 C462 116 490 132 520 118" fill="none" stroke="${ink}" stroke-width="4" stroke-linecap="round" opacity=".75" />
+          </g>`;
+        }
+        return `<g opacity=".74">
+          <polygon points="384,86 414,64 404,104" fill="${accent}" stroke="#1f2628"${outlineEffect} stroke-width="5" stroke-linejoin="miter" />
+          <polygon points="404,108 438,92 424,132" fill="${accent}" stroke="#1f2628"${outlineEffect} stroke-width="5" stroke-linejoin="miter" />
+          <polygon points="424,150 458,164 410,174" fill="${accent}" stroke="#1f2628"${outlineEffect} stroke-width="5" stroke-linejoin="miter" />
+          <polygon points="386,180 420,202 402,158" fill="${accent}" stroke="#1f2628"${outlineEffect} stroke-width="5" stroke-linejoin="miter" />
+          <path d="M198 58 L236 104 M286 56 L276 106 M230 204 L268 162 M314 206 L304 164" stroke="${ink}" stroke-width="4" stroke-linecap="square" />
+        </g>`;
+      }
+
+      function makeFishBody(profile, bodyFill, finFill, pupil, bodyPattern, finPattern, patternInk, patternAccent, finStyle, darkEye, outlineEffect) {
+        const facets = profile.facets.map((points, index) => {
+          const fill = index % 2 ? "rgba(255,255,255,.12)" : "rgba(0,0,0,.12)";
+          return `<polygon points="${points}" fill="${fill}" stroke="rgba(31,38,40,.42)" stroke-width="3" />`;
+        }).join("");
+        const details = profile.marks
+          ? `<path d="${profile.marks}" stroke="#1f2628"${outlineEffect} stroke-width="5" stroke-linecap="square" opacity=".38" />`
+          : "";
+        const bodyPatternLayer = makePatternLayer(bodyPattern, "fish-body-clip", patternInk, patternAccent, .28);
+        const finPatternLayer = makePatternLayer(finPattern, "fish-fin-clip", patternInk, patternAccent, .34);
+        const finFlourish = makeFinFlourish(finStyle, patternInk, patternAccent, outlineEffect);
+        return `
+          <polygon points="${profile.tail}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="8" stroke-linejoin="miter" />
+          <polygon points="${profile.body}" fill="${bodyFill}" stroke="#1f2628"${outlineEffect} stroke-width="9" stroke-linejoin="miter" />
+          <polygon points="${profile.topFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="7" stroke-linejoin="miter" />
+          <polygon points="${profile.bottomFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="7" stroke-linejoin="miter" />
+          <polygon points="${profile.sideFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="6" stroke-linejoin="miter" opacity=".9" />
+          ${finFlourish}
+          ${bodyPatternLayer}
+          ${finPatternLayer}
+          ${facets}
+          ${details}
+          ${makeEye(profile.eyeX, profile.eyeY, pupil, darkEye, outlineEffect)}
+          <path d="${profile.mouth}" fill="none" stroke="#1f2628"${outlineEffect} stroke-width="5" stroke-linecap="square" stroke-linejoin="miter" />`;
+      }
+
+      function earnedEffects(score) {
+        const effects = [];
+        if (score >= 13) effects.push("glow");
+        if (score >= 17) effects.push("gradient");
+        if (score >= 22) effects.push("radiant");
+        return effects;
+      }
+
+      function revealCatch() {
+        const score = state.score;
+        const color = fishColorForScore(score);
+        const accent = randomFrom(colors).hex;
+        const descriptor = randomFrom(descriptors);
+        const breed = randomFrom(breeds);
+        const bodyType = randomFrom(bodyTypes);
+        const pupil = randomFrom(pupils);
+        const hasInnerRadiance = Math.random() < (1 / 44);
+        const effects = earnedEffects(score);
+        if (hasInnerRadiance) effects.push("inner radiance");
+        const effectsPhrase = effects.length ? `${effects.join(", ")} effects` : "no effects";
+        const size = Math.min(1.62, (.86 + score * .038) * bodyType.size);
+        const bodyPattern = chooseFishPattern(fishBodyPatterns, Math.min(.82, .34 + score * .026));
+        const finPattern = chooseFishPattern(fishFinPatterns, Math.min(.76, .3 + score * .022));
+        const finStyle = randomFrom(fishFinStyles);
+        const darkEye = Math.random() < .5;
+        const alignment = darkEye ? "Yin" : "Yang";
+        const patternInk = Math.random() > .5 ? "#f7fbf2" : "#1f2628";
+        const patternAccent = Math.random() > .5 ? accent : color.hex;
+        const hasGlow = effects.includes("glow");
+        const hasGradient = effects.includes("gradient");
+        const bodyFill = hasGradient ? "url(#fish-body-gradient)" : color.hex;
+        const finFill = hasGradient ? "url(#fish-fin-gradient)" : accent;
+        const glowFilter = hasGlow ? `filter="url(#fish-glow)"` : "";
+        const outlineEffect = hasInnerRadiance ? ` filter="url(#fish-outline-glow)"` : "";
+        const extraGlow = score >= 22
+          ? `<path d="M116 72 L176 40 L242 56 L314 32 L386 74" fill="none" stroke="#f7fbf2" stroke-width="3" stroke-dasharray="9 7" opacity=".82" />`
+          : "";
+        const innerRadianceOverlay = hasInnerRadiance
+          ? `<g opacity=".78">
+              <polygon points="${bodyType.body}" fill="url(#fish-inner-radiance)" style="mix-blend-mode: screen;" />
+              <path d="M118 132 C176 82 238 82 298 132 S400 182 452 128" fill="none" stroke="#fff4a8" stroke-width="7" stroke-linecap="round" stroke-dasharray="20 16" opacity=".78" filter="url(#fish-outline-glow)" />
+              <path d="M96 88 L146 116 M214 46 L238 92 M332 58 L306 108 M404 86 L362 120 M132 190 L180 154 M264 220 L278 166 M382 190 L338 154" fill="none" stroke="#f7fbf2" stroke-width="3" stroke-linecap="square" opacity=".72" filter="url(#fish-outline-glow)" />
+            </g>`
+          : "";
+
+        fishSvg.innerHTML = `
+          <defs>
+            <linearGradient id="fish-body-gradient" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="${color.hex}" />
+              <stop offset=".55" stop-color="${accent}" />
+              <stop offset="1" stop-color="#f7fbf2" />
+            </linearGradient>
+            <linearGradient id="fish-fin-gradient" x1="0" x2="1">
+              <stop offset="0" stop-color="${accent}" />
+              <stop offset="1" stop-color="${color.hex}" />
+            </linearGradient>
+            <radialGradient id="fish-inner-radiance" cx=".46" cy=".48" r=".62">
+              <stop offset="0" stop-color="#fff8bc" />
+              <stop offset=".34" stop-color="${accent}" stop-opacity=".72" />
+              <stop offset=".76" stop-color="${color.hex}" stop-opacity=".16" />
+              <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+            </radialGradient>
+            <filter id="fish-glow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="5" result="blur" />
+              <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0.75 0 1 0 0 0.45 0 0 1 0 0.9 0 0 0 .62 0" result="glow" />
+              <feMerge><feMergeNode in="glow" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <filter id="fish-outline-glow" x="-55%" y="-55%" width="210%" height="210%">
+              <feGaussianBlur stdDeviation="2.8" result="outlineBlur" />
+              <feColorMatrix in="outlineBlur" type="matrix" values="1 0 0 0 0.95 0 1 0 0 0.72 0 0 1 0 0.28 0 0 0 .88 0" result="outlineGlow" />
+              <feMerge><feMergeNode in="outlineGlow" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <clipPath id="fish-body-clip">
+              <polygon points="${bodyType.body}" />
+            </clipPath>
+            <clipPath id="fish-fin-clip">
+              <polygon points="${bodyType.tail}" />
+              <polygon points="${bodyType.topFin}" />
+              <polygon points="${bodyType.bottomFin}" />
+              <polygon points="${bodyType.sideFin}" />
+            </clipPath>
+          </defs>
+          <g transform="translate(260 132) scale(${size}) translate(-260 -132)" ${glowFilter}>
+            ${makeFishBody(bodyType, bodyFill, finFill, pupil, bodyPattern, finPattern, patternInk, patternAccent, finStyle, darkEye, outlineEffect)}
+            ${innerRadianceOverlay}
+            ${extraGlow}
+          </g>`;
+        fishReadout.innerHTML = `Your score was <strong>${score}</strong>, <strong>${scorePhrase(score)}</strong> You caught a:<br><strong class="go-fish-catch-name" style="--fish-color: ${color.hex};">${color.name} ${descriptor} ${breed}</strong>.<br>This fish has a <strong>${bodyType.name}-type</strong> body, and <strong>${effectsPhrase}</strong>.<br>It is aligned with <strong>${alignment}</strong>, and is marked by <strong>${pupil}</strong>.`;
+        setFishShowcasePalette(score, color, accent);
+        fishBodyPanel.classList.add("has-catch");
+        fishBodyPanel.classList.remove("is-fish-showcase");
+        revealBox.hidden = true;
+        result.hidden = false;
+        if (hasInnerRadiance) {
+          window.alert("The fish has an inner radiance, a 1/44 chance.");
+        }
+      }
+
+      pond.addEventListener("click", startGame);
+      pond.addEventListener("pointermove", (event) => {
+        if (state.active) updateLinePosition(event);
+      });
+      pond.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          startGame(event);
+        }
+      });
+      revealButton.addEventListener("click", revealCatch);
+      fishSvg.addEventListener("click", toggleFishShowcase);
+      fishSvg.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          toggleFishShowcase();
+        }
+      });
+      window.addEventListener("hashchange", () => {
+        if (window.location.hash !== "#go-fish") resetFishing({ resetScore: true });
+      });
+      resetFishing({ resetScore: true });
+    }
+
     const ariesHotspot = document.getElementById("aries-hotspot");
     if (ariesHotspot) ariesHotspot.addEventListener("click", triggerAriesOmen);
     const ariesOmen = document.getElementById("aries-omen");
@@ -11273,6 +12494,7 @@
     setupWidgetButtonCarousel();
     setupHollowOracle();
     setupHeadsTails();
+    setupGoFish();
     renderSiteLinks();
   </script>
   <script>
