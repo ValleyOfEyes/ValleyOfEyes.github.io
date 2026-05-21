@@ -5417,7 +5417,7 @@
       place-items: center;
       gap: 12px;
       padding: 12px;
-      overflow: hidden;
+      overflow: visible;
       background:
         radial-gradient(circle at 50% 45%, rgba(255,255,255,.18), transparent 25%),
         radial-gradient(circle at 18% 24%, rgba(201,87,112,.22), transparent 22%),
@@ -5521,6 +5521,7 @@
     }
 
     .go-fish-chum-button,
+    .go-fish-bait-button,
     .go-fish-choice-button {
       position: relative;
       z-index: 1;
@@ -5543,6 +5544,8 @@
 
     .go-fish-chum-button:hover,
     .go-fish-chum-button:focus-visible,
+    .go-fish-bait-button:hover,
+    .go-fish-bait-button:focus-visible,
     .go-fish-choice-actions.is-ready .go-fish-choice-button:not(:disabled):hover,
     .go-fish-choice-actions.is-ready .go-fish-choice-button:not(:disabled):focus-visible {
       outline: 1px dotted rgba(247,251,242,.9);
@@ -5551,6 +5554,7 @@
     }
 
     .go-fish-chum-button:disabled,
+    .go-fish-bait-button:disabled,
     .go-fish-choice-button:disabled {
       cursor: default;
       opacity: .48;
@@ -5562,6 +5566,136 @@
       background:
         linear-gradient(135deg, rgba(230,236,232,.86), rgba(174,185,184,.78));
       color: rgba(31,38,40,.46);
+    }
+
+    .go-fish-bait-button {
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.34), transparent 52%),
+        linear-gradient(135deg, rgba(91, 58, 72, .82), rgba(43, 54, 63, .86));
+      color: #ffe6f0;
+      border-color: rgba(255, 204, 222, .56);
+      text-shadow:
+        0 0 6px rgba(255, 182, 208, .62),
+        0 1px 0 rgba(0,0,0,.38);
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.28),
+        2px 2px 0 rgba(21,25,27,.18),
+        0 0 12px rgba(255, 119, 164, .18);
+    }
+
+    .go-fish-reveal-actions .go-fish-chum-button,
+    .go-fish-reveal-actions .go-fish-bait-button {
+      flex: 1 1 142px;
+      width: auto;
+    }
+
+    .go-fish-bait-shop {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 10px);
+      z-index: 80;
+      width: min(calc(100% - 18px), 420px);
+      max-height: min(58vh, 520px);
+      margin: 0;
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+      overflow: auto;
+      transform: translateX(-50%);
+      border: 1px solid rgba(255, 221, 238, .58);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.12), transparent 42%),
+        repeating-linear-gradient(135deg, rgba(255,255,255,.05) 0 1px, transparent 1px 9px),
+        rgba(29, 34, 39, .9);
+      color: #ffe8f1;
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.16),
+        0 0 18px rgba(255, 119, 164, .22),
+        0 10px 24px rgba(0,0,0,.28);
+      font: bold 10px/1.25 "Courier New", monospace;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .go-fish-bait-shop[hidden] {
+      display: none;
+    }
+
+    .go-fish-bait-shop-head {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin: -10px -10px 0;
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(255, 221, 238, .34);
+      background: linear-gradient(90deg, rgba(95,49,71,.96), rgba(32,39,45,.96));
+      color: #fff6cc;
+      text-shadow: 0 0 8px rgba(255, 210, 120, .48);
+    }
+
+    .go-fish-bait-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      max-height: min(42vh, 370px);
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .go-fish-worm-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 6px;
+      align-items: center;
+      padding: 7px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+    }
+
+    .go-fish-worm-name {
+      color: #f7fbf2;
+    }
+
+    .go-fish-worm-count {
+      margin-top: 3px;
+      color: rgba(255, 232, 241, .68);
+      font-size: 9px;
+    }
+
+    .go-fish-worm-buy,
+    .go-fish-bait-close {
+      min-height: 26px;
+      padding: 0 8px;
+      border: 1px solid rgba(255, 221, 238, .54);
+      background: linear-gradient(#5f3147, #20272d);
+      color: #fff0f6;
+      cursor: pointer;
+      font: bold 9px/1 "Courier New", monospace;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      box-shadow: inset 1px 1px rgba(255,255,255,.18);
+    }
+
+    .go-fish-worm-buy:disabled {
+      cursor: default;
+      opacity: .42;
+      filter: grayscale(.6);
+    }
+
+    .go-fish-bait-close {
+      position: sticky;
+      bottom: 0;
+      justify-self: end;
+      min-width: 72px;
+    }
+
+    @media (max-width: 520px) {
+      .go-fish-bait-list {
+        grid-template-columns: 1fr;
+      }
     }
 
     .go-fish-choice-actions.is-ready .go-fish-choice-button:not(:disabled) {
@@ -7839,6 +7973,38 @@
         0 0 12px rgba(255, 125, 157, .2);
     }
 
+    .dark-lancer-reset-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: -2px;
+    }
+
+    .dark-lancer-reset-button {
+      min-height: 28px;
+      min-width: 112px;
+      padding: 0 10px;
+      border: 1px solid rgba(255, 125, 157, .48);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.1), transparent 52%),
+        linear-gradient(#321421, #111720);
+      color: #ffabc0;
+      cursor: pointer;
+      font: bold 9px/1 "Courier New", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-shadow: 0 0 7px rgba(255, 125, 157, .45);
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.12),
+        0 0 10px rgba(255, 125, 157, .14);
+    }
+
+    .dark-lancer-reset-button:hover,
+    .dark-lancer-reset-button:focus-visible {
+      outline: 1px dotted #ffabc0;
+      outline-offset: 2px;
+      filter: brightness(1.16);
+    }
+
     .dark-lancer-victory-readout {
       display: none;
       padding: 9px 11px;
@@ -9724,13 +9890,16 @@
               <div class="dark-lancer-tally-item player"><span>PLAYER WINS</span><div class="dark-lancer-tally-marks" id="dark-lancer-player-wins" aria-label="Player wins tally"></div></div>
               <div class="dark-lancer-tally-item dealer"><span>DEALER WINS</span><div class="dark-lancer-tally-marks" id="dark-lancer-dealer-wins" aria-label="Dealer wins tally"></div></div>
             </div>
+            <div class="dark-lancer-reset-row">
+              <button class="dark-lancer-reset-button" type="button" id="dark-lancer-reset-game">reset game</button>
+            </div>
             <div class="dark-lancer-victory-readout" id="dark-lancer-victory-readout" aria-live="polite"></div>
           </div>
           <aside class="dark-lancer-shop" aria-label="Dark Lancer shop">
             <div class="dark-lancer-shop-head">
               <div class="dark-lancer-shop-title">LANCER SHOP</div>
               <div class="dark-lancer-shop-credit">CREDIT <span id="dark-lancer-shop-credit">0</span></div>
-              <div class="dark-lancer-shop-note">spend player win marks. unlocked effects stack.</div>
+              <div class="dark-lancer-shop-note">spend player win marks. unlocked effects stack. Marks can also be spent at the Go Fish Bait Shop.</div>
             </div>
             <div class="dark-lancer-shop-list" id="dark-lancer-shop-list"></div>
           </aside>
@@ -9766,6 +9935,15 @@
             <div class="go-fish-reveal-actions">
               <button class="go-fish-reveal-button" type="button" id="go-fish-reveal-button" hidden>reveal your catch</button>
               <button class="go-fish-chum-button" type="button" id="go-fish-chum-button">chum the waters</button>
+              <button class="go-fish-bait-button" type="button" id="go-fish-bait-button" aria-controls="go-fish-bait-shop" aria-expanded="false">bait shop</button>
+            </div>
+            <div class="go-fish-bait-shop" id="go-fish-bait-shop" role="dialog" aria-label="Bait Shop" hidden>
+              <div class="go-fish-bait-shop-head">
+                <span>BAIT SHOP</span>
+                <span>WINS <strong id="go-fish-bait-credit">0</strong></span>
+              </div>
+              <div class="go-fish-bait-list" id="go-fish-bait-list"></div>
+              <button class="go-fish-bait-close" type="button" id="go-fish-bait-close">close</button>
             </div>
           </div>
           <div class="go-fish-result" id="go-fish-result" hidden>
@@ -15637,6 +15815,11 @@
       const revealBox = document.getElementById("go-fish-reveal-box");
       const revealButton = document.getElementById("go-fish-reveal-button");
       const chumButton = document.getElementById("go-fish-chum-button");
+      const baitButton = document.getElementById("go-fish-bait-button");
+      const baitShop = document.getElementById("go-fish-bait-shop");
+      const baitCredit = document.getElementById("go-fish-bait-credit");
+      const baitList = document.getElementById("go-fish-bait-list");
+      const baitClose = document.getElementById("go-fish-bait-close");
       const result = document.getElementById("go-fish-result");
       const fishSvg = document.getElementById("go-fish-svg");
       const fishCard = fishSvg?.closest(".go-fish-fish-card");
@@ -15647,7 +15830,7 @@
       const fishReadout = document.getElementById("go-fish-readout");
       const fishBodyPanel = pond?.closest(".go-fish-body");
       const popup = pond?.closest(".popup");
-      if (!pond || !line || !glyphLayer || !pondBottom || !scoreReadout || !chumMeter || !timerReadout || !revealBox || !revealButton || !chumButton || !result || !fishSvg || !fishCard || !choiceActions || !gutButton || !freeButton || !returnMessage || !fishReadout || !fishBodyPanel || !popup) return;
+      if (!pond || !line || !glyphLayer || !pondBottom || !scoreReadout || !chumMeter || !timerReadout || !revealBox || !revealButton || !chumButton || !baitButton || !baitShop || !baitCredit || !baitList || !baitClose || !result || !fishSvg || !fishCard || !choiceActions || !gutButton || !freeButton || !returnMessage || !fishReadout || !fishBodyPanel || !popup) return;
 
       const glyphs = ["☉", "☽", "☿", "♃", "♄", "♆", "♇", "⚚", "⚕", "✶", "✷", "✹", "✧", "◇", "◬", "⟡"];
       const pupils = ["☉", "☽", "☿", "♄", "♃", "⚚", "✶", "✧", "◇", "◬", "⟡"];
@@ -15852,6 +16035,8 @@
       const fishFinPatterns = ["bars", "dots", "veins", "rays"];
       const fishFinStyles = ["split", "frilled", "spined", "ribboned", "sawtooth"];
       const RARE_FISH_STORAGE_KEY = "go-fish-rare-types-caught";
+      const WORM_STORAGE_KEY = "go-fish-pending-worms";
+      const WORM_COST = 1;
       const gemFishTypes = [
         { name: "ruby", body: "#9d1028", fin: "#d13b4c" },
         { name: "sapphire", body: "#0d45a3", fin: "#2f77d0" },
@@ -15900,16 +16085,23 @@
       function updateChum() {
         chumMeter.textContent = `CHUM: ${formatPoints(state.chum)}`;
         chumButton.disabled = state.active || state.hookTransition || state.revealReady || state.chum <= 0 || state.pendingChum > 0;
+        baitButton.disabled = state.active || state.hookTransition || state.revealReady;
       }
 
       function updatePondChumEffect() {
         pond.classList.toggle("has-chum", state.pendingChum > 0);
       }
 
+      function setBaitShopOpen(open) {
+        baitShop.hidden = !open;
+        baitButton.setAttribute("aria-expanded", String(open));
+      }
+
       function setPreCastPanel() {
         revealBox.hidden = false;
         revealButton.hidden = true;
         chumButton.hidden = false;
+        baitButton.hidden = false;
         updateChum();
       }
 
@@ -15917,6 +16109,8 @@
         revealBox.hidden = false;
         revealButton.hidden = false;
         chumButton.hidden = true;
+        baitButton.hidden = true;
+        setBaitShopOpen(false);
         revealButton.disabled = false;
       }
 
@@ -15985,6 +16179,7 @@
         returnMessage.hidden = true;
         pond.hidden = false;
         revealBox.hidden = false;
+        setBaitShopOpen(false);
         result.hidden = true;
         fishSvg.setAttribute("class", "go-fish-svg");
         fishSvg.innerHTML = "";
@@ -16004,6 +16199,7 @@
           updateScore();
         }
         updatePondChumEffect();
+        renderBaitShop();
         setPreCastPanel();
       }
 
@@ -16128,14 +16324,98 @@
         }
       }
 
-      function chooseRareFishTrait() {
-        if (Math.random() >= .25) return null;
-        const trait = { ...randomFrom(rareFishTypes) };
+      function makeRareFishTrait(id) {
+        const base = rareFishTypes.find((type) => type.id === id);
+        if (!base) return null;
+        const trait = { ...base };
         if (trait.id === "gem") {
           trait.gem = randomFrom(gemFishTypes);
           trait.label = `${trait.gem.name.toUpperCase()} GEM TYPE`;
         }
         return trait;
+      }
+
+      function readPendingWorms() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(WORM_STORAGE_KEY) || "[]");
+          return Array.isArray(saved) ? saved.filter((id) => rareFishTypes.some((type) => type.id === id)) : [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function savePendingWorms(worms) {
+        try {
+          localStorage.setItem(WORM_STORAGE_KEY, JSON.stringify(worms));
+        } catch (error) {
+          // Bait still works for the current click if storage is blocked.
+        }
+      }
+
+      function queuedWormCounts() {
+        return readPendingWorms().reduce((counts, id) => {
+          counts[id] = (counts[id] || 0) + 1;
+          return counts;
+        }, {});
+      }
+
+      function darkLancerCredit() {
+        return Number(window.getDarkLancerPlayerWins?.() || 0);
+      }
+
+      function buyWorm(typeId) {
+        if (!window.spendDarkLancerPlayerWins?.(WORM_COST)) return;
+        const worms = readPendingWorms();
+        worms.push(typeId);
+        savePendingWorms(worms);
+        renderBaitShop();
+      }
+
+      function renderBaitShop() {
+        baitCredit.textContent = String(darkLancerCredit());
+        const counts = queuedWormCounts();
+        baitList.replaceChildren();
+
+        rareFishTypes.forEach((type) => {
+          const row = document.createElement("div");
+          row.className = "go-fish-worm-row";
+
+          const copy = document.createElement("div");
+          const name = document.createElement("div");
+          name.className = "go-fish-worm-name";
+          name.textContent = `${type.label} WORM`;
+          const count = document.createElement("div");
+          count.className = "go-fish-worm-count";
+          count.textContent = `queued: ${counts[type.id] || 0}`;
+          copy.append(name, count);
+
+          const button = document.createElement("button");
+          button.className = "go-fish-worm-buy";
+          button.type = "button";
+          button.dataset.worm = type.id;
+          button.textContent = `${WORM_COST} win`;
+          button.disabled = darkLancerCredit() < WORM_COST;
+
+          row.append(copy, button);
+          baitList.appendChild(row);
+        });
+      }
+
+      function consumePendingWormTraits() {
+        const worms = readPendingWorms();
+        if (!worms.length) return [];
+        savePendingWorms([]);
+        renderBaitShop();
+        return worms.map(makeRareFishTrait).filter(Boolean);
+      }
+
+      function chooseRareFishTraits() {
+        const traits = consumePendingWormTraits();
+        if (Math.random() < .25) {
+          const randomTrait = makeRareFishTrait(randomFrom(rareFishTypes).id);
+          if (randomTrait) traits.push(randomTrait);
+        }
+        return traits;
       }
 
       function rgbaFromHex(hex, alpha) {
@@ -16170,9 +16450,10 @@
         fishBodyPanel.classList.toggle("is-fish-showcase");
       }
 
-      function makeEye(cx, cy, pupil, darkEye, outlineEffect, rareTrait = null) {
-        const isAndroid = rareTrait?.id === "android";
-        const eyeFill = rareTrait?.id === "albino" ? "#b51c2d" : darkEye ? "#1f2628" : "#f7fbf2";
+      function makeEye(cx, cy, pupil, darkEye, outlineEffect, rareTraits = []) {
+        const hasRare = (id) => rareTraits.some((trait) => trait.id === id);
+        const isAndroid = hasRare("android");
+        const eyeFill = hasRare("albino") ? "#b51c2d" : darkEye ? "#1f2628" : "#f7fbf2";
         const eyeStroke = darkEye ? "#f7fbf2" : "#1f2628";
         const pupilFill = darkEye ? "#f7fbf2" : "#1f2628";
         const eyeOutlineEffect = darkEye ? "" : outlineEffect;
@@ -16184,7 +16465,7 @@
         return `${shape}<text x="${cx}" y="${cy + 2}" text-anchor="middle" dominant-baseline="central" fill="${pupilFill}" font-family="Georgia, 'Times New Roman', serif" font-size="27" font-weight="bold">${pupil}</text>`;
       }
 
-      function makeFishEyes(profile, pupil, darkEye, outlineEffect, eyeCount, rareTrait = null) {
+      function makeFishEyes(profile, pupil, darkEye, outlineEffect, eyeCount, rareTraits = []) {
         const offsets = [
           [0, 0],
           [42, -18],
@@ -16195,7 +16476,7 @@
           const scale = index === 0 ? 1 : .72;
           const cx = profile.eyeX + xOffset;
           const cy = profile.eyeY + yOffset;
-          return `<g transform="translate(${cx} ${cy}) scale(${scale}) translate(${-cx} ${-cy})">${makeEye(cx, cy, pupil, darkEye, outlineEffect, rareTrait)}</g>`;
+          return `<g transform="translate(${cx} ${cy}) scale(${scale}) translate(${-cx} ${-cy})">${makeEye(cx, cy, pupil, darkEye, outlineEffect, rareTraits)}</g>`;
         }).join("");
       }
 
@@ -16281,7 +16562,8 @@
         </g>`;
       }
 
-      function makeFishBody(profile, bodyFill, finFill, pupil, bodyPattern, finPattern, patternInk, patternAccent, finStyle, darkEye, outlineEffect, eyeCount, rareTrait = null) {
+      function makeFishBody(profile, bodyFill, finFill, pupil, bodyPattern, finPattern, patternInk, patternAccent, finStyle, darkEye, outlineEffect, eyeCount, rareTraits = []) {
+        const hasRare = (id) => rareTraits.some((trait) => trait.id === id);
         const facets = profile.facets.map((points, index) => {
           const fill = index % 2 ? "rgba(255,255,255,.12)" : "rgba(0,0,0,.12)";
           return `<polygon points="${points}" fill="${fill}" stroke="rgba(31,38,40,.42)" stroke-width="3" />`;
@@ -16292,11 +16574,11 @@
         const bodyPatternLayer = makePatternLayer(bodyPattern, "fish-body-clip", patternInk, patternAccent, .28);
         const finPatternLayer = makePatternLayer(finPattern, "fish-fin-clip", patternInk, patternAccent, .34);
         const finFlourish = makeFinFlourish(finStyle, patternInk, patternAccent, outlineEffect);
-        const topFin = rareTrait?.id === "finless" ? "" : `<polygon points="${profile.topFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="7" stroke-linejoin="miter" />`;
-        const bottomFin = rareTrait?.id === "finless" ? "" : `<polygon points="${profile.bottomFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="7" stroke-linejoin="miter" />`;
-        const sideFin = rareTrait?.id === "finless" ? "" : `<polygon points="${profile.sideFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="6" stroke-linejoin="miter" opacity=".9" />`;
-        const flourish = rareTrait?.id === "finless" ? "" : finFlourish;
-        const doubleFins = rareTrait?.id === "double-finned"
+        const topFin = hasRare("finless") ? "" : `<polygon points="${profile.topFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="7" stroke-linejoin="miter" />`;
+        const bottomFin = hasRare("finless") ? "" : `<polygon points="${profile.bottomFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="7" stroke-linejoin="miter" />`;
+        const sideFin = hasRare("finless") ? "" : `<polygon points="${profile.sideFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="6" stroke-linejoin="miter" opacity=".9" />`;
+        const flourish = hasRare("finless") ? "" : finFlourish;
+        const doubleFins = hasRare("double-finned")
           ? `<g transform="translate(-18 -18) scale(.92)" opacity=".72">${topFin}${bottomFin}${sideFin}${finFlourish}</g><g transform="translate(20 16) scale(.9)" opacity=".66">${topFin}${bottomFin}${sideFin}${finFlourish}</g>`
           : "";
         return `
@@ -16311,7 +16593,7 @@
           ${finPatternLayer}
           ${facets}
           ${details}
-          ${makeFishEyes(profile, pupil, darkEye, outlineEffect, eyeCount, rareTrait)}
+          ${makeFishEyes(profile, pupil, darkEye, outlineEffect, eyeCount, rareTraits)}
           <path d="${profile.mouth}" fill="none" stroke="#1f2628"${outlineEffect} stroke-width="5" stroke-linecap="square" stroke-linejoin="miter" />`;
       }
 
@@ -16363,7 +16645,9 @@
         state.catchResolved = false;
         let color = fishColorForScore(score);
         let accent = randomFrom(colors).hex;
-        const rareTrait = chooseRareFishTrait();
+        const rareTraits = chooseRareFishTraits();
+        const hasRare = (id) => rareTraits.some((trait) => trait.id === id);
+        const gemTrait = rareTraits.find((trait) => trait.id === "gem");
         const descriptor = randomFrom(descriptors);
         const breed = randomFrom(breeds);
         const bodyType = randomFrom(bodyTypes);
@@ -16371,7 +16655,7 @@
         const hasInnerRadiance = Math.random() < (1 / 44);
         const effects = earnedEffects(score);
         if (hasInnerRadiance) effects.push("inner radiance");
-        if (rareTrait) effects.push(`${rareTrait.label.toLowerCase()} rare trait`);
+        rareTraits.forEach((trait) => effects.push(`${trait.label.toLowerCase()} rare trait`));
         const effectsPhrase = effects.length ? `${effects.join(", ")} effects` : "no effects";
         const size = Math.min(1.62, (.86 + score * .038) * bodyType.size);
         const bodyPattern = chooseFishPattern(fishBodyPatterns, Math.min(.82, .34 + score * .026));
@@ -16384,43 +16668,48 @@
         let patternAccent = Math.random() > .5 ? accent : color.hex;
         const hasGlow = effects.includes("glow");
         const hasGradient = effects.includes("gradient");
-        if (rareTrait?.id === "albino") {
+        if (hasRare("albino")) {
           color = { name: "albino", hex: "#f2eadc" };
           accent = "#fff8ee";
           patternInk = "#d5c8bb";
           patternAccent = "#b51c2d";
-        } else if (rareTrait?.id === "android") {
+        }
+        if (gemTrait) {
+          color = { name: gemTrait.gem.name, hex: gemTrait.gem.body };
+          accent = gemTrait.gem.fin;
+          patternInk = "#ffffff";
+          patternAccent = gemTrait.gem.fin;
+        }
+        if (hasRare("android")) {
           color = { name: "chrome", hex: "#9fa8ad" };
           accent = "#dfe7ea";
           patternInk = "#31383b";
           patternAccent = "#c7eff5";
-        } else if (rareTrait?.id === "null") {
-          color = { name: "null", hex: "#343434" };
-          accent = "#6a6a6a";
-          patternInk = "#ff2525";
-          patternAccent = "#050505";
-        } else if (rareTrait?.id === "lancer") {
+        }
+        if (hasRare("lancer")) {
           color = { name: "lancer", hex: "#35165f" };
           accent = "#8a4dff";
           patternInk = "#ff1f3d";
           patternAccent = "#6d38ff";
-        } else if (rareTrait?.id === "mysterious") {
+        }
+        if (hasRare("mysterious")) {
           color = { name: "noir", hex: "#0d1012" };
           accent = "#d7dde0";
           patternInk = "#f0f0f0";
           patternAccent = "#20272a";
-        } else if (rareTrait?.id === "gem") {
-          color = { name: rareTrait.gem.name, hex: rareTrait.gem.body };
-          accent = rareTrait.gem.fin;
-          patternInk = "#ffffff";
-          patternAccent = rareTrait.gem.fin;
         }
-        const bodyFill = rareTrait?.id === "gem" ? "url(#fish-gem-gradient)" : rareTrait?.id === "android" ? "url(#fish-android-metal)" : hasGradient ? "url(#fish-body-gradient)" : color.hex;
-        const finFill = rareTrait?.id === "gem" ? "url(#fish-gem-fin-gradient)" : rareTrait?.id === "android" ? "url(#fish-android-fin)" : hasGradient ? "url(#fish-fin-gradient)" : accent;
-        const rareClass = rareTrait ? ` is-rare-${rareTrait.id}` : "";
-        const glowFilter = rareTrait?.id === "null" ? `filter="url(#fish-null-glitch)"` : rareTrait?.id === "mysterious" ? `filter="url(#fish-noir)"` : rareTrait?.id === "lancer" ? `filter="url(#fish-lancer-aura)"` : isImpossible ? `filter="url(#fish-impossible-aura)"` : hasGlow ? `filter="url(#fish-glow)"` : "";
-        const outlineEffect = isImpossible || hasInnerRadiance || rareTrait ? ` filter="url(#fish-outline-glow)"` : "";
-        const eyeCount = rareTrait?.id === "android" ? 1 : isImpossible ? 1 + Math.floor(Math.random() * 4) : 1;
+        if (hasRare("null")) {
+          color = { name: "null", hex: "#343434" };
+          accent = "#6a6a6a";
+          patternInk = "#ff2525";
+          patternAccent = "#050505";
+        }
+        const bodyFill = gemTrait ? "url(#fish-gem-gradient)" : hasRare("android") ? "url(#fish-android-metal)" : hasGradient ? "url(#fish-body-gradient)" : color.hex;
+        const finFill = gemTrait ? "url(#fish-gem-fin-gradient)" : hasRare("android") ? "url(#fish-android-fin)" : hasGradient ? "url(#fish-fin-gradient)" : accent;
+        const rareClass = rareTraits.map((trait) => ` is-rare-${trait.id}`).join("");
+        const glowFilter = hasRare("null") ? `filter="url(#fish-null-glitch)"` : hasRare("mysterious") ? `filter="url(#fish-noir)"` : hasRare("lancer") ? `filter="url(#fish-lancer-aura)"` : isImpossible ? `filter="url(#fish-impossible-aura)"` : hasGlow ? `filter="url(#fish-glow)"` : "";
+        const outlineEffect = isImpossible || hasInnerRadiance || rareTraits.length ? ` filter="url(#fish-outline-glow)"` : "";
+        const eyeCount = hasRare("android") ? 1 : isImpossible ? 1 + Math.floor(Math.random() * 4) : 1;
         const extraGlow = score >= 22
           ? `<path d="M116 72 L176 40 L242 56 L314 32 L386 74" fill="none" stroke="#f7fbf2" stroke-width="3" stroke-dasharray="9 7" opacity=".82" />`
           : "";
@@ -16431,13 +16720,13 @@
               <path d="M96 88 L146 116 M214 46 L238 92 M332 58 L306 108 M404 86 L362 120 M132 190 L180 154 M264 220 L278 166 M382 190 L338 154" fill="none" stroke="#f7fbf2" stroke-width="${isImpossible ? "5" : "3"}" stroke-linecap="square" opacity="${isImpossible ? ".9" : ".72"}" filter="url(#fish-outline-glow)" />
             </g>`
           : "";
-        const rareOverlay = rareTrait
+        const rareOverlay = rareTraits.length
           ? `<g opacity=".78" style="mix-blend-mode: screen;">
-              ${rareTrait.id === "null" ? `<path d="M70 54 H452 M92 110 H420 M58 178 H472" stroke="#ff2525" stroke-width="5" stroke-dasharray="26 18" opacity=".72" />` : ""}
-              ${rareTrait.id === "lancer" ? `<path d="M118 56 C190 14 320 20 410 74 M106 206 C210 248 330 232 426 180" fill="none" stroke="#ff1f3d" stroke-width="8" stroke-linecap="round" opacity=".54" filter="url(#fish-outline-glow)" />` : ""}
-              ${rareTrait.id === "mysterious" ? `<path d="M74 206 C166 178 346 182 456 208" fill="none" stroke="#f0f0f0" stroke-width="7" stroke-linecap="round" opacity=".38" />` : ""}
-              ${rareTrait.id === "android" ? `<path d="M126 68 H398 V202 H128 Z M164 94 H366 M164 132 H366 M164 170 H366" fill="none" stroke="#dfe7ea" stroke-width="4" opacity=".48" />` : ""}
-              ${rareTrait.id === "gem" ? `<path d="M130 72 L230 34 L390 84 L420 144 L324 214 L174 202 L92 134 Z" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="miter" opacity=".46" filter="url(#fish-outline-glow)" />` : ""}
+              ${hasRare("null") ? `<path d="M70 54 H452 M92 110 H420 M58 178 H472" stroke="#ff2525" stroke-width="5" stroke-dasharray="26 18" opacity=".72" />` : ""}
+              ${hasRare("lancer") ? `<path d="M118 56 C190 14 320 20 410 74 M106 206 C210 248 330 232 426 180" fill="none" stroke="#ff1f3d" stroke-width="8" stroke-linecap="round" opacity=".54" filter="url(#fish-outline-glow)" />` : ""}
+              ${hasRare("mysterious") ? `<path d="M74 206 C166 178 346 182 456 208" fill="none" stroke="#f0f0f0" stroke-width="7" stroke-linecap="round" opacity=".38" />` : ""}
+              ${hasRare("android") ? `<path d="M126 68 H398 V202 H128 Z M164 94 H366 M164 132 H366 M164 170 H366" fill="none" stroke="#dfe7ea" stroke-width="4" opacity=".48" />` : ""}
+              ${gemTrait ? `<path d="M130 72 L230 34 L390 84 L420 144 L324 214 L174 202 L92 134 Z" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="miter" opacity=".46" filter="url(#fish-outline-glow)" />` : ""}
             </g>`
           : "";
 
@@ -16529,17 +16818,18 @@
             </clipPath>
           </defs>
           <g transform="translate(260 132) scale(${size}) translate(-260 -132)" ${glowFilter}>
-            ${makeFishBody(bodyType, bodyFill, finFill, pupil, bodyPattern, finPattern, patternInk, patternAccent, finStyle, darkEye, outlineEffect, eyeCount, rareTrait)}
+            ${makeFishBody(bodyType, bodyFill, finFill, pupil, bodyPattern, finPattern, patternInk, patternAccent, finStyle, darkEye, outlineEffect, eyeCount, rareTraits)}
             ${innerRadianceOverlay}
             ${rareOverlay}
             ${extraGlow}
           </g>`;
         const chumNote = state.pendingChum > 0 ? `<br>Chummed water added <strong>+${formatPoints(state.pendingChum)}</strong> before the cast.` : "";
         const impossibleNote = isImpossible ? `<br>Impossible trait: <strong>${eyeCount}</strong> ${eyeCount === 1 ? "eye" : "eyes"} and a <strong>very bright radiant aura</strong>.` : "";
-        const rareNote = rareTrait ? `<br>Rare type: <strong class="go-fish-rare-trait">${rareTrait.label}</strong>.` : "";
+        const rareLabels = Array.from(new Set(rareTraits.map((trait) => trait.label)));
+        const rareNote = rareLabels.length ? `<br>Rare type: <strong class="go-fish-rare-trait">${rareLabels.join(" + ")}</strong>.` : "";
         fishReadout.innerHTML = `Your score was <strong>${formatPoints(score)}</strong>, <strong>${qualityPhrase}</strong> You caught a:<br><strong class="go-fish-catch-name" style="--fish-color: ${color.hex};">${color.name} ${descriptor} ${breed}</strong>.<br>This fish has a <strong>${bodyType.name}-type</strong> body, and <strong>${effectsPhrase}</strong>.<br>It is aligned with <strong class="go-fish-alignment-badge ${alignmentClass}">${alignment}</strong>, and is marked by <strong>${pupil}</strong>.${rareNote}${impossibleNote}${chumNote}`;
         setFishShowcasePalette(score, color, accent);
-        recordRareFishType(rareTrait);
+        rareTraits.forEach(recordRareFishType);
         fishBodyPanel.classList.add("has-catch");
         fishBodyPanel.classList.remove("is-fish-showcase");
         revealBox.hidden = true;
@@ -16655,6 +16945,19 @@
         }
       });
       chumButton.addEventListener("click", chumWaters);
+      baitButton.addEventListener("click", () => {
+        const willOpen = baitShop.hidden;
+        setBaitShopOpen(willOpen);
+        if (willOpen) renderBaitShop();
+      });
+      baitClose.addEventListener("click", () => {
+        setBaitShopOpen(false);
+      });
+      baitList.addEventListener("click", (event) => {
+        const button = event.target.closest(".go-fish-worm-buy");
+        if (!button) return;
+        buyWorm(button.dataset.worm);
+      });
       revealButton.addEventListener("click", revealCatch);
       gutButton.addEventListener("click", gutCatch);
       freeButton.addEventListener("click", setCatchFree);
@@ -16669,6 +16972,7 @@
       window.addEventListener("hashchange", () => {
         if (window.location.hash !== "#go-fish") resetFishing({ resetScore: true });
       });
+      window.addEventListener("darkLancerCreditChange", renderBaitShop);
       resetFishing({ resetScore: true });
     }
 
@@ -17315,10 +17619,11 @@ function setupDarkLancer() {
   const dealButton = document.getElementById("dark-lancer-deal");
   const hitButton = document.getElementById("dark-lancer-hit");
   const standButton = document.getElementById("dark-lancer-stand");
+  const resetButton = document.getElementById("dark-lancer-reset-game");
   const shopListEl = document.getElementById("dark-lancer-shop-list");
   const shopCreditEl = document.getElementById("dark-lancer-shop-credit");
 
-  if (!playerCardsEl || !dealerCardsEl || !playerScoreEl || !dealerScoreEl || !playerPanelEl || !dealerPanelEl || !playerHandEl || !dealerHandEl || !playerWinsEl || !dealerWinsEl || !victoryReadoutEl || !resultEl || !dealButton || !hitButton || !standButton || !shopListEl || !shopCreditEl) return;
+  if (!playerCardsEl || !dealerCardsEl || !playerScoreEl || !dealerScoreEl || !playerPanelEl || !dealerPanelEl || !playerHandEl || !dealerHandEl || !playerWinsEl || !dealerWinsEl || !victoryReadoutEl || !resultEl || !dealButton || !hitButton || !standButton || !resetButton || !shopListEl || !shopCreditEl) return;
 
   const suits = [
     { mark: "♠", color: "black" },
@@ -17328,6 +17633,7 @@ function setupDarkLancer() {
   ];
   const ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
   const values = { A: 11, J: 10, Q: 10, K: 10 };
+  const DARK_LANCER_STORAGE_KEY = "dark-lancer-tally-state";
 
   let deck = [];
   let playerHand = [];
@@ -17701,6 +18007,43 @@ function setupDarkLancer() {
     return mark;
   }
 
+  function sanitizeTally(value) {
+    return {
+      player: Math.max(0, Math.floor(Number(value?.player) || 0)),
+      dealer: Math.max(0, Math.floor(Number(value?.dealer) || 0))
+    };
+  }
+
+  function readSavedTallies() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(DARK_LANCER_STORAGE_KEY) || "{}");
+      return {
+        tally: sanitizeTally(saved.tally),
+        totalTally: sanitizeTally(saved.totalTally)
+      };
+    } catch (error) {
+      return {
+        tally: { player: 0, dealer: 0 },
+        totalTally: { player: 0, dealer: 0 }
+      };
+    }
+  }
+
+  function saveTallies() {
+    try {
+      localStorage.setItem(DARK_LANCER_STORAGE_KEY, JSON.stringify({ tally, totalTally }));
+    } catch (error) {
+      // Tallies still work for the current session if storage is blocked.
+    }
+    window.dispatchEvent(new CustomEvent("darkLancerCreditChange", { detail: { credit: tally.player } }));
+  }
+
+  function loadTallies() {
+    const saved = readSavedTallies();
+    tally = saved.tally;
+    totalTally = saved.totalTally;
+  }
+
   function renderTally() {
     playerWinsEl.replaceChildren();
     dealerWinsEl.replaceChildren();
@@ -17716,6 +18059,16 @@ function setupDarkLancer() {
     shopCreditEl.textContent = String(tally.player);
     renderShop();
   }
+
+  window.getDarkLancerPlayerWins = () => tally.player;
+  window.spendDarkLancerPlayerWins = (amount = 1) => {
+    const cost = Math.max(0, Math.floor(Number(amount) || 0));
+    if (tally.player < cost) return false;
+    tally.player -= cost;
+    saveTallies();
+    renderTally();
+    return true;
+  };
 
   function formatWinCount(count, label) {
     return `${count} ${label}${count === 1 ? "" : "s"}`;
@@ -17899,6 +18252,8 @@ function setupDarkLancer() {
       event.preventDefault();
       event.stopPropagation();
       tally.player += 1;
+      totalTally.player += 1;
+      saveTallies();
       renderTally();
     });
 
@@ -18022,6 +18377,7 @@ function setupDarkLancer() {
       activeEffects.add(effectId);
       if (effectId === "destroy-the-dealer") window.unlockSiteTrophy?.("Destroy the Dealer");
       if (unlockedEffects.size === shopItems.length) window.unlockSiteTrophy?.("Undeniable Lancer");
+      saveTallies();
       renderTally();
       applyEffectState();
       return;
@@ -18039,6 +18395,7 @@ function setupDarkLancer() {
   function resetTally() {
     tally = { player: 0, dealer: 0 };
     totalTally = { player: 0, dealer: 0 };
+    saveTallies();
     renderTally();
     resetShop();
   }
@@ -18047,6 +18404,7 @@ function setupDarkLancer() {
     if (side !== "player" && side !== "dealer") return;
     tally[side] += 1;
     totalTally[side] += 1;
+    saveTallies();
     renderTally();
   }
 
@@ -18294,7 +18652,7 @@ function setupDarkLancer() {
     if (playerScore >= 21) finishRound();
   }
 
-  function resetGame() {
+  function resetGame(options = {}) {
     deck = [];
     playerHand = [];
     dealerHand = [];
@@ -18304,13 +18662,18 @@ function setupDarkLancer() {
     setActive(false);
     clearOutcomeGlow();
     setResult("DEAL");
-    resetTally();
+    if (options.resetTallies) {
+      resetTally();
+    } else {
+      renderTally();
+    }
     render();
   }
 
   dealButton.addEventListener("click", dealRound);
   hitButton.addEventListener("click", hit);
   standButton.addEventListener("click", finishRound);
+  resetButton.addEventListener("click", () => resetGame({ resetTallies: true }));
 
   shopListEl.addEventListener("click", (event) => {
     const button = event.target.closest(".dark-lancer-shop-button");
@@ -18324,6 +18687,7 @@ function setupDarkLancer() {
 
   installDarkLancerExtraStyles();
   installSecretTallyButton();
+  loadTallies();
   resetGame();
 }
 
