@@ -911,6 +911,38 @@
       transform: scale(1);
     }
 
+    body.trophy-unlock-glow::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 79;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 38%, rgba(255, 255, 255, .46), transparent 20%),
+        radial-gradient(circle at 50% 48%, rgba(255, 244, 168, .38), transparent 38%),
+        linear-gradient(145deg, rgba(255, 232, 147, .3), rgba(246, 195, 78, .16), rgba(255, 125, 157, .08));
+      box-shadow:
+        inset 0 0 42px rgba(255, 255, 255, .72),
+        inset 0 0 96px rgba(255, 232, 147, .72),
+        inset 0 0 180px rgba(246, 195, 78, .54);
+      animation: trophyUnlockGlow 1.35s ease-out both;
+    }
+
+    @keyframes trophyUnlockGlow {
+      0% {
+        opacity: 0;
+        filter: saturate(1) brightness(1);
+      }
+      18% {
+        opacity: 1;
+        filter: saturate(1.45) brightness(1.22);
+      }
+      100% {
+        opacity: 0;
+        filter: saturate(1.05) brightness(1);
+      }
+    }
+
     body.theme-night {
       --ink: #dce7e2;
       --paper: #101719;
@@ -938,6 +970,16 @@
         radial-gradient(circle at 18% 4%, var(--time-glow, rgba(255,255,255,.24)), transparent 26%),
         linear-gradient(var(--time-sky-top, #89979b), var(--time-sky-mid, #c2c8c3) 46%, var(--time-ground, #6b6961));
       color: var(--ink);
+    }
+
+    body.theme-trophy-hunter {
+      background:
+        radial-gradient(circle at 15% 8%, color-mix(in srgb, var(--time-glow, rgba(255,244,168,.2)) 82%, transparent), transparent 23%),
+        radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--time-panel, #d8ddd6) 46%, transparent), transparent 32%),
+        radial-gradient(circle at 82% 12%, rgba(255,125,157,.14), transparent 22%),
+        radial-gradient(circle at 52% 86%, rgba(145,184,193,.18), transparent 30%),
+        repeating-linear-gradient(132deg, rgba(255,232,147,.08) 0 1px, transparent 1px 12px),
+        linear-gradient(145deg, var(--time-sky-top, #aeb7b6), var(--time-sky-mid, #798482) 48%, var(--time-ground, #202626));
     }
 
     body.theme-night .page,
@@ -4052,103 +4094,287 @@
         rgba(7,10,12,.56);
     }
 
+    #trophy-room {
+      place-items: safe center;
+      overflow: auto;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
     .check-this-window {
       width: min(640px, calc(100vw - 28px));
       overflow: hidden;
     }
 
     .trophy-window {
-      width: min(850px, calc(100vw - 28px));
-      max-height: 88vh;
-      overflow: hidden;
+      width: max-content;
+      min-width: 1120px;
+      max-width: none;
+      max-height: none;
+      overflow: visible;
+      border-color: #8d6820;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(255, 248, 188, .24), transparent 32%),
+        linear-gradient(145deg, #17100a, #38260d 48%, #110b07);
+      box-shadow:
+        0 0 0 1px rgba(255, 232, 147, .34),
+        8px 8px 0 rgba(21,25,27,.45),
+        0 0 28px rgba(246,195,78,.22);
     }
 
     .trophy-body {
-      max-height: calc(88vh - 32px);
-      overflow: auto;
-      padding: 12px;
+      width: 1120px;
+      max-height: none;
+      overflow: visible;
+      padding: 10px;
       background:
-        radial-gradient(circle at 18% 12%, rgba(246,195,78,.18), transparent 24%),
-        radial-gradient(circle at 82% 18%, rgba(145,184,193,.16), transparent 24%),
-        linear-gradient(145deg, rgba(216,221,214,.96), rgba(148,158,156,.92));
-      color: #1f2628;
-      font: 12px/1.35 "Courier New", monospace;
+        radial-gradient(circle at 15% 8%, rgba(255,244,168, calc(.1 + (var(--trophy-gold, 0) * .38))), transparent 23%),
+        radial-gradient(circle at 18% 18%, rgba(230,236,236, calc(.46 - (var(--trophy-gold, 0) * .32))), transparent 32%),
+        radial-gradient(circle at 82% 12%, rgba(255,125,157,.18), transparent 22%),
+        radial-gradient(circle at 52% 86%, rgba(145,184,193,.22), transparent 30%),
+        repeating-linear-gradient(132deg, rgba(255,232,147, calc(.04 + (var(--trophy-gold, 0) * .1))) 0 1px, transparent 1px 12px),
+        linear-gradient(145deg, var(--trophy-room-top, #aeb7b6), var(--trophy-room-bottom, #202626));
+      color: #fff4c6;
+      font: 11px/1.25 "Courier New", monospace;
+    }
+
+    .trophy-status {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+      padding: 7px 9px;
+      border: 1px solid rgba(255,232,147,.56);
+      background:
+        linear-gradient(90deg, rgba(255,244,168,.16), rgba(255,125,157,.08), rgba(145,184,193,.1)),
+        rgba(10,7,5,.72);
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.12),
+        0 0 16px rgba(246,195,78,.18);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      text-shadow:
+        0 0 6px rgba(255,244,168,.7),
+        0 0 18px rgba(246,195,78,.42);
+    }
+
+    .trophy-discard-button {
+      position: fixed;
+      left: 16px;
+      bottom: 14px;
+      z-index: 2;
+      min-height: 28px;
+      padding: 6px 10px;
+      border: 1px solid rgba(255,232,147,.72);
+      color: #fff4c6;
+      background:
+        linear-gradient(180deg, rgba(69,56,40,.92), rgba(17,12,7,.94));
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.18),
+        0 0 14px rgba(255,232,147,.16);
+      font: bold 10px/1 "Courier New", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .trophy-discard-button:hover,
+    .trophy-discard-button:focus-visible {
+      color: #fff;
+      border-color: #ff7d9d;
+      outline: 1px dotted #fff4a8;
+      outline-offset: 2px;
+      text-shadow: 0 0 8px rgba(255,125,157,.72);
+    }
+
+    .trophy-ultimate {
+      display: none;
+      color: #fff;
+      font-weight: bold;
+      text-align: right;
+      text-shadow:
+        0 0 5px rgba(255,255,255,.92),
+        0 0 14px rgba(255,232,147,.82),
+        0 0 26px rgba(255,125,157,.46);
+    }
+
+    .trophy-body.is-complete .trophy-ultimate {
+      display: block;
     }
 
     .trophy-room-floor {
       display: grid;
-      gap: 14px;
+      grid-template-columns: 170px 140px 460px 170px 130px;
+      gap: 7px;
+      align-items: start;
+      position: relative;
+      z-index: 1;
     }
 
     .trophy-section {
       display: grid;
-      gap: 8px;
-      padding: 10px;
-      border: 1px solid rgba(31,38,40,.52);
+      gap: 5px;
+      padding: 6px;
+      border: 1px solid rgba(255,232,147,.38);
       background:
-        repeating-linear-gradient(132deg, rgba(31,38,40,.08) 0 1px, transparent 1px 14px),
-        rgba(237,242,238,.48);
+        radial-gradient(circle at 50% 0%, rgba(255,244,168,.18), transparent 38%),
+        linear-gradient(145deg, rgba(255,232,147,.08), rgba(145,184,193,.05)),
+        rgba(10,7,5,.58);
       box-shadow:
-        inset 1px 1px rgba(255,255,255,.48),
-        4px 5px 0 rgba(31,38,40,.16);
+        inset 1px 1px rgba(255,255,255,.1),
+        inset -1px -1px rgba(0,0,0,.46),
+        0 0 12px rgba(246,195,78,.1);
+      align-self: start;
     }
 
     .trophy-section h3 {
       margin: 0;
-      color: #6f4c14;
-      font: bold 11px/1 "Courier New", monospace;
-      letter-spacing: .16em;
+      color: #ffe893;
+      font: bold 9px/1 "Courier New", monospace;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      text-shadow: 0 1px 0 rgba(255,255,255,.72);
+      text-shadow:
+        0 0 5px rgba(255,232,147,.74),
+        0 0 12px rgba(246,195,78,.44);
     }
 
     .trophy-pedestals {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 9px;
+      grid-template-columns: repeat(auto-fit, minmax(76px, 1fr));
+      gap: 5px;
       align-items: end;
+    }
+
+    .trophy-section[aria-label="Go Fish trophies"] .trophy-pedestals {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
     .trophy-pedestal {
       position: relative;
-      min-height: 104px;
+      min-height: 74px;
       display: grid;
       grid-template-rows: 1fr auto;
       align-items: end;
       justify-items: center;
-      padding: 8px 6px;
-      border: 1px solid rgba(31,38,40,.34);
+      padding: 5px 4px;
+      border: 1px solid rgba(255,232,147,.24);
       background:
-        radial-gradient(ellipse at 50% 24%, rgba(246,195,78,.14), transparent 34%),
-        linear-gradient(180deg, rgba(220,226,222,.76), rgba(150,162,160,.58));
-      color: #2f393c;
+        radial-gradient(ellipse at 50% 18%, rgba(255,244,168,.08), transparent 35%),
+        linear-gradient(180deg, rgba(42,36,28,.92), rgba(12,10,9,.86));
+      color: #b8b8b8;
+      cursor: pointer;
+      transition: border-color .22s ease, box-shadow .22s ease, transform .22s ease;
+    }
+
+    .trophy-pedestal:hover,
+    .trophy-pedestal:focus-visible {
+      border-color: rgba(255,232,147,.72);
+      box-shadow: 0 0 14px rgba(246,195,78,.22);
+      transform: translateY(-1px);
     }
 
     .trophy-empty-space {
-      width: 46px;
-      height: 42px;
-      border: 1px dashed rgba(31,38,40,.28);
-      background: rgba(247,251,242,.18);
-      box-shadow: inset 0 0 12px rgba(255,255,255,.2);
+      width: 40px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(180,180,180,.26);
+      background:
+        radial-gradient(circle at 50% 40%, rgba(255,255,255,.14), transparent 48%),
+        rgba(8,8,8,.42);
+      color: #8b8b8b;
+      font: 28px/1 Georgia, "Times New Roman", serif;
+      filter: grayscale(1) brightness(.62);
+      opacity: .7;
+      text-shadow: 0 0 5px rgba(255,255,255,.14);
+      transition: color .28s ease, filter .28s ease, opacity .28s ease, text-shadow .28s ease, transform .28s ease;
     }
 
     .trophy-plinth {
-      width: 86%;
-      min-height: 34px;
+      width: 100%;
+      min-height: 24px;
       display: grid;
       place-items: center;
-      padding: 5px;
-      border: 1px solid rgba(31,38,40,.58);
+      padding: 3px;
+      border: 1px solid rgba(255,232,147,.28);
       background:
-        linear-gradient(180deg, rgba(237,242,238,.9), rgba(141,153,151,.82));
+        linear-gradient(180deg, rgba(255,244,168,.14), rgba(21,16,10,.76));
       box-shadow:
-        inset 1px 1px rgba(255,255,255,.68),
-        inset -1px -1px rgba(0,0,0,.2),
-        2px 3px 0 rgba(31,38,40,.2);
-      font: bold 10px/1.15 "Courier New", monospace;
-      letter-spacing: .05em;
+        inset 1px 1px rgba(255,255,255,.1),
+        inset -1px -1px rgba(0,0,0,.34);
+      font: bold 8px/1.05 "Courier New", monospace;
+      letter-spacing: .02em;
       text-align: center;
       text-transform: uppercase;
+      overflow-wrap: anywhere;
+    }
+
+    .trophy-pedestal.is-unlocked .trophy-empty-space {
+      color: var(--trophy-color, #ffe893);
+      filter: grayscale(0) brightness(1.12);
+      opacity: 1;
+      transform: scale(1.08);
+      border-color: color-mix(in srgb, var(--trophy-color, #ffe893), #fff 24%);
+      text-shadow:
+        0 0 5px rgba(255,255,255,.78),
+        0 0 13px var(--trophy-color, #ffe893),
+        0 0 24px var(--trophy-color, #ffe893);
+    }
+
+    .trophy-pedestal.is-unlocked {
+      border-color: color-mix(in srgb, var(--trophy-color, #ffe893), #fff 18%);
+      box-shadow:
+        inset 0 0 12px color-mix(in srgb, var(--trophy-color, #ffe893), transparent 72%),
+        0 0 18px color-mix(in srgb, var(--trophy-color, #ffe893), transparent 58%);
+    }
+
+    .trophy-pedestal.is-dark-lancer.is-unlocked .trophy-empty-space {
+      animation: trophyPulse 1.35s ease-in-out infinite alternate;
+    }
+
+    .trophy-pedestal.is-go-fish.is-unlocked .trophy-empty-space {
+      animation: trophySwim 1.9s ease-in-out infinite;
+    }
+
+    .trophy-pedestal.is-simonomicon.is-unlocked .trophy-empty-space {
+      animation: trophyGlitch 1.15s steps(2, end) infinite;
+    }
+
+    .trophy-pedestal.is-diviner.is-unlocked .trophy-empty-space {
+      animation: trophyOrbit 2.4s linear infinite;
+    }
+
+    .trophy-pedestal.is-coin.is-unlocked .trophy-empty-space {
+      animation: trophyCoin 1.7s ease-in-out infinite;
+    }
+
+    .trophy-pedestal.is-good-work.is-unlocked .trophy-empty-space {
+      color: #f7fbf2;
+      border-color: rgba(247,251,242,.82);
+      text-shadow:
+        0 0 5px rgba(255,255,255,.84),
+        0 0 15px rgba(247,251,242,.48);
+      animation: none;
+    }
+
+    .trophy-pedestal.is-scaled-radiance.is-unlocked .trophy-empty-space,
+    .trophy-pedestal.is-divprim-radiance.is-unlocked .trophy-empty-space {
+      color: #fff4a8;
+      border-color: rgba(255,244,168,.92);
+      text-shadow:
+        0 0 5px rgba(255,255,255,.94),
+        0 0 15px rgba(255,244,168,.92),
+        0 0 28px rgba(255,214,90,.68);
+      animation: trophyPulse 1.05s ease-in-out infinite alternate;
+    }
+
+    .trophy-pedestal.is-simon-said .trophy-empty-space {
+      border-radius: 50%;
+    }
+
+    .trophy-pedestal.is-simon-said.is-unlocked .trophy-empty-space {
+      animation: trophySimonColors 1.4s steps(4, end) infinite;
     }
 
     .trophy-pedestal::after {
@@ -4156,21 +4382,23 @@
       position: absolute;
       left: 50%;
       bottom: calc(100% + 6px);
-      width: min(230px, 72vw);
-      padding: 7px 8px;
-      border: 1px solid rgba(247,251,242,.44);
-      background: rgba(8,14,16,.92);
-      color: #f7fbf2;
-      font: bold 10px/1.35 "Courier New", monospace;
-      letter-spacing: .08em;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 5px 6px;
+      border: 1px solid rgba(255,232,147,.48);
+      background: rgba(8,7,5,.94);
+      color: #fff4c6;
+      font: bold 9px/1.25 "Courier New", monospace;
+      letter-spacing: .05em;
       text-align: center;
       text-transform: uppercase;
       text-shadow: 0 0 8px rgba(255,255,255,.52);
+      overflow-wrap: break-word;
       opacity: 0;
       pointer-events: none;
       transform: translate(-50%, 5px);
       transition: opacity .18s ease, transform .18s ease;
-      z-index: 5;
+      z-index: 30;
     }
 
     .trophy-pedestal:hover::after,
@@ -4180,8 +4408,66 @@
     }
 
     .trophy-pedestal:focus-visible {
-      outline: 1px dotted #8d2442;
+      outline: 1px dotted #ffe893;
       outline-offset: 2px;
+    }
+
+    @keyframes trophyPulse {
+      from { filter: grayscale(0) brightness(1.05); }
+      to { filter: grayscale(0) brightness(1.38); }
+    }
+
+    @keyframes trophySwim {
+      0%, 100% { transform: translateX(-2px) scale(1.06); }
+      50% { transform: translateX(3px) scale(1.12); }
+    }
+
+    @keyframes trophyGlitch {
+      0%, 100% { transform: translate(0, 0) scale(1.08); }
+      50% { transform: translate(1px, -1px) scale(1.12); }
+    }
+
+    @keyframes trophyOrbit {
+      from { transform: rotate(0deg) scale(1.06); }
+      to { transform: rotate(360deg) scale(1.06); }
+    }
+
+    @keyframes trophyCoin {
+      0%, 100% { transform: rotateY(0deg) scale(1.08); }
+      50% { transform: rotateY(180deg) scale(1.16); }
+    }
+
+    @keyframes trophySimonColors {
+      0% {
+        color: #ff7d9d;
+        text-shadow: 0 0 6px #fff, 0 0 16px #ff7d9d, 0 0 28px #ff7d9d;
+      }
+      25% {
+        color: #ffe15a;
+        text-shadow: 0 0 6px #fff, 0 0 16px #ffe15a, 0 0 28px #ffe15a;
+      }
+      50% {
+        color: #54c7ff;
+        text-shadow: 0 0 6px #fff, 0 0 16px #54c7ff, 0 0 28px #54c7ff;
+      }
+      75%, 100% {
+        color: #8affb8;
+        text-shadow: 0 0 6px #fff, 0 0 16px #8affb8, 0 0 28px #8affb8;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .trophy-status {
+        grid-template-columns: 1fr;
+      }
+
+      .trophy-ultimate {
+        text-align: left;
+      }
+
+      .trophy-window {
+        min-width: 1120px;
+      }
     }
 
     .check-this-body {
@@ -4789,6 +5075,19 @@
         5px 6px 0 rgba(31,38,40,.18);
     }
 
+    .go-fish-pond.has-chum {
+      background:
+        radial-gradient(circle at 13% 23%, rgba(237,242,238,.56) 0 3px, transparent 4px),
+        radial-gradient(circle at 22% 34%, rgba(255,125,157,.24), transparent 19%),
+        radial-gradient(circle at 76% 58%, rgba(255,171,192,.2), transparent 18%),
+        radial-gradient(circle at 42% 72%, rgba(201,87,112,.18), transparent 22%),
+        radial-gradient(ellipse at 18% 36%, rgba(65,86,82,.52), transparent 22%),
+        radial-gradient(ellipse at 73% 33%, rgba(71,91,88,.45), transparent 26%),
+        linear-gradient(#9ca9a8 0 24%, #788784 25% 31%, transparent 32%),
+        radial-gradient(ellipse at 52% 70%, rgba(11,21,24,.94), rgba(31,68,74,.9) 42%, rgba(91,125,126,.8) 70%, rgba(31,38,40,.9)),
+        #5c7778;
+    }
+
     .go-fish-pond[hidden] {
       display: none;
     }
@@ -4808,8 +5107,20 @@
       z-index: 1;
     }
 
+    .go-fish-pond.has-chum::before {
+      background:
+        radial-gradient(ellipse at 18% 62%, rgba(137,154,71,.44) 0 8%, transparent 9%),
+        radial-gradient(ellipse at 82% 72%, rgba(137,154,71,.34) 0 7%, transparent 8%),
+        radial-gradient(ellipse at 58% 48%, rgba(255,125,157,.34) 0 9%, transparent 10%),
+        radial-gradient(ellipse at 28% 38%, rgba(255,171,192,.26) 0 7%, transparent 8%),
+        radial-gradient(ellipse at 78% 46%, rgba(201,87,112,.28) 0 6%, transparent 7%),
+        linear-gradient(90deg, rgba(255,255,255,.1), transparent 28%, rgba(255,125,157,.22) 55%, transparent),
+        repeating-linear-gradient(182deg, rgba(255,171,192,.1) 0 1px, transparent 1px 34px);
+      filter: blur(.5px) saturate(1.16);
+    }
+
     .go-fish-pond::after {
-      content: "cast into the pond";
+      content: attr(data-pond-message);
       position: absolute;
       left: 50%;
       top: 48%;
@@ -4824,9 +5135,23 @@
       z-index: 7;
     }
 
-    .go-fish-pond.is-playing::after,
-    .go-fish-pond.is-finished::after {
+    .go-fish-pond.is-playing::after {
       opacity: 0;
+    }
+
+    .go-fish-pond.is-finished::after {
+      color: #fff;
+      font-size: 15px;
+      line-height: 1.45;
+      white-space: pre-line;
+      text-align: center;
+      opacity: 1;
+      text-shadow:
+        0 0 4px rgba(255,255,255,.98),
+        0 0 12px rgba(255,255,255,.92),
+        0 0 24px rgba(255,125,157,.72),
+        0 0 38px rgba(145,184,193,.58);
+      animation: fishHookedGlow 1.05s ease-in-out infinite alternate;
     }
 
     .go-fish-bank {
@@ -4958,6 +5283,11 @@
       to { stroke-dashoffset: -132px; transform: translateX(18px); }
     }
 
+    @keyframes fishHookedGlow {
+      from { transform: translate(-50%, -50%) scale(.98); filter: brightness(1); }
+      to { transform: translate(-50%, -50%) scale(1.035); filter: brightness(1.24); }
+    }
+
     .go-fish-line {
       position: absolute;
       left: var(--line-x, 50%);
@@ -5082,11 +5412,11 @@
 
     .go-fish-reveal-box {
       position: relative;
-      min-height: 170px;
+      min-height: 74px;
       display: grid;
       place-items: center;
       gap: 12px;
-      padding: 20px;
+      padding: 12px;
       overflow: hidden;
       background:
         radial-gradient(circle at 50% 45%, rgba(255,255,255,.18), transparent 25%),
@@ -5285,6 +5615,7 @@
     }
 
     .go-fish-fish-card {
+      position: relative;
       width: 100%;
       min-height: clamp(218px, 34vh, 320px);
       display: grid;
@@ -5320,21 +5651,61 @@
         drop-shadow(10px 13px 0 rgba(31,38,40,.22));
     }
 
+    .go-fish-svg.is-rare-null {
+      filter:
+        grayscale(.82)
+        contrast(1.45)
+        drop-shadow(0 0 16px rgba(255, 37, 37, .5))
+        drop-shadow(8px 10px 0 rgba(31,38,40,.26));
+    }
+
+    .go-fish-svg.is-rare-mysterious {
+      filter:
+        saturate(.1)
+        contrast(1.28)
+        brightness(.78)
+        drop-shadow(0 0 18px rgba(255,255,255,.24))
+        drop-shadow(8px 10px 0 rgba(31,38,40,.32));
+    }
+
+    .go-fish-svg.is-rare-lancer {
+      filter:
+        saturate(1.35)
+        drop-shadow(0 0 18px rgba(109,56,255,.55))
+        drop-shadow(0 0 28px rgba(255,31,61,.24))
+        drop-shadow(8px 10px 0 rgba(31,38,40,.22));
+    }
+
     .go-fish-return-message {
-      width: min(1120px, 98vw);
-      margin-top: 7px;
-      min-height: 18px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(280px, 82%);
+      min-height: 42px;
+      display: grid;
+      place-items: center;
+      padding: 8px 10px;
+      border: 1px solid rgba(247,251,242,.48);
+      background:
+        radial-gradient(circle at 50% 38%, rgba(145,184,193,.18), transparent 60%),
+        rgba(8,14,16,.78);
       color: #fff;
       font: bold 12px/1.25 "Courier New", monospace;
       letter-spacing: .15em;
       text-align: center;
       text-transform: uppercase;
       opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
       text-shadow:
         0 0 4px rgba(255,255,255,.98),
         0 0 12px rgba(255,255,255,.88),
         0 0 22px rgba(145,184,193,.72);
-      transition: opacity 1.25s ease;
+      box-shadow:
+        inset 1px 1px rgba(255,255,255,.12),
+        0 0 18px rgba(145,184,193,.22);
+      transition: opacity 1.6s ease;
+      z-index: 4;
     }
 
     .go-fish-return-message[hidden] {
@@ -5400,6 +5771,14 @@
         0 0 4px rgba(255,255,255,.85),
         0 0 10px var(--fish-color, #8d2442),
         0 0 18px var(--fish-color, #8d2442);
+    }
+
+    .go-fish-rare-trait {
+      color: #fff4a8;
+      text-shadow:
+        0 0 4px rgba(255,255,255,.92),
+        0 0 12px rgba(255,232,147,.72),
+        0 0 22px rgba(255,125,157,.34);
     }
 
     .go-fish-alignment-badge {
@@ -7460,6 +7839,32 @@
         0 0 12px rgba(255, 125, 157, .2);
     }
 
+    .dark-lancer-victory-readout {
+      display: none;
+      padding: 9px 11px;
+      border: 1px solid rgba(255, 125, 157, .58);
+      background:
+        linear-gradient(135deg, rgba(255, 125, 157, .12), rgba(199, 239, 245, .1)),
+        rgba(2, 4, 8, .74);
+      color: #f8fbf5;
+      font: bold 11px/1.45 "Courier New", monospace;
+      letter-spacing: .12em;
+      text-align: center;
+      text-transform: uppercase;
+      text-shadow:
+        0 0 5px rgba(255, 255, 255, .62),
+        0 0 12px rgba(255, 125, 157, .42),
+        0 0 18px rgba(199, 239, 245, .24);
+      box-shadow:
+        inset 1px 1px rgba(255, 255, 255, .1),
+        inset -1px -1px rgba(0, 0, 0, .48),
+        0 0 16px rgba(255, 125, 157, .18);
+    }
+
+    .dark-lancer-victory-readout.is-visible {
+      display: block;
+    }
+
     .dark-lancer-shop {
       min-height: 100%;
       display: grid;
@@ -8804,6 +9209,10 @@
     <div class="popup-window trophy-window">
       <div class="popup-title">TROPHY ROOM <a href="#">x</a></div>
       <div class="trophy-body">
+        <div class="trophy-status" aria-live="polite">
+          <span>TROPHYS COLLECTED: <strong id="trophy-collected-percent">0%</strong></span>
+          <span class="trophy-ultimate" id="trophy-ultimate">ULTIMATE ACHIEVEMENT HUNTER</span>
+        </div>
         <div class="trophy-room-floor">
           <section class="trophy-section" aria-label="Dark Lancer trophies">
             <h3>DARK LANCER</h3>
@@ -8864,6 +9273,10 @@
                 <span class="trophy-empty-space" aria-hidden="true"></span>
                 <span class="trophy-plinth">Scaled Radiance</span>
               </div>
+              <div class="trophy-pedestal" tabindex="0" data-achievement="Catch every rare fish type.">
+                <span class="trophy-empty-space" aria-hidden="true"></span>
+                <span class="trophy-plinth">Darwinist</span>
+              </div>
             </div>
           </section>
 
@@ -8887,6 +9300,7 @@
             </div>
           </section>
         </div>
+        <button class="trophy-discard-button" type="button" id="trophy-discard-button">discard trophies</button>
       </div>
     </div>
   </aside>
@@ -9310,6 +9724,7 @@
               <div class="dark-lancer-tally-item player"><span>PLAYER WINS</span><div class="dark-lancer-tally-marks" id="dark-lancer-player-wins" aria-label="Player wins tally"></div></div>
               <div class="dark-lancer-tally-item dealer"><span>DEALER WINS</span><div class="dark-lancer-tally-marks" id="dark-lancer-dealer-wins" aria-label="Dealer wins tally"></div></div>
             </div>
+            <div class="dark-lancer-victory-readout" id="dark-lancer-victory-readout" aria-live="polite"></div>
           </div>
           <aside class="dark-lancer-shop" aria-label="Dark Lancer shop">
             <div class="dark-lancer-shop-head">
@@ -9333,7 +9748,7 @@
             <span id="go-fish-score">score 0</span>
             <span id="go-fish-timer">10.0s</span>
           </div>
-          <div class="go-fish-pond" id="go-fish-pond" tabindex="0" aria-label="Cast a line into the pond">
+          <div class="go-fish-pond" id="go-fish-pond" tabindex="0" aria-label="Cast a line into the pond" data-pond-message="cast into the pond">
             <svg class="go-fish-water-lines" viewBox="0 0 1000 520" preserveAspectRatio="none" aria-hidden="true">
               <path d="M-60 78 C42 42 122 112 224 78 S404 44 506 78 686 112 788 78 968 42 1060 78" />
               <path d="M-80 142 C36 104 122 176 238 142 S432 106 548 142 742 178 858 142 1016 106 1080 142" />
@@ -9347,16 +9762,16 @@
             <span class="go-fish-glyph-layer" id="go-fish-glyph-layer"></span>
             <span class="go-fish-bank" aria-hidden="true"></span>
           </div>
-          <div class="go-fish-reveal-box" id="go-fish-reveal-box" hidden>
+          <div class="go-fish-reveal-box" id="go-fish-reveal-box">
             <div class="go-fish-reveal-actions">
-              <button class="go-fish-reveal-button" type="button" id="go-fish-reveal-button">reveal your catch</button>
+              <button class="go-fish-reveal-button" type="button" id="go-fish-reveal-button" hidden>reveal your catch</button>
               <button class="go-fish-chum-button" type="button" id="go-fish-chum-button">chum the waters</button>
             </div>
-            <div class="go-fish-reveal-copy" id="go-fish-chum-status">chum can feed the unrevealed fish</div>
           </div>
           <div class="go-fish-result" id="go-fish-result" hidden>
             <div class="go-fish-fish-card">
               <svg class="go-fish-svg" id="go-fish-svg" viewBox="0 0 520 260" role="img" aria-label="Your generated fish" tabindex="0"></svg>
+              <div class="go-fish-return-message" id="go-fish-return-message" aria-live="polite" hidden>it has returned to the pond</div>
             </div>
             <div class="go-fish-readout" id="go-fish-readout"></div>
           </div>
@@ -9367,7 +9782,6 @@
         <button class="go-fish-choice-button" type="button" id="go-fish-gut-button" disabled>gut it</button>
         <button class="go-fish-choice-button" type="button" id="go-fish-free-button" disabled>set free</button>
       </div>
-      <div class="go-fish-return-message" id="go-fish-return-message" aria-live="polite" hidden>it has returned to the pond</div>
     </div>
   </aside>
 
@@ -9999,8 +10413,9 @@
       document.getElementById("ohio-time-value").textContent = ohioTime;
     }
 
+    const TROPHY_STORAGE_KEY = "codex-trophy-room-unlocked";
     const THEME_STORAGE_KEY = "voe-theme-mode";
-    const THEME_ORDER = ["normal", "night", "current"];
+    const THEME_ORDER = ["normal", "night", "current", "trophy"];
     let themeFlashTimer = null;
     let activeThemeMode = localStorage.getItem(THEME_STORAGE_KEY) || "normal";
 
@@ -10060,6 +10475,69 @@
       applyTimeThemeValues(document.body, "time-", getCurrentTimeThemeValues(date));
     }
 
+    function mixRgb(from, to, amount) {
+      const channels = from.map((value, index) => Math.round(value + ((to[index] - value) * amount)));
+      return `rgb(${channels.join(", ")})`;
+    }
+
+    function readSavedTrophyTitles() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(TROPHY_STORAGE_KEY) || "[]");
+        return Array.isArray(saved) ? saved.filter((title) => typeof title === "string") : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function getTrophyProgress() {
+      const trophyTitles = Array.from(document.querySelectorAll("#trophy-room .trophy-plinth"))
+        .map((plinth) => plinth.textContent?.trim())
+        .filter(Boolean);
+      const savedTitles = new Set(readSavedTrophyTitles());
+      const unlockedCount = trophyTitles.filter((title) => savedTitles.has(title)).length;
+      return Math.max(0, Math.min(1, unlockedCount / (trophyTitles.length || 1)));
+    }
+
+    function getTrophyHunterThemeValues() {
+      const progress = getTrophyProgress();
+      const top = mixRgb([174, 183, 182], [110, 69, 17], progress);
+      const mid = mixRgb([121, 132, 130], [92, 56, 15], progress);
+      const ground = mixRgb([32, 38, 38], [23, 15, 8], progress);
+      const panel = mixRgb([218, 224, 220], [73, 50, 19], progress);
+      const card = progress > .52 ? "rgba(28, 20, 11, .9)" : "rgba(240, 244, 239, .92)";
+      const cardStrong = progress > .52 ? "rgba(20, 14, 7, .96)" : "rgba(232, 237, 233, .97)";
+      const ink = progress > .52 ? "#fff4c6" : "#182224";
+      const title = progress > .52 ? "#fff4a8" : "#5c4217";
+      const tag = progress > .52 ? "#ffe893" : "#596565";
+      const accent = progress > .52 ? "#ffcf5a" : "#8d6820";
+
+      return {
+        "sky-top": top,
+        "sky-mid": mid,
+        "ground": ground,
+        "glow": `rgba(255, 244, 168, ${(.18 + progress * .32).toFixed(2)})`,
+        "panel": panel,
+        "line": mixRgb([95, 104, 103], [141, 104, 32], progress),
+        "ink": ink,
+        "accent": accent,
+        "accent-light": progress > .52 ? "#fff4a8" : "#8a9695",
+        "signal": progress > .52 ? "#ffabc0" : "#8d6820",
+        "readable-ink": ink,
+        "readable-title": title,
+        "readable-tag": tag,
+        "readable-accent": accent,
+        "readable-card": card,
+        "readable-card-strong": cardStrong,
+        "hue": `${Math.round(-12 + progress * 52)}deg`,
+        "saturation": (0.72 + progress * .58).toFixed(2),
+        "brightness": (0.92 + progress * .12).toFixed(2)
+      };
+    }
+
+    function setTrophyHunterThemeColors() {
+      applyTimeThemeValues(document.body, "time-", getTrophyHunterThemeValues());
+    }
+
     function flashThemeLabel(label) {
       const flash = document.getElementById("theme-flash");
       flash.textContent = label;
@@ -10071,12 +10549,15 @@
     function applyThemeMode(mode, announce = false) {
       activeThemeMode = THEME_ORDER.includes(mode) ? mode : "normal";
       document.body.classList.toggle("theme-night", activeThemeMode === "night");
-      document.body.classList.toggle("theme-current", activeThemeMode === "current");
+      document.body.classList.toggle("theme-current", activeThemeMode === "current" || activeThemeMode === "trophy");
+      document.body.classList.toggle("theme-trophy-hunter", activeThemeMode === "trophy");
       if (activeThemeMode === "current") {
         setCurrentTimeThemeColors();
+      } else if (activeThemeMode === "trophy") {
+        setTrophyHunterThemeColors();
       }
       if (announce) {
-        flashThemeLabel(activeThemeMode === "night" ? "NIGHT" : activeThemeMode === "current" ? "CURRENT TIME" : "DAY");
+        flashThemeLabel(activeThemeMode === "night" ? "NIGHT" : activeThemeMode === "current" ? "CURRENT TIME" : activeThemeMode === "trophy" ? "TROPHY HUNTER" : "DAY");
       }
     }
 
@@ -10349,6 +10830,8 @@
     setInterval(() => {
       if (activeThemeMode === "current") {
         setCurrentTimeThemeColors();
+      } else if (activeThemeMode === "trophy") {
+        setTrophyHunterThemeColors();
       }
     }, 30000);
     document.getElementById("ohio-theme-button").addEventListener("click", cycleThemeMode);
@@ -11062,6 +11545,7 @@
       description.insertAdjacentHTML("beforeend", `<span class="divprim-description-line">A ${currentDivprimSculpture.carvedEyeCount}-eyed face was carved.</span>`);
 
       if (currentDivprimSculpture.glowingEyes) {
+        window.unlockSiteTrophy?.("Inner Radiance Sculpture");
         window.alert("The sculpture has an inner radiance, a 1/44 chance.");
       }
     }
@@ -15113,8 +15597,12 @@
         target.appendChild(mark);
       };
 
+      let lastSide = "";
+      let sideStreak = 0;
+
       const flip = () => {
         const isHeads = Math.random() >= .5;
+        const side = isHeads ? "heads" : "tails";
         coin.classList.remove("is-spinning");
         icon.classList.remove("is-visible");
         void coin.offsetWidth;
@@ -15125,8 +15613,11 @@
         window.setTimeout(() => {
           icon.textContent = isHeads ? "H" : "T";
           icon.classList.add("is-visible");
-          caption.textContent = isHeads ? "heads" : "tails";
+          caption.textContent = side;
           addTally(isHeads ? headsTally : tailsTally);
+          sideStreak = side === lastSide ? sideStreak + 1 : 1;
+          lastSide = side;
+          if (sideStreak >= 5) window.unlockSiteTrophy?.("Cincological");
           button.disabled = false;
         }, 900);
       };
@@ -15146,7 +15637,6 @@
       const revealBox = document.getElementById("go-fish-reveal-box");
       const revealButton = document.getElementById("go-fish-reveal-button");
       const chumButton = document.getElementById("go-fish-chum-button");
-      const chumStatus = document.getElementById("go-fish-chum-status");
       const result = document.getElementById("go-fish-result");
       const fishSvg = document.getElementById("go-fish-svg");
       const fishCard = fishSvg?.closest(".go-fish-fish-card");
@@ -15157,7 +15647,7 @@
       const fishReadout = document.getElementById("go-fish-readout");
       const fishBodyPanel = pond?.closest(".go-fish-body");
       const popup = pond?.closest(".popup");
-      if (!pond || !line || !glyphLayer || !pondBottom || !scoreReadout || !chumMeter || !timerReadout || !revealBox || !revealButton || !chumButton || !chumStatus || !result || !fishSvg || !fishCard || !choiceActions || !gutButton || !freeButton || !returnMessage || !fishReadout || !fishBodyPanel || !popup) return;
+      if (!pond || !line || !glyphLayer || !pondBottom || !scoreReadout || !chumMeter || !timerReadout || !revealBox || !revealButton || !chumButton || !result || !fishSvg || !fishCard || !choiceActions || !gutButton || !freeButton || !returnMessage || !fishReadout || !fishBodyPanel || !popup) return;
 
       const glyphs = ["☉", "☽", "☿", "♃", "♄", "♆", "♇", "⚚", "⚕", "✶", "✷", "✹", "✧", "◇", "◬", "⟡"];
       const pupils = ["☉", "☽", "☿", "♄", "♃", "⚚", "✶", "✧", "◇", "◬", "⟡"];
@@ -15361,6 +15851,25 @@
       const fishBodyPatterns = ["stripes", "spots", "shards", "ribs", "wave"];
       const fishFinPatterns = ["bars", "dots", "veins", "rays"];
       const fishFinStyles = ["split", "frilled", "spined", "ribboned", "sawtooth"];
+      const RARE_FISH_STORAGE_KEY = "go-fish-rare-types-caught";
+      const gemFishTypes = [
+        { name: "ruby", body: "#9d1028", fin: "#d13b4c" },
+        { name: "sapphire", body: "#0d45a3", fin: "#2f77d0" },
+        { name: "emerald", body: "#08713f", fin: "#27bd75" },
+        { name: "amethyst", body: "#6a238d", fin: "#b65cdb" },
+        { name: "citrine", body: "#c47a0a", fin: "#ffd35a" },
+        { name: "obsidian", body: "#1a1b22", fin: "#3a3d48" }
+      ];
+      const rareFishTypes = [
+        { id: "albino", label: "ALBINO" },
+        { id: "finless", label: "FINLESS" },
+        { id: "double-finned", label: "DOUBLE-FINNED" },
+        { id: "gem", label: "GEM TYPE" },
+        { id: "android", label: "ANDROID" },
+        { id: "null", label: "NULL" },
+        { id: "lancer", label: "LANCER" },
+        { id: "mysterious", label: "MYSTERIOUS" }
+      ];
       const state = {
         active: false,
         score: 0,
@@ -15369,10 +15878,15 @@
         revealedScore: 0,
         catchResolved: false,
         awaitingOutcomeClick: false,
+        hookTransition: false,
+        reelClicks: 0,
+        revealReady: false,
         startedAt: 0,
         timer: null,
         spawner: null,
-        ender: null
+        ender: null,
+        hookDelay: null,
+        returnTimer: null
       };
 
       function formatPoints(value) {
@@ -15385,14 +15899,31 @@
 
       function updateChum() {
         chumMeter.textContent = `CHUM: ${formatPoints(state.chum)}`;
-        chumButton.disabled = state.chum <= 0 || state.pendingChum > 0;
-        if (state.pendingChum > 0) {
-          chumStatus.textContent = `+${formatPoints(state.pendingChum)} chum added to this unrevealed fish`;
-        } else if (state.chum > 0) {
-          chumStatus.textContent = `${formatPoints(state.chum)} chum ready`;
-        } else {
-          chumStatus.textContent = "chum can feed the unrevealed fish";
-        }
+        chumButton.disabled = state.active || state.hookTransition || state.revealReady || state.chum <= 0 || state.pendingChum > 0;
+      }
+
+      function updatePondChumEffect() {
+        pond.classList.toggle("has-chum", state.pendingChum > 0);
+      }
+
+      function setPreCastPanel() {
+        revealBox.hidden = false;
+        revealButton.hidden = true;
+        chumButton.hidden = false;
+        updateChum();
+      }
+
+      function setRevealPanel() {
+        revealBox.hidden = false;
+        revealButton.hidden = false;
+        chumButton.hidden = true;
+        revealButton.disabled = false;
+      }
+
+      function updateReelPrompt() {
+        const remaining = Math.max(0, 4 - state.reelClicks);
+        pond.dataset.pondMessage = "FISH HOOKED!\nREEL IT IN!";
+        pond.setAttribute("aria-label", `Fish hooked. Reel it in. ${remaining} ${remaining === 1 ? "pull" : "pulls"} left.`);
       }
 
       function populatePondBottom() {
@@ -15434,35 +15965,46 @@
         window.clearInterval(state.timer);
         window.clearInterval(state.spawner);
         window.clearTimeout(state.ender);
+        window.clearTimeout(state.hookDelay);
+        window.clearTimeout(state.returnTimer);
         state.timer = null;
         state.spawner = null;
         state.ender = null;
+        state.hookDelay = null;
+        state.returnTimer = null;
         glyphLayer.replaceChildren();
         pond.classList.remove("is-playing", "is-finished", "is-reeling");
         fishBodyPanel.classList.remove("is-fish-showcase", "has-catch");
         result.classList.remove("is-set-free", "is-gutted");
         choiceActions.classList.remove("is-ready");
+        pond.dataset.pondMessage = "cast into the pond";
+        pond.setAttribute("aria-label", "Cast a line into the pond");
         gutButton.disabled = true;
         freeButton.disabled = true;
         returnMessage.classList.remove("is-visible");
         returnMessage.hidden = true;
         pond.hidden = false;
-        revealBox.hidden = true;
+        revealBox.hidden = false;
         result.hidden = true;
+        fishSvg.setAttribute("class", "go-fish-svg");
         fishSvg.innerHTML = "";
         fishReadout.innerHTML = "";
         populatePondBottom();
         timerReadout.textContent = "10.0s";
         line.style.setProperty("--line-length", "0px");
-        state.pendingChum = 0;
+        if (!options.preservePendingChum) state.pendingChum = 0;
         state.revealedScore = 0;
         state.catchResolved = false;
         state.awaitingOutcomeClick = false;
+        state.hookTransition = false;
+        state.reelClicks = 0;
+        state.revealReady = false;
         if (options.resetScore) {
           state.score = 0;
           updateScore();
         }
-        updateChum();
+        updatePondChumEffect();
+        setPreCastPanel();
       }
 
       function updateLinePosition(event) {
@@ -15505,29 +16047,33 @@
         window.clearInterval(state.timer);
         window.clearInterval(state.spawner);
         window.clearTimeout(state.ender);
+        window.clearTimeout(state.hookDelay);
         state.timer = null;
         state.spawner = null;
         state.ender = null;
+        state.hookDelay = null;
         glyphLayer.replaceChildren();
-        timerReadout.textContent = "0.0s";
+        timerReadout.textContent = "FISH HOOKED!";
         updateScore();
         pond.classList.remove("is-playing", "is-reeling");
         pond.classList.add("is-finished");
-        pond.hidden = true;
-        window.setTimeout(() => {
-          revealBox.hidden = false;
-          updateChum();
-        }, 180);
+        state.hookTransition = true;
+        state.reelClicks = 0;
+        revealBox.hidden = true;
+        updateReelPrompt();
       }
 
-      function startGame(event) {
-        if (state.active || event.target.closest(".fish-glyph")) return;
-        resetFishing({ resetScore: true });
+      function startGame(event = {}) {
+        if (state.active || state.hookTransition || event.target?.closest?.(".fish-glyph")) return;
+        resetFishing({ resetScore: true, preservePendingChum: true });
         state.active = true;
+        state.revealReady = false;
         state.startedAt = performance.now();
+        revealBox.hidden = true;
         pond.classList.add("is-playing");
         updateLinePosition(event);
         updateScore();
+        updateChum();
         spawnGlyph();
         state.spawner = window.setInterval(spawnGlyph, 440);
         state.timer = window.setInterval(() => {
@@ -15553,6 +16099,43 @@
 
       function randomFrom(items) {
         return items[Math.floor(Math.random() * items.length)];
+      }
+
+      function readCaughtRareFishTypes() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(RARE_FISH_STORAGE_KEY) || "[]");
+          return Array.isArray(saved) ? saved.filter((id) => rareFishTypes.some((type) => type.id === id)) : [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function saveCaughtRareFishTypes(caughtTypes) {
+        try {
+          localStorage.setItem(RARE_FISH_STORAGE_KEY, JSON.stringify(Array.from(caughtTypes)));
+        } catch (error) {
+          // Rare fish progress still works for the current session if storage is blocked.
+        }
+      }
+
+      function recordRareFishType(rareTrait) {
+        if (!rareTrait) return;
+        const caughtTypes = new Set(readCaughtRareFishTypes());
+        caughtTypes.add(rareTrait.id);
+        saveCaughtRareFishTypes(caughtTypes);
+        if (rareFishTypes.every((type) => caughtTypes.has(type.id))) {
+          window.unlockSiteTrophy?.("Darwinist");
+        }
+      }
+
+      function chooseRareFishTrait() {
+        if (Math.random() >= .25) return null;
+        const trait = { ...randomFrom(rareFishTypes) };
+        if (trait.id === "gem") {
+          trait.gem = randomFrom(gemFishTypes);
+          trait.label = `${trait.gem.name.toUpperCase()} GEM TYPE`;
+        }
+        return trait;
       }
 
       function rgbaFromHex(hex, alpha) {
@@ -15587,18 +16170,21 @@
         fishBodyPanel.classList.toggle("is-fish-showcase");
       }
 
-      function makeEye(cx, cy, pupil, darkEye, outlineEffect) {
-        const eyeFill = darkEye ? "#1f2628" : "#f7fbf2";
+      function makeEye(cx, cy, pupil, darkEye, outlineEffect, rareTrait = null) {
+        const isAndroid = rareTrait?.id === "android";
+        const eyeFill = rareTrait?.id === "albino" ? "#b51c2d" : darkEye ? "#1f2628" : "#f7fbf2";
         const eyeStroke = darkEye ? "#f7fbf2" : "#1f2628";
         const pupilFill = darkEye ? "#f7fbf2" : "#1f2628";
         const eyeOutlineEffect = darkEye ? "" : outlineEffect;
-        const shape = Math.random() > .5
+        const shape = isAndroid
+          ? `<rect x="${cx - 27}" y="${cy - 23}" width="54" height="46" fill="${eyeFill}" stroke="${eyeStroke}"${eyeOutlineEffect} stroke-width="6" />`
+          : Math.random() > .5
           ? `<polygon points="${cx - 30},${cy} ${cx - 2},${cy - 22} ${cx + 34},${cy} ${cx - 2},${cy + 22}" fill="${eyeFill}" stroke="${eyeStroke}"${eyeOutlineEffect} stroke-width="6" stroke-linejoin="miter" />`
           : `<polygon points="${cx - 26},${cy - 10} ${cx + 8},${cy - 26} ${cx + 34},${cy - 7} ${cx + 28},${cy + 21} ${cx - 8},${cy + 25} ${cx - 34},${cy + 9}" fill="${eyeFill}" stroke="${eyeStroke}"${eyeOutlineEffect} stroke-width="6" stroke-linejoin="miter" />`;
         return `${shape}<text x="${cx}" y="${cy + 2}" text-anchor="middle" dominant-baseline="central" fill="${pupilFill}" font-family="Georgia, 'Times New Roman', serif" font-size="27" font-weight="bold">${pupil}</text>`;
       }
 
-      function makeFishEyes(profile, pupil, darkEye, outlineEffect, eyeCount) {
+      function makeFishEyes(profile, pupil, darkEye, outlineEffect, eyeCount, rareTrait = null) {
         const offsets = [
           [0, 0],
           [42, -18],
@@ -15609,7 +16195,7 @@
           const scale = index === 0 ? 1 : .72;
           const cx = profile.eyeX + xOffset;
           const cy = profile.eyeY + yOffset;
-          return `<g transform="translate(${cx} ${cy}) scale(${scale}) translate(${-cx} ${-cy})">${makeEye(cx, cy, pupil, darkEye, outlineEffect)}</g>`;
+          return `<g transform="translate(${cx} ${cy}) scale(${scale}) translate(${-cx} ${-cy})">${makeEye(cx, cy, pupil, darkEye, outlineEffect, rareTrait)}</g>`;
         }).join("");
       }
 
@@ -15695,7 +16281,7 @@
         </g>`;
       }
 
-      function makeFishBody(profile, bodyFill, finFill, pupil, bodyPattern, finPattern, patternInk, patternAccent, finStyle, darkEye, outlineEffect, eyeCount) {
+      function makeFishBody(profile, bodyFill, finFill, pupil, bodyPattern, finPattern, patternInk, patternAccent, finStyle, darkEye, outlineEffect, eyeCount, rareTrait = null) {
         const facets = profile.facets.map((points, index) => {
           const fill = index % 2 ? "rgba(255,255,255,.12)" : "rgba(0,0,0,.12)";
           return `<polygon points="${points}" fill="${fill}" stroke="rgba(31,38,40,.42)" stroke-width="3" />`;
@@ -15706,18 +16292,26 @@
         const bodyPatternLayer = makePatternLayer(bodyPattern, "fish-body-clip", patternInk, patternAccent, .28);
         const finPatternLayer = makePatternLayer(finPattern, "fish-fin-clip", patternInk, patternAccent, .34);
         const finFlourish = makeFinFlourish(finStyle, patternInk, patternAccent, outlineEffect);
+        const topFin = rareTrait?.id === "finless" ? "" : `<polygon points="${profile.topFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="7" stroke-linejoin="miter" />`;
+        const bottomFin = rareTrait?.id === "finless" ? "" : `<polygon points="${profile.bottomFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="7" stroke-linejoin="miter" />`;
+        const sideFin = rareTrait?.id === "finless" ? "" : `<polygon points="${profile.sideFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="6" stroke-linejoin="miter" opacity=".9" />`;
+        const flourish = rareTrait?.id === "finless" ? "" : finFlourish;
+        const doubleFins = rareTrait?.id === "double-finned"
+          ? `<g transform="translate(-18 -18) scale(.92)" opacity=".72">${topFin}${bottomFin}${sideFin}${finFlourish}</g><g transform="translate(20 16) scale(.9)" opacity=".66">${topFin}${bottomFin}${sideFin}${finFlourish}</g>`
+          : "";
         return `
           <polygon points="${profile.tail}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="8" stroke-linejoin="miter" />
           <polygon points="${profile.body}" fill="${bodyFill}" stroke="#1f2628"${outlineEffect} stroke-width="9" stroke-linejoin="miter" />
-          <polygon points="${profile.topFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="7" stroke-linejoin="miter" />
-          <polygon points="${profile.bottomFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="7" stroke-linejoin="miter" />
-          <polygon points="${profile.sideFin}" fill="${finFill}" stroke="#1f2628"${outlineEffect} stroke-width="6" stroke-linejoin="miter" opacity=".9" />
-          ${finFlourish}
+          ${topFin}
+          ${bottomFin}
+          ${sideFin}
+          ${flourish}
+          ${doubleFins}
           ${bodyPatternLayer}
           ${finPatternLayer}
           ${facets}
           ${details}
-          ${makeFishEyes(profile, pupil, darkEye, outlineEffect, eyeCount)}
+          ${makeFishEyes(profile, pupil, darkEye, outlineEffect, eyeCount, rareTrait)}
           <path d="${profile.mouth}" fill="none" stroke="#1f2628"${outlineEffect} stroke-width="5" stroke-linecap="square" stroke-linejoin="miter" />`;
       }
 
@@ -15731,20 +16325,45 @@
       }
 
       function chumWaters() {
-        if (revealBox.hidden || state.chum <= 0 || state.pendingChum > 0) return;
+        if (state.active || state.hookTransition || state.revealReady || state.chum <= 0 || state.pendingChum > 0) return;
         state.pendingChum = state.chum;
         state.chum = 0;
+        updatePondChumEffect();
         updateChum();
       }
 
+      function finishReeling() {
+        state.hookTransition = false;
+        state.revealReady = true;
+        pond.hidden = true;
+        pond.classList.remove("is-finished", "is-reeling");
+        setRevealPanel();
+      }
+
+      function reelFish(event = {}) {
+        if (!state.hookTransition) return;
+        event.preventDefault?.();
+        event.stopPropagation?.();
+        state.reelClicks += 1;
+        pond.classList.add("is-reeling");
+        window.setTimeout(() => pond.classList.remove("is-reeling"), 120);
+        if (state.reelClicks >= 4) {
+          finishReeling();
+        } else {
+          updateReelPrompt();
+        }
+      }
+
       function revealCatch() {
-        if (revealBox.hidden || !result.hidden) return;
+        if (revealBox.hidden || !state.revealReady || !result.hidden) return;
         const score = state.score + state.pendingChum;
         const isImpossible = score >= 30;
+        const qualityPhrase = scorePhrase(score);
         state.revealedScore = score;
         state.catchResolved = false;
-        const color = fishColorForScore(score);
-        const accent = randomFrom(colors).hex;
+        let color = fishColorForScore(score);
+        let accent = randomFrom(colors).hex;
+        const rareTrait = chooseRareFishTrait();
         const descriptor = randomFrom(descriptors);
         const breed = randomFrom(breeds);
         const bodyType = randomFrom(bodyTypes);
@@ -15752,6 +16371,7 @@
         const hasInnerRadiance = Math.random() < (1 / 44);
         const effects = earnedEffects(score);
         if (hasInnerRadiance) effects.push("inner radiance");
+        if (rareTrait) effects.push(`${rareTrait.label.toLowerCase()} rare trait`);
         const effectsPhrase = effects.length ? `${effects.join(", ")} effects` : "no effects";
         const size = Math.min(1.62, (.86 + score * .038) * bodyType.size);
         const bodyPattern = chooseFishPattern(fishBodyPatterns, Math.min(.82, .34 + score * .026));
@@ -15760,15 +16380,47 @@
         const darkEye = Math.random() < .5;
         const alignment = darkEye ? "Yin" : "Yang";
         const alignmentClass = darkEye ? "is-yin" : "is-yang";
-        const patternInk = Math.random() > .5 ? "#f7fbf2" : "#1f2628";
-        const patternAccent = Math.random() > .5 ? accent : color.hex;
+        let patternInk = Math.random() > .5 ? "#f7fbf2" : "#1f2628";
+        let patternAccent = Math.random() > .5 ? accent : color.hex;
         const hasGlow = effects.includes("glow");
         const hasGradient = effects.includes("gradient");
-        const bodyFill = hasGradient ? "url(#fish-body-gradient)" : color.hex;
-        const finFill = hasGradient ? "url(#fish-fin-gradient)" : accent;
-        const glowFilter = isImpossible ? `filter="url(#fish-impossible-aura)"` : hasGlow ? `filter="url(#fish-glow)"` : "";
-        const outlineEffect = isImpossible || hasInnerRadiance ? ` filter="url(#fish-outline-glow)"` : "";
-        const eyeCount = isImpossible ? 1 + Math.floor(Math.random() * 4) : 1;
+        if (rareTrait?.id === "albino") {
+          color = { name: "albino", hex: "#f2eadc" };
+          accent = "#fff8ee";
+          patternInk = "#d5c8bb";
+          patternAccent = "#b51c2d";
+        } else if (rareTrait?.id === "android") {
+          color = { name: "chrome", hex: "#9fa8ad" };
+          accent = "#dfe7ea";
+          patternInk = "#31383b";
+          patternAccent = "#c7eff5";
+        } else if (rareTrait?.id === "null") {
+          color = { name: "null", hex: "#343434" };
+          accent = "#6a6a6a";
+          patternInk = "#ff2525";
+          patternAccent = "#050505";
+        } else if (rareTrait?.id === "lancer") {
+          color = { name: "lancer", hex: "#35165f" };
+          accent = "#8a4dff";
+          patternInk = "#ff1f3d";
+          patternAccent = "#6d38ff";
+        } else if (rareTrait?.id === "mysterious") {
+          color = { name: "noir", hex: "#0d1012" };
+          accent = "#d7dde0";
+          patternInk = "#f0f0f0";
+          patternAccent = "#20272a";
+        } else if (rareTrait?.id === "gem") {
+          color = { name: rareTrait.gem.name, hex: rareTrait.gem.body };
+          accent = rareTrait.gem.fin;
+          patternInk = "#ffffff";
+          patternAccent = rareTrait.gem.fin;
+        }
+        const bodyFill = rareTrait?.id === "gem" ? "url(#fish-gem-gradient)" : rareTrait?.id === "android" ? "url(#fish-android-metal)" : hasGradient ? "url(#fish-body-gradient)" : color.hex;
+        const finFill = rareTrait?.id === "gem" ? "url(#fish-gem-fin-gradient)" : rareTrait?.id === "android" ? "url(#fish-android-fin)" : hasGradient ? "url(#fish-fin-gradient)" : accent;
+        const rareClass = rareTrait ? ` is-rare-${rareTrait.id}` : "";
+        const glowFilter = rareTrait?.id === "null" ? `filter="url(#fish-null-glitch)"` : rareTrait?.id === "mysterious" ? `filter="url(#fish-noir)"` : rareTrait?.id === "lancer" ? `filter="url(#fish-lancer-aura)"` : isImpossible ? `filter="url(#fish-impossible-aura)"` : hasGlow ? `filter="url(#fish-glow)"` : "";
+        const outlineEffect = isImpossible || hasInnerRadiance || rareTrait ? ` filter="url(#fish-outline-glow)"` : "";
+        const eyeCount = rareTrait?.id === "android" ? 1 : isImpossible ? 1 + Math.floor(Math.random() * 4) : 1;
         const extraGlow = score >= 22
           ? `<path d="M116 72 L176 40 L242 56 L314 32 L386 74" fill="none" stroke="#f7fbf2" stroke-width="3" stroke-dasharray="9 7" opacity=".82" />`
           : "";
@@ -15779,7 +16431,17 @@
               <path d="M96 88 L146 116 M214 46 L238 92 M332 58 L306 108 M404 86 L362 120 M132 190 L180 154 M264 220 L278 166 M382 190 L338 154" fill="none" stroke="#f7fbf2" stroke-width="${isImpossible ? "5" : "3"}" stroke-linecap="square" opacity="${isImpossible ? ".9" : ".72"}" filter="url(#fish-outline-glow)" />
             </g>`
           : "";
+        const rareOverlay = rareTrait
+          ? `<g opacity=".78" style="mix-blend-mode: screen;">
+              ${rareTrait.id === "null" ? `<path d="M70 54 H452 M92 110 H420 M58 178 H472" stroke="#ff2525" stroke-width="5" stroke-dasharray="26 18" opacity=".72" />` : ""}
+              ${rareTrait.id === "lancer" ? `<path d="M118 56 C190 14 320 20 410 74 M106 206 C210 248 330 232 426 180" fill="none" stroke="#ff1f3d" stroke-width="8" stroke-linecap="round" opacity=".54" filter="url(#fish-outline-glow)" />` : ""}
+              ${rareTrait.id === "mysterious" ? `<path d="M74 206 C166 178 346 182 456 208" fill="none" stroke="#f0f0f0" stroke-width="7" stroke-linecap="round" opacity=".38" />` : ""}
+              ${rareTrait.id === "android" ? `<path d="M126 68 H398 V202 H128 Z M164 94 H366 M164 132 H366 M164 170 H366" fill="none" stroke="#dfe7ea" stroke-width="4" opacity=".48" />` : ""}
+              ${rareTrait.id === "gem" ? `<path d="M130 72 L230 34 L390 84 L420 144 L324 214 L174 202 L92 134 Z" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="miter" opacity=".46" filter="url(#fish-outline-glow)" />` : ""}
+            </g>`
+          : "";
 
+        fishSvg.setAttribute("class", `go-fish-svg${rareClass}`);
         fishSvg.innerHTML = `
           <defs>
             <linearGradient id="fish-body-gradient" x1="0" x2="1" y1="0" y2="1">
@@ -15790,6 +16452,28 @@
             <linearGradient id="fish-fin-gradient" x1="0" x2="1">
               <stop offset="0" stop-color="${accent}" />
               <stop offset="1" stop-color="${color.hex}" />
+            </linearGradient>
+            <linearGradient id="fish-gem-gradient" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#ffffff" stop-opacity=".82" />
+              <stop offset=".2" stop-color="${color.hex}" />
+              <stop offset=".58" stop-color="${accent}" />
+              <stop offset="1" stop-color="#050507" />
+            </linearGradient>
+            <linearGradient id="fish-gem-fin-gradient" x1="0" x2="1">
+              <stop offset="0" stop-color="${accent}" />
+              <stop offset=".55" stop-color="#ffffff" />
+              <stop offset="1" stop-color="${color.hex}" />
+            </linearGradient>
+            <linearGradient id="fish-android-metal" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#eef6ff" />
+              <stop offset=".24" stop-color="#8c969c" />
+              <stop offset=".54" stop-color="#dfe7ea" />
+              <stop offset=".78" stop-color="#5e686e" />
+              <stop offset="1" stop-color="#c7d0d5" />
+            </linearGradient>
+            <linearGradient id="fish-android-fin" x1="0" x2="1">
+              <stop offset="0" stop-color="#5e686e" />
+              <stop offset="1" stop-color="#dfe7ea" />
             </linearGradient>
             <radialGradient id="fish-inner-radiance" cx=".46" cy=".48" r=".62">
               <stop offset="0" stop-color="#fff8bc" />
@@ -15821,6 +16505,19 @@
               <feColorMatrix in="outlineBlur" type="matrix" values="1 0 0 0 0.95 0 1 0 0 0.72 0 0 1 0 0.28 0 0 0 .88 0" result="outlineGlow" />
               <feMerge><feMergeNode in="outlineGlow" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
+            <filter id="fish-null-glitch" x="-60%" y="-60%" width="220%" height="220%">
+              <feColorMatrix type="saturate" values="0" />
+              <feComponentTransfer><feFuncR type="linear" slope="1.4" intercept=".12" /><feFuncG type="linear" slope=".45" /><feFuncB type="linear" slope=".45" /></feComponentTransfer>
+            </filter>
+            <filter id="fish-noir" x="-40%" y="-40%" width="180%" height="180%">
+              <feColorMatrix type="saturate" values="0" />
+              <feComponentTransfer><feFuncR type="linear" slope=".74" /><feFuncG type="linear" slope=".74" /><feFuncB type="linear" slope=".8" /></feComponentTransfer>
+            </filter>
+            <filter id="fish-lancer-aura" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="9" result="aura" />
+              <feColorMatrix in="aura" type="matrix" values=".55 0 0 0 .18 0 .2 0 0 .03 0 0 1 0 .72 0 0 0 .82 0" result="purpleAura" />
+              <feMerge><feMergeNode in="purpleAura" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
             <clipPath id="fish-body-clip">
               <polygon points="${bodyType.body}" />
             </clipPath>
@@ -15832,24 +16529,36 @@
             </clipPath>
           </defs>
           <g transform="translate(260 132) scale(${size}) translate(-260 -132)" ${glowFilter}>
-            ${makeFishBody(bodyType, bodyFill, finFill, pupil, bodyPattern, finPattern, patternInk, patternAccent, finStyle, darkEye, outlineEffect, eyeCount)}
+            ${makeFishBody(bodyType, bodyFill, finFill, pupil, bodyPattern, finPattern, patternInk, patternAccent, finStyle, darkEye, outlineEffect, eyeCount, rareTrait)}
             ${innerRadianceOverlay}
+            ${rareOverlay}
             ${extraGlow}
           </g>`;
-        const chumNote = state.pendingChum > 0 ? `<br>Chum added <strong>+${formatPoints(state.pendingChum)}</strong> before reveal.` : "";
+        const chumNote = state.pendingChum > 0 ? `<br>Chummed water added <strong>+${formatPoints(state.pendingChum)}</strong> before the cast.` : "";
         const impossibleNote = isImpossible ? `<br>Impossible trait: <strong>${eyeCount}</strong> ${eyeCount === 1 ? "eye" : "eyes"} and a <strong>very bright radiant aura</strong>.` : "";
-        fishReadout.innerHTML = `Your score was <strong>${formatPoints(score)}</strong>, <strong>${scorePhrase(score)}</strong> You caught a:<br><strong class="go-fish-catch-name" style="--fish-color: ${color.hex};">${color.name} ${descriptor} ${breed}</strong>.<br>This fish has a <strong>${bodyType.name}-type</strong> body, and <strong>${effectsPhrase}</strong>.<br>It is aligned with <strong class="go-fish-alignment-badge ${alignmentClass}">${alignment}</strong>, and is marked by <strong>${pupil}</strong>.${impossibleNote}${chumNote}`;
+        const rareNote = rareTrait ? `<br>Rare type: <strong class="go-fish-rare-trait">${rareTrait.label}</strong>.` : "";
+        fishReadout.innerHTML = `Your score was <strong>${formatPoints(score)}</strong>, <strong>${qualityPhrase}</strong> You caught a:<br><strong class="go-fish-catch-name" style="--fish-color: ${color.hex};">${color.name} ${descriptor} ${breed}</strong>.<br>This fish has a <strong>${bodyType.name}-type</strong> body, and <strong>${effectsPhrase}</strong>.<br>It is aligned with <strong class="go-fish-alignment-badge ${alignmentClass}">${alignment}</strong>, and is marked by <strong>${pupil}</strong>.${rareNote}${impossibleNote}${chumNote}`;
         setFishShowcasePalette(score, color, accent);
+        recordRareFishType(rareTrait);
         fishBodyPanel.classList.add("has-catch");
         fishBodyPanel.classList.remove("is-fish-showcase");
         revealBox.hidden = true;
         result.hidden = false;
+        state.revealReady = false;
+        state.pendingChum = 0;
+        updatePondChumEffect();
         choiceActions.classList.add("is-ready");
         gutButton.disabled = false;
         freeButton.disabled = false;
         returnMessage.classList.remove("is-visible");
         returnMessage.hidden = true;
+        if (qualityPhrase === "were you even trying?") window.unlockSiteTrophy?.("Were you even trying?");
+        if (qualityPhrase === "which isn't great.") window.unlockSiteTrophy?.("Not Great");
+        if (qualityPhrase === "good work.") window.unlockSiteTrophy?.("Good Work");
+        if (qualityPhrase === "exceptional!") window.unlockSiteTrophy?.("Reel One");
+        if (qualityPhrase === "IMPOSSIBLE!") window.unlockSiteTrophy?.("LOCH NESS MONSTER");
         if (hasInnerRadiance) {
+          window.unlockSiteTrophy?.("Scaled Radiance");
           window.alert("The fish has an inner radiance, a 1/44 chance.");
         }
       }
@@ -15900,6 +16609,7 @@
         const chumEarned = state.revealedScore / 4;
         state.chum += chumEarned;
         updateChum();
+        window.unlockSiteTrophy?.("Blood on your hands");
         result.classList.add("is-gutted");
         animateGuttedFish();
         fishReadout.innerHTML += `<br>Gutted for <strong>${formatPoints(chumEarned)}</strong> chum.`;
@@ -15909,8 +16619,12 @@
       function setCatchFree() {
         if (!resolveCatch()) return;
         result.classList.add("is-set-free");
-        returnMessage.hidden = false;
-        requestAnimationFrame(() => returnMessage.classList.add("is-visible"));
+        window.clearTimeout(state.returnTimer);
+        state.returnTimer = window.setTimeout(() => {
+          state.returnTimer = null;
+          returnMessage.hidden = false;
+          requestAnimationFrame(() => returnMessage.classList.add("is-visible"));
+        }, 1900);
         waitForOutcomeClick();
       }
 
@@ -15920,14 +16634,24 @@
         resetFishing({ resetScore: true });
       }
 
-      pond.addEventListener("click", startGame);
+      pond.addEventListener("click", (event) => {
+        if (state.hookTransition) {
+          reelFish(event);
+          return;
+        }
+        startGame(event);
+      });
       pond.addEventListener("pointermove", (event) => {
         if (state.active) updateLinePosition(event);
       });
       pond.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          startGame(event);
+          if (state.hookTransition) {
+            reelFish(event);
+          } else {
+            startGame(event);
+          }
         }
       });
       chumButton.addEventListener("click", chumWaters);
@@ -16586,6 +17310,7 @@ function setupDarkLancer() {
   const dealerHandEl = document.getElementById("dark-lancer-dealer-hand");
   const playerWinsEl = document.getElementById("dark-lancer-player-wins");
   const dealerWinsEl = document.getElementById("dark-lancer-dealer-wins");
+  const victoryReadoutEl = document.getElementById("dark-lancer-victory-readout");
   const resultEl = document.getElementById("dark-lancer-result");
   const dealButton = document.getElementById("dark-lancer-deal");
   const hitButton = document.getElementById("dark-lancer-hit");
@@ -16593,7 +17318,7 @@ function setupDarkLancer() {
   const shopListEl = document.getElementById("dark-lancer-shop-list");
   const shopCreditEl = document.getElementById("dark-lancer-shop-credit");
 
-  if (!playerCardsEl || !dealerCardsEl || !playerScoreEl || !dealerScoreEl || !playerPanelEl || !dealerPanelEl || !playerHandEl || !dealerHandEl || !playerWinsEl || !dealerWinsEl || !resultEl || !dealButton || !hitButton || !standButton || !shopListEl || !shopCreditEl) return;
+  if (!playerCardsEl || !dealerCardsEl || !playerScoreEl || !dealerScoreEl || !playerPanelEl || !dealerPanelEl || !playerHandEl || !dealerHandEl || !playerWinsEl || !dealerWinsEl || !victoryReadoutEl || !resultEl || !dealButton || !hitButton || !standButton || !shopListEl || !shopCreditEl) return;
 
   const suits = [
     { mark: "♠", color: "black" },
@@ -16609,6 +17334,7 @@ function setupDarkLancer() {
   let dealerHand = [];
   let active = false;
   let tally = { player: 0, dealer: 0 };
+  let totalTally = { player: 0, dealer: 0 };
   let dealerDestroyedFadeStarted = false;
 
   const shopItems = [
@@ -16991,6 +17717,22 @@ function setupDarkLancer() {
     renderShop();
   }
 
+  function formatWinCount(count, label) {
+    return `${count} ${label}${count === 1 ? "" : "s"}`;
+  }
+
+  function updateVictoryReadout() {
+    const dealerDestroyed = isEffectActive("destroy-the-dealer");
+    victoryReadoutEl.classList.toggle("is-visible", dealerDestroyed);
+
+    if (!dealerDestroyed) {
+      victoryReadoutEl.textContent = "";
+      return;
+    }
+
+    victoryReadoutEl.textContent = `Congratulations, you win. It took you ${formatWinCount(totalTally.player, "player win")}, and you were defeated ${formatWinCount(totalTally.dealer, "time")}.`;
+  }
+
   function randomIndex(max) {
     if (window.crypto && window.crypto.getRandomValues && max > 0) {
       const limit = Math.floor(0x100000000 / max) * max;
@@ -17230,6 +17972,7 @@ function setupDarkLancer() {
     activeEffects.clear();
     root.dataset.darkLancerEffects = "";
     clearPlayerCardAppearances();
+    updateVictoryReadout();
     renderShop();
   }
 
@@ -17250,11 +17993,13 @@ function setupDarkLancer() {
       }
 
       setResult("DEALER DESTROYED");
+      updateVictoryReadout();
       return true;
     }
 
     dealerDestroyedFadeStarted = false;
     dealerHandEl.classList.remove("dark-lancer-side-loss");
+    updateVictoryReadout();
     return false;
   }
 
@@ -17275,6 +18020,8 @@ function setupDarkLancer() {
       tally.player -= item.cost;
       unlockedEffects.add(effectId);
       activeEffects.add(effectId);
+      if (effectId === "destroy-the-dealer") window.unlockSiteTrophy?.("Destroy the Dealer");
+      if (unlockedEffects.size === shopItems.length) window.unlockSiteTrophy?.("Undeniable Lancer");
       renderTally();
       applyEffectState();
       return;
@@ -17291,6 +18038,7 @@ function setupDarkLancer() {
 
   function resetTally() {
     tally = { player: 0, dealer: 0 };
+    totalTally = { player: 0, dealer: 0 };
     renderTally();
     resetShop();
   }
@@ -17298,6 +18046,7 @@ function setupDarkLancer() {
   function recordWin(side) {
     if (side !== "player" && side !== "dealer") return;
     tally[side] += 1;
+    totalTally[side] += 1;
     renderTally();
   }
 
@@ -17470,6 +18219,7 @@ function setupDarkLancer() {
     if (playerScore === 21 && dealerScore === 21) {
       setOutcomeGlow("tie");
       setResult("CLASH OF KNAVES!", "clash");
+      window.unlockSiteTrophy?.("Knave Clash!");
     } else if (playerScore === 21) {
       recordWin("player");
       setOutcomeGlow("player");
@@ -17608,6 +18358,7 @@ function setupDarkLancer() {
       function setWins(value) {
         wins = value;
         count.textContent = String(wins);
+        if (wins >= 15) window.unlockSiteTrophy?.("Simon Said");
       }
 
       function clearTimers() {
@@ -17823,6 +18574,165 @@ function setupDarkLancer() {
     }
 
 
+    function setupTrophyRoom() {
+      const room = document.getElementById("trophy-room");
+      const body = room?.querySelector(".trophy-body");
+      const percent = document.getElementById("trophy-collected-percent");
+      const discardButton = document.getElementById("trophy-discard-button");
+      const trophies = Array.from(room?.querySelectorAll(".trophy-pedestal") || []);
+      if (!room || !body || !percent || !trophies.length) return;
+      const unlockedTitles = new Set(readSavedTrophies());
+      const trophyByTitle = new Map();
+      let trophyGlowTimer = null;
+
+      const glyphSets = {
+        "dark-lancer": ["♠", "☠", "♦", "♛", "✦"],
+        "go-fish": ["◌", "☽", "♓", "◇", "✧"],
+        simonomicon: ["☉", "☿", "♄", "⟡", "✶"],
+        diviner: ["△", "☍", "✷", "◇", "☽"],
+        coin: ["⊙", "☉", "◐", "✦", "♁"]
+      };
+
+      const colorSets = {
+        "dark-lancer": ["#6d38ff", "#8a4dff", "#5a22b8"],
+        "go-fish": ["#58d7ff", "#ff7d9d", "#8affb8"],
+        simonomicon: ["#f7fbf2", "#b86cff", "#54c7ff"],
+        diviner: ["#fff4a8", "#ff8ed6", "#9fffd8"],
+        coin: ["#ffe15a", "#ffffff", "#ffabc0"]
+      };
+
+      const trophyOverrides = {
+        "Destroy the Dealer": { glyph: "☠", color: "#ff1f3d", className: "is-destroy-dealer" },
+        "Darwinist": { glyph: "✧", color: "#8affb8", className: "is-go-fish" },
+        "Good Work": { glyph: "◇", color: "#f7fbf2", className: "is-good-work" },
+        "Scaled Radiance": { glyph: "☼", color: "#fff4a8", className: "is-scaled-radiance" },
+        "Inner Radiance Sculpture": { glyph: "☼", color: "#fff4a8", className: "is-divprim-radiance" },
+        "Simon Said": { glyph: "●", color: "#ff7d9d", className: "is-simon-said" }
+      };
+
+      function trophyGame(trophy) {
+        const label = trophy.closest(".trophy-section")?.getAttribute("aria-label") || "";
+        if (label.includes("Dark Lancer")) return "dark-lancer";
+        if (label.includes("Go Fish")) return "go-fish";
+        if (label.includes("Simonomicon")) return "simonomicon";
+        if (label.includes("Diviner")) return "diviner";
+        return "coin";
+      }
+
+      function updateMeter() {
+        const unlocked = trophies.filter((trophy) => trophy.classList.contains("is-unlocked")).length;
+        const progress = unlocked / trophies.length;
+        const collected = Math.round(progress * 100);
+        percent.textContent = `${collected}%`;
+        body.style.setProperty("--trophy-gold", progress.toFixed(3));
+        body.style.setProperty("--trophy-room-top", mixRgb([174, 183, 182], [110, 69, 17], progress));
+        body.style.setProperty("--trophy-room-bottom", mixRgb([32, 38, 38], [23, 15, 8], progress));
+        body.classList.toggle("is-complete", unlocked === trophies.length);
+        if (activeThemeMode === "trophy") setTrophyHunterThemeColors();
+      }
+
+      function readSavedTrophies() {
+        return readSavedTrophyTitles();
+      }
+
+      function saveTrophies() {
+        try {
+          localStorage.setItem(TROPHY_STORAGE_KEY, JSON.stringify(Array.from(unlockedTitles)));
+        } catch (error) {
+          // Trophy progress still works for the session if storage is blocked.
+        }
+      }
+
+      function triggerTrophyUnlockGlow() {
+        document.body.classList.remove("trophy-unlock-glow");
+        void document.body.offsetWidth;
+        document.body.classList.add("trophy-unlock-glow");
+        clearTimeout(trophyGlowTimer);
+        trophyGlowTimer = window.setTimeout(() => {
+          document.body.classList.remove("trophy-unlock-glow");
+        }, 1400);
+      }
+
+      function applyUnlockedState(trophy, title, shouldSave = true, shouldGlow = shouldSave) {
+        if (trophy.classList.contains("is-unlocked")) return false;
+        trophy.classList.add("is-unlocked");
+        trophy.setAttribute("aria-pressed", "true");
+        trophy.setAttribute("aria-label", `${title}. Trophy unlocked.`);
+        unlockedTitles.add(title);
+        if (shouldSave) saveTrophies();
+        updateMeter();
+        if (shouldGlow) triggerTrophyUnlockGlow();
+        return true;
+      }
+
+      function unlockTrophy(title) {
+        const trophy = trophyByTitle.get(title);
+        if (!trophy) return false;
+        return applyUnlockedState(trophy, title);
+      }
+
+      function discardTrophies() {
+        unlockedTitles.clear();
+        trophies.forEach((trophy) => {
+          const title = trophy.querySelector(".trophy-plinth")?.textContent?.trim() || "Trophy";
+          trophy.classList.remove("is-unlocked");
+          trophy.setAttribute("aria-pressed", "false");
+          trophy.setAttribute("aria-label", `${title}. Click to unlock trophy.`);
+        });
+        try {
+          localStorage.removeItem(TROPHY_STORAGE_KEY);
+          localStorage.removeItem("go-fish-rare-types-caught");
+        } catch (error) {
+          // Ignore storage cleanup failures.
+        }
+        updateMeter();
+      }
+
+      trophies.forEach((trophy, index) => {
+        const game = trophyGame(trophy);
+        const glyphs = glyphSets[game];
+        const colors = colorSets[game];
+        const icon = trophy.querySelector(".trophy-empty-space");
+        const title = trophy.querySelector(".trophy-plinth")?.textContent?.trim() || "Trophy";
+        const override = trophyOverrides[title];
+        const glyph = override?.glyph || glyphs[index % glyphs.length];
+        const color = override?.color || colors[index % colors.length];
+
+        trophy.classList.add(`is-${game}`);
+        if (override?.className) trophy.classList.add(override.className);
+        trophy.style.setProperty("--trophy-color", color);
+        trophy.setAttribute("role", "button");
+        trophy.setAttribute("aria-pressed", "false");
+        trophy.setAttribute("aria-label", `${title}. Click to unlock trophy.`);
+        if (icon) icon.textContent = glyph;
+        trophyByTitle.set(title, trophy);
+
+        const unlock = () => unlockTrophy(title);
+
+        trophy.addEventListener("click", unlock);
+        trophy.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          unlock();
+        });
+      });
+
+      unlockedTitles.forEach((title) => {
+        const trophy = trophyByTitle.get(title);
+        if (trophy) {
+          applyUnlockedState(trophy, title, false);
+        } else {
+          unlockedTitles.delete(title);
+        }
+      });
+      saveTrophies();
+      discardButton?.addEventListener("click", discardTrophies);
+      window.unlockSiteTrophy = unlockTrophy;
+      window.discardSiteTrophies = discardTrophies;
+      updateMeter();
+    }
+
+
     const ariesHotspot = document.getElementById("aries-hotspot");
     if (ariesHotspot) ariesHotspot.addEventListener("click", triggerAriesOmen);
     const ariesOmen = document.getElementById("aries-omen");
@@ -17836,6 +18746,7 @@ function setupDarkLancer() {
     setupWidgetButtonCarousel();
     setupHollowOracle();
     setupHeadsTails();
+    setupTrophyRoom();
     setupDarkLancer();
     setupGoFish();
     setupSimonomicon();
